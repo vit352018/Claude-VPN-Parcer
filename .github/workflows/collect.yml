@@ -1,1 +1,53 @@
+name: 🔄 Collect & Test VPN Configs
 
+on:
+  schedule:
+    - cron: "0 * * * *"   # каждый час
+  workflow_dispatch:       # ручной запуск через GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Установка зависимостей
+        run: pip install -r requirements.txt
+
+      # Подставляем токен Яндекс Диска из секретов GitHub в config.py
+      # Секрет называется YANDEX_TOKEN — как его добавить описано в README
+      - name: Подставить токен Яндекс Диска
+        if: ${{ secrets.YANDEX_TOKEN != '' }}
+        run: |
+          sed -i 's/YANDEX_ENABLED = False/YANDEX_ENABLED = True/' config.py
+          sed -i 's/YANDEX_TOKEN   = ""/YANDEX_TOKEN   = "${{ secrets.YANDEX_TOKEN }}"/' config.py
+          echo "✅ Яндекс Диск включён"
+
+      - name: Запуск коллектора
+        run: python src/main.py
+
+      - name: Итог
+        run: |
+          echo "=== Первые строки VLESS_WORKING.txt ==="
+          head -8 output/VLESS_WORKING.txt
+          echo "Всего строк: $(wc -l < output/VLESS_WORKING.txt)"
+
+      - name: Сохранить результат в репозиторий
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/
+          git diff --cached --quiet || git commit -m "⚡ Обновление $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
