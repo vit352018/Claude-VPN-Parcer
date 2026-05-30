@@ -62,3 +62,24 @@ jobs:
           # Коммитим только если файл изменился
           git diff --cached --quiet || git commit -m "⚡ Auto-update: $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
+      
+      # ── 7. Загрузка на Яндекс Диск ──────────────────────────────────────
+      - name: Upload to Yandex Disk
+        env:
+          YADISK_LOGIN:    ${{ secrets.YADISK_LOGIN }}
+          YADISK_PASSWORD: ${{ secrets.YADISK_PASSWORD }}
+        run: |
+          # Создаём папку на Яндекс Диске (если не существует — не страшно)
+          curl -s -X MKCOL \
+            "https://webdav.yandex.ru/vless-collector/" \
+            -u "$YADISK_LOGIN:$YADISK_PASSWORD" || true
+
+          # Загружаем все файлы из output/
+          for FILE in output/*.txt output/*.json output/index.html; do
+            FILENAME=$(basename "$FILE")
+            echo "⬆️  Загружаю $FILENAME..."
+            curl -s -T "$FILE" \
+              "https://webdav.yandex.ru/vless-collector/$FILENAME" \
+              -u "$YADISK_LOGIN:$YADISK_PASSWORD"
+          done
+          echo "✅ Все файлы загружены на Яндекс Диск"
