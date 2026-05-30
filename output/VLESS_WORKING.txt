@@ -1,0 +1,4 @@
+# profile-title: ✅ Working Servers | Auto-collected
+# profile-update-interval: 1
+# Количество: 0
+# Файл будет заполнен после первого запуска GitHub Actions
