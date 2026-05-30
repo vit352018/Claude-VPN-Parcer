@@ -1,1 +1,64 @@
+name: 🔄 Collect & Test VPN Configs
 
+on:
+  schedule:
+    # Каждый час
+    - cron: "0 * * * *"
+  # Ручной запуск через GitHub UI
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: "Verbose logging"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write   # нужно для git push результата
+
+jobs:
+  collect:
+    name: Collect → Test → Commit
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      # ── 1. Клонируем репозиторий ──────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # ── 2. Python ─────────────────────────────────────────────────────────
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      # ── 3. Зависимости ────────────────────────────────────────────────────
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # ── 4. Запуск коллектора ──────────────────────────────────────────────
+      - name: Run collector
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: python src/main.py
+
+      # ── 5. Показываем что получилось ──────────────────────────────────────
+      - name: Show result summary
+        run: |
+          echo "=== output/VLESS_WORKING.txt ==="
+          head -10 output/VLESS_WORKING.txt
+          echo "..."
+          echo "Total lines: $(wc -l < output/VLESS_WORKING.txt)"
+
+      # ── 6. Коммитим и пушим результат ─────────────────────────────────────
+      - name: Commit updated configs
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/VLESS_WORKING.txt
+          # Коммитим только если файл изменился
+          git diff --cached --quiet || git commit -m "⚡ Auto-update: $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
