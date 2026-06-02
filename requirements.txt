@@ -1,2 +1,8 @@
+# Библиотеки Python для работы бота
+# Устанавливаются автоматически через: pip install -r requirements.txt
+
+# aiohttp — делает HTTP-запросы асинхронно (быстро, много сразу)
 aiohttp>=3.9.0
+
+# beautifulsoup4 — парсит HTML (нужен для Telegram-каналов)
 beautifulsoup4>=4.12.0

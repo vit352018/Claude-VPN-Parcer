@@ -187,41 +187,90 @@ async def tcp_check(host: str, port: int, timeout: float = TCP_TIMEOUT) -> Optio
 
 # ── Сбор из источников ─────────────────────────────────────────────────────────
 
-async def fetch_source(session: aiohttp.ClientSession, source: dict) -> list[str]:
-    """Скачать один источник и вернуть список конфигов."""
+async def fetch_source_with_retry(
+    session: aiohttp.ClientSession,
+    source: dict,
+    retries: int = 2,
+) -> list[str]:
+    """
+    Скачивает один источник, при ошибке повторяет до 2 раз.
+
+    Простыми словами: если сайт не ответил — подождём 3 секунды
+    и попробуем ещё раз. Иногда серверы просто временно перегружены.
+    """
     url  = source["url"]
     fmt  = source.get("type", "raw")
     name = source["name"]
-    try:
-        async with session.get(url, timeout=aiohttp.ClientTimeout(total=FETCH_TIMEOUT)) as resp:
-            if resp.status != 200:
-                log.warning("  %-45s  HTTP %s", name, resp.status)
-                return []
-            raw = await resp.text(errors="ignore")
-        decoded = decode_source(raw, fmt)
-        configs = extract_configs(decoded)
-        log.info("  %-45s  %d конфигов", name, len(configs))
-        return configs
-    except Exception as e:
-        log.warning("  %-45s  ошибка: %s", name, e)
-        return []
+
+    for attempt in range(retries + 1):
+        try:
+            async with session.get(
+                url,
+                timeout=aiohttp.ClientTimeout(total=FETCH_TIMEOUT),
+            ) as resp:
+                if resp.status == 404:
+                    log.warning("  %-45s  404 — источник не найден", name)
+                    return []  # повтор не поможет
+                if resp.status != 200:
+                    log.warning("  %-45s  HTTP %s (попытка %d)", name, resp.status, attempt + 1)
+                    if attempt < retries:
+                        await asyncio.sleep(3)
+                        continue
+                    return []
+                raw = await resp.text(errors="ignore")
+
+            decoded = decode_source(raw, fmt)
+            configs = extract_configs(decoded)
+            log.info("  %-45s  %d конфигов", name, len(configs))
+            return configs
+
+        except asyncio.TimeoutError:
+            log.warning("  %-45s  таймаут (попытка %d)", name, attempt + 1)
+        except Exception as e:
+            log.warning("  %-45s  ошибка: %s (попытка %d)", name, e, attempt + 1)
+
+        if attempt < retries:
+            await asyncio.sleep(3)
+
+    return []
 
 
 async def collect_all() -> list[str]:
-    """Скачать все источники параллельно."""
-    log.info("📥 Скачиваю источники (%d)…", len(SOURCES))
+    """
+    Скачивает конфиги из всех источников параллельно.
+    Автоматически подхватывает источники найденные source_discovery.
+    """
+    # Основные встроенные источники
+    all_sources = list(SOURCES)
+
+    # Добавляем автоматически найденные (если есть)
+    try:
+        from source_discovery import load_discovered
+        discovered = load_discovered()
+        if discovered:
+            log.info("  📡 Автообнаружено источников: %d", len(discovered))
+            # Не дублируем уже имеющиеся URL
+            existing_urls = {s["url"] for s in all_sources}
+            for s in discovered:
+                if s["url"] not in existing_urls:
+                    all_sources.append(s)
+    except Exception as e:
+        log.debug("source_discovery не доступен: %s", e)
+
+    log.info("📥 Скачиваю %d источников…", len(all_sources))
     connector = aiohttp.TCPConnector(ssl=False, limit=20)
-    headers = {"User-Agent": "Mozilla/5.0 (compatible; VPNCollector/1.0)"}
+    headers   = {"User-Agent": "Mozilla/5.0 (compatible; VPNCollector/1.0)"}
+
     async with aiohttp.ClientSession(connector=connector, headers=headers) as session:
-        tasks = [fetch_source(session, src) for src in SOURCES]
+        tasks   = [fetch_source_with_retry(session, src) for src in all_sources]
         results = await asyncio.gather(*tasks)
 
     all_configs: list[str] = []
     for batch in results:
         all_configs.extend(batch)
 
-    # Дедупликация по «телу» без метки (#...)
-    seen: set[str] = set()
+    # Дедупликация
+    seen:   set[str]  = set()
     unique: list[str] = []
     for c in all_configs:
         key = c.split("#")[0].rstrip("?& ")
@@ -229,7 +278,7 @@ async def collect_all() -> list[str]:
             seen.add(key)
             unique.append(c)
 
-    log.info("📦 Всего уникальных конфигов: %d", len(unique))
+    log.info("📦 Уникальных конфигов: %d (из %d сырых)", len(unique), len(all_configs))
     return unique
 
 
