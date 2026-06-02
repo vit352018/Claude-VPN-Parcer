@@ -1,0 +1,49 @@
+{
+  "updated_utc": "2026-06-02T09:00:40.207167+00:00",
+  "updated_msk": "2026-06-02T12:00:40.171196+03:00",
+  "total_working": 535,
+  "tls_confirmed": 321,
+  "by_protocol": {
+    "vless": 386,
+    "vmess": 60,
+    "trojan": 46,
+    "hysteria": 9,
+    "ss": 34,
+    "other": 0
+  },
+  "latency": {
+    "min_ms": 11,
+    "avg_ms": 332,
+    "max_ms": 3491,
+    "p50_ms": 223,
+    "p90_ms": 651
+  },
+  "top_countries": {
+    "Canada": 117,
+    "Germany": 67,
+    "United States": 63,
+    "Unknown": 63,
+    "Netherlands": 33,
+    "Iran": 20,
+    "United Kingdom": 16,
+    "Russia": 12,
+    "Italy": 12,
+    "Japan": 11,
+    "France": 9,
+    "Finland": 9,
+    "Seychelles": 9,
+    "Hong Kong": 8,
+    "The Netherlands": 7
+  },
+  "files": {
+    "VLESS_WORKING.txt": 535,
+    "VLESS_ONLY.txt": 386,
+    "VMESS_ONLY.txt": 60,
+    "TROJAN_ONLY.txt": 46,
+    "HYSTERIA_ONLY.txt": 9,
+    "SS_ONLY.txt": 34,
+    "TOP50.txt": 50,
+    "TOP50_RELIABLE.txt": 50
+  },
+  "raw_base": "https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output"
+}

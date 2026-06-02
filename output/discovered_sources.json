@@ -1,0 +1,72 @@
+[
+  {
+    "name": "MahanKenway/Freedom-V2Ray (auto)",
+    "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/mix_sub.txt",
+    "type": "raw",
+    "stars": 65,
+    "configs_found": 1697
+  },
+  {
+    "name": "MahanKenway/Freedom-V2Ray (auto)",
+    "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/trojan_sub.txt",
+    "type": "raw",
+    "stars": 65,
+    "configs_found": 274
+  },
+  {
+    "name": "wenxig/free-nodes-sub (auto)",
+    "url": "https://raw.githubusercontent.com/wenxig/free-nodes-sub/main/data/sub.txt",
+    "type": "raw",
+    "stars": 50,
+    "configs_found": 208
+  },
+  {
+    "name": "miladtahanian/V2RayCFGTesterPro (auto)",
+    "url": "https://raw.githubusercontent.com/miladtahanian/V2RayCFGTesterPro/main/subscriptions/subscription.txt",
+    "type": "raw",
+    "stars": 16,
+    "configs_found": 200
+  },
+  {
+    "name": "MahanKenway/Freedom-V2Ray (auto)",
+    "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/vless.txt",
+    "type": "raw",
+    "stars": 65,
+    "configs_found": 194
+  },
+  {
+    "name": "MahanKenway/Freedom-V2Ray (auto)",
+    "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/ss_sub.txt",
+    "type": "raw",
+    "stars": 65,
+    "configs_found": 174
+  },
+  {
+    "name": "Barabama/FreeNodes (auto)",
+    "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/nodefree.txt",
+    "type": "raw",
+    "stars": 2801,
+    "configs_found": 23
+  },
+  {
+    "name": "Barabama/FreeNodes (auto)",
+    "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/v2rayshare.txt",
+    "type": "raw",
+    "stars": 2801,
+    "configs_found": 23
+  },
+  {
+    "name": "Barabama/FreeNodes (auto)",
+    "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/ndnode.txt",
+    "type": "raw",
+    "stars": 2801,
+    "configs_found": 14
+  },
+  {
+    "name": "Barabama/FreeNodes (auto)",
+    "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/nodev2ray.txt",
+    "type": "raw",
+    "stars": 2801,
+    "configs_found": 13
+  }
+]
