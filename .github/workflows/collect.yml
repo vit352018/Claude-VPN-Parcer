@@ -2,7 +2,7 @@ name: 🔄 Collect & Test VPN Configs
 
 on:
   schedule:
-    - cron: "0 * * * *"   # каждый час ровно в 00 минут
+    - cron: "0,30 * * * *"   # кажде час ровно в 30 минут
   workflow_dispatch:        # кнопка ручного запуска в GitHub UI
 
 permissions:
