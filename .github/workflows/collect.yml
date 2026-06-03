@@ -19,7 +19,6 @@ jobs:
     name: Collect Test and Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 25
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -28,7 +27,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Python 3.12
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -41,9 +40,9 @@ jobs:
         env:
           PYTHONUNBUFFERED: "1"
           YANDEX_LOGIN: ${{ secrets.YANDEX_LOGIN }}
-          YANDEX_PASS:  ${{ secrets.YANDEX_PASS }}
+          YANDEX_PASS: ${{ secrets.YANDEX_PASS }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-          TG_CHAT_ID:   ${{ secrets.TG_CHAT_ID }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python src/main.py
 
@@ -60,26 +59,3 @@ jobs:
           " 2>/dev/null || true
 
       - name: Commit output files
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add output/
-          git diff --cached --quiet \
-            && echo "No changes" \
-            || (git commit -m "update $(date -u +'%Y-%m-%d %H:%M UTC')" && git push)
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload to Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: output/
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-          git add output/
-          git diff --cached --quiet \
-            && echo "Изменений нет — коммит не нужен" \
-            || (git commit -m "⚡ Обновление $(date -u +'%Y-%m-%d %H:%M UTC')" && git push)
