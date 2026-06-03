@@ -56,6 +56,13 @@
     "configs_found": 23
   },
   {
+    "name": "snakem982/proxypool (auto)",
+    "url": "https://raw.githubusercontent.com/snakem982/proxypool/main/source/v2ray-2.txt",
+    "type": "raw",
+    "stars": 1819,
+    "configs_found": 16
+  },
+  {
     "name": "Barabama/FreeNodes (auto)",
     "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/ndnode.txt",
     "type": "raw",
