@@ -1,75 +1,84 @@
-name: 🔄 Collect & Test VPN Configs
+name: Collect and Test VPN Configs
 
 on:
   schedule:
-    - cron: "0,30 * * * *"   # кажде час ровно в 30 минут
-  workflow_dispatch:        # кнопка ручного запуска в GitHub UI
+    - cron: "0 * * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   collect:
-    name: Полный пайплайн (10 шагов)
+    name: Collect Test and Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 25
 
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-
-      - name: 📥 Скачать репозиторий
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: 🐍 Python 3.12
+      - name: Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
 
-      - name: 📦 Установить зависимости
+      - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: 🚀 Запустить коллектор
+      - name: Run collector
         env:
           PYTHONUNBUFFERED: "1"
-          # Яндекс Диск
           YANDEX_LOGIN: ${{ secrets.YANDEX_LOGIN }}
           YANDEX_PASS:  ${{ secrets.YANDEX_PASS }}
-          # Telegram-уведомления
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID:   ${{ secrets.TG_CHAT_ID }}
-          # GitHub (подставляется автоматически)
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python src/main.py
 
-      - name: 📊 Показать итог
+      - name: Show result
         if: always()
         run: |
-          echo "=== Первые строки VLESS_WORKING.txt ==="
-          head -8 output/VLESS_WORKING.txt 2>/dev/null || echo "(файл не создан)"
-          echo ""
-          echo "=== Статистика ==="
+          head -8 output/VLESS_WORKING.txt 2>/dev/null || echo "file not created"
           python3 -c "
           import json, pathlib
           f = pathlib.Path('output/stats.json')
           if f.exists():
               s = json.loads(f.read_text())
-              print(f'Рабочих: {s[\"total_working\"]}  TLS: {s[\"tls_confirmed\"]}')
-              print(f'Протоколы: {s[\"by_protocol\"]}')
-              lat = s['latency']
-              print(f'Задержка: min={lat[\"min_ms\"]}ms avg={lat[\"avg_ms\"]}ms p90={lat[\"p90_ms\"]}ms')
-          else:
-              print('stats.json не найден')
+              print('Working:', s['total_working'], 'TLS:', s['tls_confirmed'])
           " 2>/dev/null || true
-          echo ""
-          echo "=== Файлы в output/ ==="
-          ls -lh output/ 2>/dev/null || echo "(папка пуста)"
 
-      - name: 💾 Сохранить результат в репозиторий
+      - name: Commit output files
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/
+          git diff --cached --quiet \
+            && echo "No changes" \
+            || (git commit -m "update $(date -u +'%Y-%m-%d %H:%M UTC')" && git push)
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload to Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
           git add output/
           git diff --cached --quiet \
             && echo "Изменений нет — коммит не нужен" \
