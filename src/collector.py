@@ -26,17 +26,54 @@ import config as _cfg
 # ── Настройки ──────────────────────────────────────────────────────────────────
 
 SOURCES: list[dict] = [
-    # GitHub-репозитории (raw-ссылки на txt/yaml с конфигами)
+
+    # ── Специализированные источники для РФ (обход ТСПУ/РКН) ─────────────────
+    # Эти источники помечены ru=True — из них берутся серверы для RU_BYPASS.txt
+
     {
-        "name": "igareck/vpn-configs-for-russia BLACK_VLESS",
+        "name": "igareck BLACK_VLESS_RUS",
         "url": "https://raw.githack.com/igareck/vpn-configs-for-russia/main/BLACK_VLESS_RUS.txt",
         "type": "raw",
+        "ru": True,   # ← специально для РФ
     },
     {
-        "name": "igareck/vpn-configs-for-russia WHITE_VLESS",
+        "name": "igareck WHITE_VLESS_RUS",
         "url": "https://raw.githack.com/igareck/vpn-configs-for-russia/main/WHITE_VLESS_RUS.txt",
         "type": "raw",
+        "ru": True,
     },
+    {
+        "name": "igareck VLESS_REALITY_RUS",
+        "url": "https://raw.githack.com/igareck/vpn-configs-for-russia/main/VLESS_REALITY_RUS.txt",
+        "type": "raw",
+        "ru": True,
+    },
+    {
+        "name": "soroushmirzaei reality configs",
+        "url": "https://raw.githubusercontent.com/soroushmirzaei/telegram-configs-collector/main/splitted/reality",
+        "type": "raw",
+        "ru": True,
+    },
+    {
+        "name": "XTLS/Xray reality subscription",
+        "url": "https://raw.githubusercontent.com/yebekhe/TelegramV2rayCollector/main/sub/reality",
+        "type": "raw",
+        "ru": True,
+    },
+    {
+        "name": "MatinGhanbari/FreeVlessReality",
+        "url": "https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/xray/sub10.txt",
+        "type": "raw",
+        "ru": True,
+    },
+    {
+        "name": "Everyday-VPN russia",
+        "url": "https://raw.githubusercontent.com/yebekhe/TVC/main/subscriptions/xray/reality",
+        "type": "raw",
+        "ru": True,
+    },
+
+    # ── Общие источники (все протоколы) ───────────────────────────────────────
     {
         "name": "mahdibland/V2RayAggregator",
         "url": "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/Eternity",
@@ -81,6 +118,34 @@ SOURCES: list[dict] = [
 
 # Протоколы, которые собираем
 PROTOCOLS = ("vless://", "vmess://", "trojan://", "ss://", "hysteria2://", "hy2://", "tuic://")
+
+# Множество URL источников помеченных ru=True — для фильтрации RU_BYPASS
+RU_SOURCE_URLS: set[str] = {s["url"] for s in SOURCES if s.get("ru")}
+
+
+def is_russia_bypass(config_str: str) -> bool:
+    """
+    Определяет, подходит ли конфиг для обхода российских блокировок (ТСПУ/РКН).
+
+    Простыми словами:
+      ТСПУ умеет распознавать обычный VPN.
+      Единственный надёжный способ обойти его — VLESS + XTLS Reality.
+      Сервер притворяется обычным HTTPS-сайтом (например, github.com).
+      DPI видит обычный TLS и пропускает трафик.
+
+      Признаки Reality-конфига:
+        security=reality        — главный признак
+        flow=xtls-rprx-vision   — XTLS Vision (лучший вариант для РФ)
+        pbk=...                 — публичный ключ (есть только у Reality)
+    """
+    if not config_str.lower().startswith("vless://"):
+        return False
+    low = config_str.lower()
+    if "security=reality" in low:   return True
+    if "flow=xtls-rprx-vision" in low: return True
+    if "&pbk=" in low or "?pbk=" in low: return True
+    return False
+
 
 # Параметры тестирования
 TCP_TIMEOUT   = 5.0    # секунд на одну проверку
@@ -235,10 +300,14 @@ async def fetch_source_with_retry(
     return []
 
 
-async def collect_all() -> list[str]:
+async def collect_all() -> tuple[list[str], set[str]]:
     """
     Скачивает конфиги из всех источников параллельно.
     Автоматически подхватывает источники найденные source_discovery.
+
+    Возвращает:
+      (unique_configs, ru_candidate_keys)
+      ru_candidate_keys — ключи конфигов из RU-источников (для RU_BYPASS.txt)
     """
     # Основные встроенные источники
     all_sources = list(SOURCES)
@@ -249,7 +318,6 @@ async def collect_all() -> list[str]:
         discovered = load_discovered()
         if discovered:
             log.info("  📡 Автообнаружено источников: %d", len(discovered))
-            # Не дублируем уже имеющиеся URL
             existing_urls = {s["url"] for s in all_sources}
             for s in discovered:
                 if s["url"] not in existing_urls:
@@ -266,8 +334,15 @@ async def collect_all() -> list[str]:
         results = await asyncio.gather(*tasks)
 
     all_configs: list[str] = []
-    for batch in results:
-        all_configs.extend(batch)
+    # Запоминаем ключи конфигов из RU-источников
+    ru_keys: set[str] = set()
+
+    for source, batch in zip(all_sources, results):
+        is_ru_source = source.get("ru", False)
+        for c in batch:
+            all_configs.append(c)
+            if is_ru_source:
+                ru_keys.add(c.split("#")[0].rstrip("?& "))
 
     # Дедупликация
     seen:   set[str]  = set()
@@ -278,8 +353,8 @@ async def collect_all() -> list[str]:
             seen.add(key)
             unique.append(c)
 
-    log.info("📦 Уникальных конфигов: %d (из %d сырых)", len(unique), len(all_configs))
-    return unique
+    log.info("📦 Уникальных: %d  из них RU-источники: %d", len(unique), len(ru_keys))
+    return unique, ru_keys
 
 
 # ── Тестирование ───────────────────────────────────────────────────────────────

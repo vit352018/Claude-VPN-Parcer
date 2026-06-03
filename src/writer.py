@@ -23,7 +23,9 @@ from urllib.parse import unquote, urlparse
 from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent))
 import config as cfg
+from collector import is_russia_bypass
 
 log = logging.getLogger("writer")
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
@@ -100,10 +102,11 @@ def _header(title: str, count: int, now_msk: datetime, raw_url: str = "") -> lis
 # ── Основная функция ──────────────────────────────────────────────────────────
 
 def write_all_outputs(
-    working:   list[tuple[str, int]],
-    geo_map:   dict | None = None,
-    tls_map:   dict | None = None,
-    score_map: dict | None = None,   # host → float (надёжность 0..1, -1 = нет данных)
+    working:    list[tuple[str, int]],
+    geo_map:    dict | None = None,
+    tls_map:    dict | None = None,
+    score_map:  dict | None = None,
+    ru_keys:    set[str] | None = None,  # ключи конфигов из RU-источников
 ) -> dict:
     """
     Записывает все выходные файлы.
@@ -114,15 +117,17 @@ def write_all_outputs(
     score_map  — {host: float}  рейтинг надёжности из истории
     """
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    now_msk  = datetime.now(ZoneInfo("Europe/Moscow"))
-    geo_map  = geo_map  or {}
-    tls_map  = tls_map  or {}
+    now_msk   = datetime.now(ZoneInfo("Europe/Moscow"))
+    geo_map   = geo_map   or {}
+    tls_map   = tls_map   or {}
     score_map = score_map or {}
+    ru_keys   = ru_keys   or set()
 
-    # ── Разбивка по протоколам ────────────────────────────────────────────────
+    # ── Разбивка по протоколам + RU_BYPASS ───────────────────────────────────
     buckets: dict[str, list[tuple[str, int]]] = {
         "all": [], "vless": [], "vmess": [], "trojan": [],
         "hysteria": [], "ss": [], "other": [],
+        "ru_bypass": [],   # серверы для обхода РКН/ТСПУ
     }
     country_stats:  dict[str, int] = {}
     tls_confirmed = 0
@@ -136,6 +141,13 @@ def write_all_outputs(
         elif low.startswith("ss://"):       buckets["ss"].append((config_str, lat))
         else:                               buckets["other"].append((config_str, lat))
         buckets["all"].append((config_str, lat))
+
+        # RU_BYPASS: конфиг попадает если:
+        #   1. Пришёл из RU-источника  ИЛИ
+        #   2. Является Reality/XTLS по параметрам
+        config_key = config_str.split("#")[0].rstrip("?& ")
+        if config_key in ru_keys or is_russia_bypass(config_str):
+            buckets["ru_bypass"].append((config_str, lat))
 
         host = _get_host(config_str)
         geo  = geo_map.get(host, {})
@@ -158,12 +170,13 @@ def write_all_outputs(
     raw_base = cfg.RAW_BASE
 
     files_cfg = [
-        ("VLESS_WORKING.txt", "all",      "✅ All Working Servers | Auto-collected"),
-        ("VLESS_ONLY.txt",    "vless",    "🔷 VLESS Only | Auto-collected"),
-        ("VMESS_ONLY.txt",    "vmess",    "🔶 VMess Only | Auto-collected"),
-        ("TROJAN_ONLY.txt",   "trojan",   "🐴 Trojan Only | Auto-collected"),
-        ("HYSTERIA_ONLY.txt", "hysteria", "⚡ Hysteria2 Only | Auto-collected"),
-        ("SS_ONLY.txt",       "ss",       "🔲 Shadowsocks Only | Auto-collected"),
+        ("VLESS_WORKING.txt", "all",       "✅ All Working Servers | Auto-collected"),
+        ("RU_BYPASS.txt",     "ru_bypass", "🇷🇺 RU Bypass (Reality+XTLS) | Обход РКН/ТСПУ"),
+        ("VLESS_ONLY.txt",    "vless",     "🔷 VLESS Only | Auto-collected"),
+        ("VMESS_ONLY.txt",    "vmess",     "🔶 VMess Only | Auto-collected"),
+        ("TROJAN_ONLY.txt",   "trojan",    "🐴 Trojan Only | Auto-collected"),
+        ("HYSTERIA_ONLY.txt", "hysteria",  "⚡ Hysteria2 Only | Auto-collected"),
+        ("SS_ONLY.txt",       "ss",        "🔲 Shadowsocks Only | Auto-collected"),
     ]
 
     written: dict[str, int] = {}
@@ -223,12 +236,13 @@ def write_all_outputs(
         "total_working": len(buckets["all"]),
         "tls_confirmed": tls_confirmed,
         "by_protocol": {
-            "vless":    len(buckets["vless"]),
-            "vmess":    len(buckets["vmess"]),
-            "trojan":   len(buckets["trojan"]),
-            "hysteria": len(buckets["hysteria"]),
-            "ss":       len(buckets["ss"]),
-            "other":    len(buckets["other"]),
+            "vless":     len(buckets["vless"]),
+            "vmess":     len(buckets["vmess"]),
+            "trojan":    len(buckets["trojan"]),
+            "hysteria":  len(buckets["hysteria"]),
+            "ss":        len(buckets["ss"]),
+            "other":     len(buckets["other"]),
+            "ru_bypass": len(buckets["ru_bypass"]),
         },
         "latency": {
             "min_ms": min(latencies) if latencies else 0,

@@ -34,12 +34,14 @@ REMOTE_FOLDER = "vless-collector"
 # Какие файлы загружать (из папки output/)
 FILES_TO_UPLOAD = [
     "VLESS_WORKING.txt",
+    "RU_BYPASS.txt",
     "VLESS_ONLY.txt",
     "VMESS_ONLY.txt",
     "TROJAN_ONLY.txt",
     "HYSTERIA_ONLY.txt",
     "SS_ONLY.txt",
     "TOP50.txt",
+    "TOP50_RELIABLE.txt",
     "stats.json",
     "index.html",
 ]

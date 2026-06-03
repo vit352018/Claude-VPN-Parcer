@@ -116,10 +116,11 @@ async def main():
 
         # ── ШАГ 2: Сбор конфигов ─────────────────────────────────────────────
         log.info("📥 ШАГ 2/10 — Сбор конфигов из источников…")
-        github_cfgs = await collect_all()             # GitHub + автообнаруженные
-        tg_cfgs     = await collect_from_telegram()   # Telegram-каналы
-        all_raw     = github_cfgs + tg_cfgs
-        log.info("   Найдено: %d ключей суммарно", len(all_raw))
+        github_cfgs, ru_keys = await collect_all()    # ← теперь возвращает и ru_keys
+        tg_cfgs              = await collect_from_telegram()
+        all_raw              = github_cfgs + tg_cfgs
+        log.info("   Найдено: %d ключей суммарно  (RU-источники: %d уник.)",
+                 len(all_raw), len(ru_keys))
 
         # ── ШАГ 3: Дедупликация ──────────────────────────────────────────────
         log.info("🧹 ШАГ 3/10 — Убираем дубли…")
@@ -196,6 +197,7 @@ async def main():
             geo_map=geo_map,
             tls_map=tls_map,
             score_map=score_map,
+            ru_keys=ru_keys,
         )
 
         # ── ШАГ 8: HTML-страница ─────────────────────────────────────────────

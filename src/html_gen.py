@@ -39,14 +39,15 @@ def generate_html(stats: dict):
 
     # ── Карточки с файлами подписок ──────────────────────────────────────────
     sub_files = [
-        ("VLESS_WORKING.txt",   "✅ Все рабочие",    "all",      total),
-        ("VLESS_ONLY.txt",      "🔷 VLESS",          "vless",    by_proto.get("vless",0)),
-        ("VMESS_ONLY.txt",      "🔶 VMess",          "vmess",    by_proto.get("vmess",0)),
-        ("TROJAN_ONLY.txt",     "🐴 Trojan",         "trojan",   by_proto.get("trojan",0)),
-        ("HYSTERIA_ONLY.txt",   "⚡ Hysteria2",      "hysteria", by_proto.get("hysteria",0)),
-        ("SS_ONLY.txt",         "🔲 Shadowsocks",    "ss",       by_proto.get("ss",0)),
-        ("TOP50.txt",           "🏆 TOP-50 быстрых", "top",      min(50,total)),
-        ("TOP50_RELIABLE.txt",  "🛡 TOP-50 надёжных","rel",      min(50,total)),
+        ("VLESS_WORKING.txt",   "✅ Все рабочие",             "all",       total),
+        ("RU_BYPASS.txt",       "🇷🇺 Обход РКН (Reality)",    "ru_bypass", by_proto.get("ru_bypass", 0)),
+        ("VLESS_ONLY.txt",      "🔷 VLESS",                   "vless",     by_proto.get("vless", 0)),
+        ("VMESS_ONLY.txt",      "🔶 VMess",                   "vmess",     by_proto.get("vmess", 0)),
+        ("TROJAN_ONLY.txt",     "🐴 Trojan",                  "trojan",    by_proto.get("trojan", 0)),
+        ("HYSTERIA_ONLY.txt",   "⚡ Hysteria2",               "hysteria",  by_proto.get("hysteria", 0)),
+        ("SS_ONLY.txt",         "🔲 Shadowsocks",             "ss",        by_proto.get("ss", 0)),
+        ("TOP50.txt",           "🏆 TOP-50 быстрых",          "top",       min(50, total)),
+        ("TOP50_RELIABLE.txt",  "🛡 TOP-50 надёжных",         "rel",       min(50, total)),
     ]
 
     cards_html = ""
