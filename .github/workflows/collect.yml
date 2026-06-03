@@ -16,7 +16,6 @@ concurrency:
 
 jobs:
   collect:
-    name: Collect Test and Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 25
     environment:
@@ -48,14 +47,28 @@ jobs:
 
       - name: Show result
         if: always()
-        run: |
-          head -8 output/VLESS_WORKING.txt 2>/dev/null || echo "file not created"
-          python3 -c "
-          import json, pathlib
-          f = pathlib.Path('output/stats.json')
-          if f.exists():
-              s = json.loads(f.read_text())
-              print('Working:', s['total_working'], 'TLS:', s['tls_confirmed'])
-          " 2>/dev/null || true
+        run: head -8 output/VLESS_WORKING.txt 2>/dev/null || echo "not created"
 
       - name: Commit output files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "update $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload to Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
