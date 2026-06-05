@@ -1,5 +1,33 @@
 [
   {
+    "name": "OrionPotter/free-proxy (auto)",
+    "url": "https://raw.githubusercontent.com/OrionPotter/free-proxy/main/output/subscription.txt",
+    "type": "raw",
+    "stars": 6,
+    "configs_found": 4414
+  },
+  {
+    "name": "OrionPotter/free-proxy (auto)",
+    "url": "https://raw.githubusercontent.com/OrionPotter/free-proxy/main/output/v2ray.txt",
+    "type": "raw",
+    "stars": 6,
+    "configs_found": 4414
+  },
+  {
+    "name": "xyfqzy/free-nodes (auto)",
+    "url": "https://raw.githubusercontent.com/xyfqzy/free-nodes/main/nodes/v2ray.txt",
+    "type": "raw",
+    "stars": 118,
+    "configs_found": 2280
+  },
+  {
+    "name": "xyfqzy/free-nodes (auto)",
+    "url": "https://raw.githubusercontent.com/xyfqzy/free-nodes/main/nodes/vless.txt",
+    "type": "raw",
+    "stars": 118,
+    "configs_found": 1948
+  },
+  {
     "name": "MahanKenway/Freedom-V2Ray (auto)",
     "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/mix_sub.txt",
     "type": "raw",
@@ -19,6 +47,13 @@
     "type": "raw",
     "stars": 507,
     "configs_found": 607
+  },
+  {
+    "name": "xyfqzy/free-nodes (auto)",
+    "url": "https://raw.githubusercontent.com/xyfqzy/free-nodes/main/nodes/vmess.txt",
+    "type": "raw",
+    "stars": 118,
+    "configs_found": 332
   },
   {
     "name": "MahanKenway/Freedom-V2Ray (auto)",
