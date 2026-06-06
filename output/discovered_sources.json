@@ -124,5 +124,12 @@
     "type": "raw",
     "stars": 2801,
     "configs_found": 13
+  },
+  {
+    "name": "Au1rxx/free-vpn-subscriptions (auto)",
+    "url": "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/by-country/v2ray-base64-CA.txt",
+    "type": "raw",
+    "stars": 69,
+    "configs_found": 7
   }
 ]
