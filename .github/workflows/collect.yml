@@ -2,7 +2,7 @@ name: Collect and Test VPN Configs
 
 on:
   schedule:
-    - cron: '*/15 * * * *'     # Запуск каждые 15 минут (самый надёжный формат)
+    - cron: '*/30 * * * *'     # Запуск каждые 30 минут (самый надёжный формат)
   workflow_dispatch:
 
 permissions:
