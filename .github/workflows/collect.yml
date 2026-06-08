@@ -2,22 +2,16 @@ name: Collect and Test VPN Configs
 
 on:
   schedule:
-    - cron: '*/30 * * * *'     # Запуск каждые 30 минут (самый надёжный формат)
+    - cron: "0,15 * * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "vpn-collector"
-  cancel-in-progress: false
 
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 20        # уменьшил, чтобы не жрать лимиты
+    timeout-minutes: 25
 
     steps:
       - name: Checkout
@@ -35,15 +29,30 @@ jobs:
       - name: Run collector
         env:
           PYTHONUNBUFFERED: "1"
+          YANDEX_TOKEN: ${{ secrets.YANDEX_TOKEN }}
           YANDEX_LOGIN: ${{ secrets.YANDEX_LOGIN }}
           YANDEX_PASS: ${{ secrets.YANDEX_PASS }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: python src/main.py
 
       - name: Show result
         if: always()
-        run: head -10 output/VLESS_WORKING.txt 2>/dev/null || echo "Output file not created"
+        run: |
+          echo "=== VLESS_WORKING.txt ==="
+          head -6 output/VLESS_WORKING.txt 2>/dev/null || echo "not created"
+          echo "=== RU_BYPASS.txt ==="
+          head -6 output/RU_BYPASS.txt 2>/dev/null || echo "not created"
+          echo "=== Stats ==="
+          python3 -c "
+          import json, pathlib
+          f = pathlib.Path('output/stats.json')
+          if f.exists():
+              s = json.loads(f.read_text())
+              p = s['by_protocol']
+              print('Working:', s['total_working'], '| RU Bypass:', p.get('ru_bypass',0))
+          " 2>/dev/null || true
 
       - name: Commit output files
         run: |
@@ -53,6 +62,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update configs - $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git commit -m "update $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push
           fi
