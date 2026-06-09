@@ -2,16 +2,19 @@ name: Collect and Test VPN Configs
 
 on:
   schedule:
-    - cron: "0,15 * * * *"
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -27,6 +30,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run collector
+        timeout-minutes: 15
         env:
           PYTHONUNBUFFERED: "1"
           YANDEX_TOKEN: ${{ secrets.YANDEX_TOKEN }}
@@ -35,16 +39,18 @@ jobs:
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          # Ограничения для укладывания в 15 минут
+          MAX_WORKERS: "150"
+          MAX_CONFIGS: "800"
+          TCP_TIMEOUT: "3.0"
+          FETCH_TIMEOUT: "10"
         run: python src/main.py
 
       - name: Show result
         if: always()
         run: |
-          echo "=== VLESS_WORKING.txt ==="
-          head -6 output/VLESS_WORKING.txt 2>/dev/null || echo "not created"
-          echo "=== RU_BYPASS.txt ==="
-          head -6 output/RU_BYPASS.txt 2>/dev/null || echo "not created"
-          echo "=== Stats ==="
+          head -6 output/VLESS_WORKING.txt 2>/dev/null || echo "VLESS_WORKING.txt not created"
+          head -6 output/RU_BYPASS.txt 2>/dev/null || echo "RU_BYPASS.txt not created"
           python3 -c "
           import json, pathlib
           f = pathlib.Path('output/stats.json')
@@ -55,6 +61,7 @@ jobs:
           " 2>/dev/null || true
 
       - name: Commit output files
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
