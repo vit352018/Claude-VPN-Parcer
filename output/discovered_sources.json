@@ -1,5 +1,12 @@
 [
   {
+    "name": "rtwo2/FastNodes (auto)",
+    "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/vless.txt",
+    "type": "raw",
+    "stars": 38,
+    "configs_found": 19389
+  },
+  {
     "name": "OrionPotter/free-proxy (auto)",
     "url": "https://raw.githubusercontent.com/OrionPotter/free-proxy/main/output/subscription.txt",
     "type": "raw",
@@ -26,6 +33,13 @@
     "type": "raw",
     "stars": 118,
     "configs_found": 1948
+  },
+  {
+    "name": "rtwo2/FastNodes (auto)",
+    "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/vmess.txt",
+    "type": "raw",
+    "stars": 38,
+    "configs_found": 1821
   },
   {
     "name": "MahanKenway/Freedom-V2Ray (auto)",
