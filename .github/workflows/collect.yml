@@ -56,8 +56,8 @@ jobs:
               print(9999)
           " 2>/dev/null || echo "9999")
             echo "Секунд с последнего обновления: $UPDATED"
-            if [ "$UPDATED" -lt 3300 ]; then
-              echo "Обновление было менее 55 минут назад — пропускаем"
+            if [ "$UPDATED" -lt 2100 ]; then
+              echo "Обновление было менее 35 минут назад — пропускаем"
               SKIP=true
             fi
           fi
