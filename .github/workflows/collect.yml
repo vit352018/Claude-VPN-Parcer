@@ -2,11 +2,19 @@ name: Collect and Test VPN Configs
 
 on:
   schedule:
-    - cron: "0,15 * * * *"
+    # Каждые 15 минут — GitHub задерживает запуски, поэтому бьём чаще.
+    # Благодаря concurrency одновременно работает только один экземпляр.
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
+
+# Если предыдущий запуск ещё не завершился — новый встаёт в очередь.
+# cancel-in-progress: false = не отменяем работающий, просто ждём.
+concurrency:
+  group: collect
+  cancel-in-progress: false
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -29,7 +37,34 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Check if update needed
+        id: check
+        run: |
+          # Пропускаем запуск если последнее обновление было меньше 55 минут назад.
+          # Это нужно чтобы при частом cron не обновляться слишком часто.
+          SKIP=false
+          if [ -f output/stats.json ]; then
+            UPDATED=$(python3 -c "
+          import json, datetime, pathlib
+          s = json.loads(pathlib.Path('output/stats.json').read_text())
+          updated = s.get('updated_utc','')
+          if updated:
+              dt = datetime.datetime.fromisoformat(updated.replace('Z','+00:00'))
+              diff = (datetime.datetime.now(datetime.timezone.utc) - dt).total_seconds()
+              print(int(diff))
+          else:
+              print(9999)
+          " 2>/dev/null || echo "9999")
+            echo "Секунд с последнего обновления: $UPDATED"
+            if [ "$UPDATED" -lt 3300 ]; then
+              echo "Обновление было менее 55 минут назад — пропускаем"
+              SKIP=true
+            fi
+          fi
+          echo "skip=$SKIP" >> $GITHUB_OUTPUT
+
       - name: Run collector
+        if: steps.check.outputs.skip != 'true'
         timeout-minutes: 15
         env:
           PYTHONUNBUFFERED: "1"
@@ -39,29 +74,26 @@ jobs:
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          # Ограничения для укладывания в 15 минут
           MAX_WORKERS: "150"
-          MAX_CONFIGS: "800"
+          MAX_CONFIGS: "500"
           TCP_TIMEOUT: "3.0"
           FETCH_TIMEOUT: "10"
         run: python src/main.py
 
       - name: Show result
-        if: always()
+        if: steps.check.outputs.skip != 'true' && always()
         run: |
-          head -6 output/VLESS_WORKING.txt 2>/dev/null || echo "VLESS_WORKING.txt not created"
-          head -6 output/RU_BYPASS.txt 2>/dev/null || echo "RU_BYPASS.txt not created"
           python3 -c "
           import json, pathlib
           f = pathlib.Path('output/stats.json')
           if f.exists():
               s = json.loads(f.read_text())
               p = s['by_protocol']
-              print('Working:', s['total_working'], '| RU Bypass:', p.get('ru_bypass',0))
+              print('Working:', s['total_working'], '| RU:', p.get('ru_bypass',0))
           " 2>/dev/null || true
 
       - name: Commit output files
-        if: always()
+        if: steps.check.outputs.skip != 'true' && always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
