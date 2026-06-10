@@ -1,0 +1,70 @@
+# ═══════════════════════════════════════════════════════
+# Ссылки для подписок Karing / Hiddify / v2rayN
+# ═══════════════════════════════════════════════════════
+
+# ПОСТОЯННЫЕ ссылки (GitHub) — рекомендуются:
+# Работают всегда, обновляются каждый час.
+
+# VLESS_WORKING.txt:
+https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/VLESS_WORKING.txt
+
+# RU_BYPASS.txt:
+https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/RU_BYPASS.txt
+
+# VLESS_ONLY.txt:
+https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/VLESS_ONLY.txt
+
+# VMESS_ONLY.txt:
+https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/VMESS_ONLY.txt
+
+# TROJAN_ONLY.txt:
+https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/TROJAN_ONLY.txt
+
+# HYSTERIA_ONLY.txt:
+https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/HYSTERIA_ONLY.txt
+
+# SS_ONLY.txt:
+https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/SS_ONLY.txt
+
+# TOP50.txt:
+https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/TOP50.txt
+
+# TOP50_RELIABLE.txt:
+https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/TOP50_RELIABLE.txt
+
+
+# ВРЕМЕННЫЕ прямые ссылки Яндекс Диска (~30 минут):
+# Обновляются при каждом запуске бота.
+
+# HYSTERIA_ONLY.txt:
+https://downloader.disk.yandex.ru/disk/79f9175e86c7dde40a20bd321298ac35839fb2de861736684f6397b6bc2863dc/6a294a6a/DDFDv_wU1ZGppoKkjLMz8v_nems2DV5Z8qX2p6upEXZK35sb6NCIz3PyP9BEkodef7322zIiJ086aERo-ZBTiw%3D%3D?uid=16806762&filename=HYSTERIA_ONLY.txt&disposition=attachment&hash=&limit=0&content_type=text%2Fplain&owner_uid=16806762&fsize=4328&hid=d1999ac9b3ad630beca8e4930ed188db&media_type=document&tknv=v3&is_direct_zip_experiment=1&etag=1d324052f513b6aaf634376d1c0cbd52
+
+# RU_BYPASS.txt:
+https://downloader.disk.yandex.ru/disk/3e76ed1351e67dd286a0f77f638ec5a358c470a44124c5eb22ea9ca38690bf2a/6a294a5c/DDFDv_wU1ZGppoKkjLMz8hGFXDP4VbiEECj8SV9jxECNoHnfk2uYHwYt6Rokkdub2Bo08co0UMFwJ3DrY3aCag%3D%3D?uid=16806762&filename=RU_BYPASS.txt&disposition=attachment&hash=&limit=0&content_type=text%2Fplain&owner_uid=16806762&fsize=340656&hid=c0fa6ea486a59220b618d8aa937953a4&media_type=document&tknv=v3&is_direct_zip_experiment=1&etag=eb033127749c04610562f12257e88736
+
+# SS_ONLY.txt:
+https://downloader.disk.yandex.ru/disk/f7230faccf3ea6bb08afa7c61ef527e7028044df8992760f69e9f40c9f774664/6a294a6d/DDFDv_wU1ZGppoKkjLMz8iI9CWd5RngvOVAYbjDMLcxI6-l_R6n8gt5i8gN2T6mQw0CIVuvOawu3yrCpZL1TuA%3D%3D?uid=16806762&filename=SS_ONLY.txt&disposition=attachment&hash=&limit=0&content_type=text%2Fplain&owner_uid=16806762&fsize=5508&hid=5d687ff21d0020777b8ff26051c2d708&media_type=document&tknv=v3&is_direct_zip_experiment=1&etag=aebd2904d488f948bb198ca95b05b257
+
+# TOP50.txt:
+https://downloader.disk.yandex.ru/disk/709122fc95fca67edb2fe73eecb3abcd2dd373bbffecd5353186032528fc33da/6a294a6f/DDFDv_wU1ZGppoKkjLMz8gzzBC_ii0zDx2TAXKHXMjL8gNn_EQx7QVPRCs9ybO3EI42bf1WIYsatEUWenIGlzg%3D%3D?uid=16806762&filename=TOP50.txt&disposition=attachment&hash=&limit=0&content_type=text%2Fplain&owner_uid=16806762&fsize=12154&hid=f62ebfe0c38278e104c056bf5f7c24c6&media_type=document&tknv=v3&is_direct_zip_experiment=1&etag=558f14c095dfe655ab11e9c2b93b209d
+
+# TOP50_RELIABLE.txt:
+https://downloader.disk.yandex.ru/disk/400b5ce29395f94689b09169ebfc2bca1c91728906200831d2273c4fa2d7fe9e/6a294a72/DDFDv_wU1ZGppoKkjLMz8tf-ceEsJ-3xLnkUUcPXFIrRV7tcV5j0sn-2koLUWXFNLVm9qA-Pmrt0PVKr6bGuiA%3D%3D?uid=16806762&filename=TOP50_RELIABLE.txt&disposition=attachment&hash=&limit=0&content_type=text%2Fplain&owner_uid=16806762&fsize=11924&hid=a3c7dc491080cdf6f1916f682a83feb5&media_type=document&tknv=v3&is_direct_zip_experiment=1&etag=89f168d660e8f8be5edddb0c35c119a6
+
+# TROJAN_ONLY.txt:
+https://downloader.disk.yandex.ru/disk/97a7e7b0effa18e7dbfd7a2f7e87f97e37e88a998a5db7a4e44594d4abd089a5/6a294a67/DDFDv_wU1ZGppoKkjLMz8sgh0i1MhRfcrsGu6QfE_NdQxY0NPR5FMgb8E-w5O8AtcX6ysYD6LhxKt_wVoHPJag%3D%3D?uid=16806762&filename=TROJAN_ONLY.txt&disposition=attachment&hash=&limit=0&content_type=text%2Fplain&owner_uid=16806762&fsize=3082&hid=a7a8fd47308baf82d6f84411d02c7d1e&media_type=document&tknv=v3&is_direct_zip_experiment=1&etag=70b3c44b38787808379c2efa4a5ba8d0
+
+# VLESS_ONLY.txt:
+https://downloader.disk.yandex.ru/disk/bf9df557d9e26a0078361e8ec5de1d452000ee573d119a64f1a80fff10ccf481/6a294a5f/DDFDv_wU1ZGppoKkjLMz8lfz0TiX9nW8FzFh2nJl3LDPqPHVQzK3tgKstHEBx4_5Jl5IpEy1JK6D8vsIvchZ6w%3D%3D?uid=16806762&filename=VLESS_ONLY.txt&disposition=attachment&hash=&limit=0&content_type=text%2Fplain&owner_uid=16806762&fsize=340627&hid=0952e68c89c6d50515438e19cce282fe&media_type=document&tknv=v3&is_direct_zip_experiment=1&etag=64dfb2f2f41d9a7322b705f863dec459
+
+# VLESS_WORKING.txt:
+https://downloader.disk.yandex.ru/disk/a72493dc5021b6e7323e1635ef161db5f6d26f4f62ed99656ee4fe5dccddaf69/6a294a59/DDFDv_wU1ZGppoKkjLMz8sdcW4JH-bAttbBC5lwlTecxaE70wHj6U5s6ejBAgDvQsbx9njjTrYARmCWwZFRYXw%3D%3D?uid=16806762&filename=VLESS_WORKING.txt&disposition=attachment&hash=&limit=0&content_type=text%2Fplain&owner_uid=16806762&fsize=358636&hid=d8a75c0c43b7451b2210f663f1280d11&media_type=document&tknv=v3&is_direct_zip_experiment=1&etag=afedb10258df4f2c3ac307066ccfb840
+
+# VMESS_ONLY.txt:
+https://downloader.disk.yandex.ru/disk/530ec62830251d557345d93b2ee82ccadc6568920cdf5bb2fc597d055354883d/6a294a62/DDFDv_wU1ZGppoKkjLMz8jENaLv4Kuv8xjLF4YTS0sdFC1_ukfe_MJC319APadMwgxbtDhFU47DhpriPhbU9Lw%3D%3D?uid=16806762&filename=VMESS_ONLY.txt&disposition=attachment&hash=&limit=0&content_type=text%2Fplain&owner_uid=16806762&fsize=10361&hid=86e6c20de3d0ff45e6af55da6c3dd907&media_type=document&tknv=v3&is_direct_zip_experiment=1&etag=29977b146290170f1162e9839b1f853a
+
+# index.html:
+https://downloader.disk.yandex.ru/disk/ca5364b7e1d6fd5b473174602964bf3b585f4633bde0b926409e25fc59a42b62/6a294a77/DDFDv_wU1ZGppoKkjLMz8qSfWauKExeJSdupU3X1BJu_KJQ8UnrF6WDch61Fd4sbt07SNNOhuHoT34w9n9xm3g%3D%3D?uid=16806762&filename=index.html&disposition=attachment&hash=&limit=0&content_type=text%2Fhtml&owner_uid=16806762&fsize=15760&hid=6f2e86060927e0e53fad447e0190eb60&media_type=development&tknv=v3&is_direct_zip_experiment=1&etag=7800ec728bf4a57c5171f0ecaca89eea
+
+# stats.json:
+https://downloader.disk.yandex.ru/disk/5908f799d31c14e522586b87decaaf85820e4fc8ed08b7128f9e41b03bafa1b2/6a294a74/DDFDv_wU1ZGppoKkjLMz8iaM4WtuLWLKP5UEf-QqGoyqicQjEpoZHs-0tFEKbL6Y2h1HrOAEvvzYMDWGt6CG5Q%3D%3D?uid=16806762&filename=stats.json&disposition=attachment&hash=&limit=0&content_type=application%2Fjson&owner_uid=16806762&fsize=1068&hid=8198078bedc923e9989258611dffd11f&media_type=unknown&tknv=v3&is_direct_zip_experiment=1&etag=2a9b67a549cb22b4a58aca0574b09cd6

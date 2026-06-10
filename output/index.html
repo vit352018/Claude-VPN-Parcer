@@ -1,377 +1,182 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>VPN Collector — Статистика</title>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --bg:#0f1117;--card:#1a1d27;--card2:#1e2235;--card3:#252a3d;
+<html lang="ru"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VPN Collector — Статистика</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f1117;--card:#1a1d27;--card2:#1e2235;--card3:#252a3d;
       --text:#e2e8f0;--muted:#8892a4;--accent:#6366f1;--accent2:#a78bfa;
-      --green:#22c55e;--amber:#f59e0b;--red:#ef4444;--cyan:#06b6d4;
-      --border:rgba(255,255,255,.06);--radius:14px;
-    }
-    body{background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;
-         min-height:100vh;padding:2rem 1rem;line-height:1.5}
-    .wrap{max-width:900px;margin:0 auto}
-
-    /* Шапка */
-    header{text-align:center;margin-bottom:2.5rem}
-    header h1{font-size:2rem;font-weight:700;
-               background:linear-gradient(90deg,var(--accent),var(--accent2));
-               -webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    header p{color:var(--muted);margin-top:.4rem}
-    .badge{display:inline-block;background:var(--card2);border:1px solid var(--border);
-            border-radius:20px;padding:.25rem .9rem;font-size:.8rem;color:var(--muted);margin-top:.6rem}
-
-    /* Сетка карточек */
-    .grid{display:grid;gap:1rem;margin-bottom:1.5rem}
-    .grid-3{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
-    .grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-
-    /* Карточка-цифра */
-    .stat-card{background:var(--card);border:1px solid var(--border);
-               border-radius:var(--radius);padding:1.2rem 1.4rem}
-    .stat-card .val{font-size:2.2rem;font-weight:700;color:var(--accent)}
-    .stat-card .lbl{font-size:.8rem;color:var(--muted);margin-top:.3rem}
-    .stat-card.green .val{color:var(--green)}
-    .stat-card.amber .val{color:var(--amber)}
-    .stat-card.cyan  .val{color:var(--cyan)}
-
-    /* Панели */
-    .panel{background:var(--card);border:1px solid var(--border);
-            border-radius:var(--radius);padding:1.4rem;margin-bottom:1.5rem}
-    .panel h2{font-size:1rem;font-weight:600;margin-bottom:1rem;
-               display:flex;align-items:center;gap:.5rem}
-
-    /* Протоколы */
-    .proto-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem;font-size:.9rem}
-    .proto-name{width:100px;flex-shrink:0;color:var(--muted)}
-    .proto-bar-wrap{flex:1;background:var(--card3);border-radius:99px;height:8px;overflow:hidden}
-    .proto-bar{height:100%;border-radius:99px;min-width:4px;transition:width .5s}
-    .proto-pct{width:36px;text-align:right;color:var(--muted);font-size:.82rem}
-    .proto-cnt{width:40px;text-align:right;font-weight:600;font-size:.88rem}
-
-    /* Задержка */
-    .lat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:.7rem}
-    .lat-item{background:var(--card3);border-radius:10px;padding:.8rem;text-align:center}
-    .lat-item .lv{font-size:1.4rem;font-weight:700;color:var(--amber)}
-    .lat-item .ll{font-size:.72rem;color:var(--muted);margin-top:.2rem}
-
-    /* Таблица стран */
-    table{width:100%;border-collapse:collapse;font-size:.88rem}
-    td{padding:.45rem .5rem;border-bottom:1px solid var(--border)}
-    .rank{color:var(--muted);width:32px}
-    .cnt-td{text-align:right;font-weight:600;color:var(--accent)}
-    .mini-bar{background:var(--card3);border-radius:99px;height:6px;overflow:hidden;width:100px}
-    .mini-bar div{height:100%;background:var(--green);border-radius:99px;min-width:3px}
-
-    /* Карточки подписок */
-    .subs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.9rem}
-    .sub-card{background:var(--card2);border:1px solid var(--border);
-              border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:.5rem}
-    .sub-label{font-size:.9rem;font-weight:500}
-    .sub-count{font-size:1.7rem;font-weight:700;color:var(--accent)}
-    .copy-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;
-              padding:.45rem .8rem;font-size:.82rem;cursor:pointer;transition:opacity .15s;
-              text-align:center}
-    .copy-btn:hover{opacity:.85}
-    .copy-btn.ok{background:var(--green)}
-    .sub-url{font-size:.7rem;color:var(--muted);word-break:break-all;
-             font-family:monospace;max-height:2.8em;overflow:hidden}
-
-    /* История */
-    .hist-row{display:flex;justify-content:space-between;padding:.4rem 0;
-              border-bottom:1px solid var(--border);font-size:.9rem}
-    .hist-row:last-child{border:none}
-    .hist-row span{color:var(--muted)}
-
-    /* Инструкция */
-    .howto{background:linear-gradient(135deg,#1e2235,#252a3d);
-            border:1px solid var(--border);border-radius:var(--radius);
-            padding:1.4rem;margin-bottom:1.5rem}
-    .howto h2{font-size:1rem;font-weight:600;margin-bottom:.9rem}
-    .step{display:flex;gap:.75rem;margin-bottom:.7rem;font-size:.88rem}
-    .step-num{background:var(--accent);color:#fff;border-radius:50%;
-              width:22px;height:22px;display:flex;align-items:center;justify-content:center;
-              font-size:.75rem;font-weight:700;flex-shrink:0;margin-top:.05rem}
-    .code-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;
-              padding:.5rem .8rem;font-family:monospace;font-size:.78rem;color:var(--accent2);
-              word-break:break-all;margin-top:.4rem;cursor:pointer}
-    .code-box:hover{border-color:var(--accent)}
-
-    footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:2.5rem}
-    a{color:var(--accent);text-decoration:none}
-    a:hover{text-decoration:underline}
-    @media(max-width:480px){
-      header h1{font-size:1.6rem}
-      .stat-card .val{font-size:1.7rem}
-    }
-  </style>
-</head>
-<body>
+      --green:#22c55e;--amber:#f59e0b;--red:#ef4444;--cyan:#06b6d4;--rose:#f43f5e;
+      --border:rgba(255,255,255,.06);--radius:14px}
+body{background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;min-height:100vh;padding:2rem 1rem}
+.wrap{max-width:900px;margin:0 auto}
+header{text-align:center;margin-bottom:2.5rem}
+header h1{font-size:2rem;font-weight:700;background:linear-gradient(90deg,var(--accent),var(--accent2));
+           -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+header p{color:var(--muted);margin-top:.4rem}
+.badge{display:inline-block;background:var(--card2);border:1px solid var(--border);
+        border-radius:20px;padding:.25rem .9rem;font-size:.8rem;color:var(--muted);margin-top:.6rem}
+.grid{display:grid;gap:1rem;margin-bottom:1.5rem}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1.4rem}
+.stat-card .val{font-size:2.2rem;font-weight:700;color:var(--accent)}
+.stat-card.green .val{color:var(--green)}.stat-card.amber .val{color:var(--amber)}
+.stat-card.rose .val{color:var(--rose)}.stat-card.cyan .val{color:var(--cyan)}
+.stat-card .lbl{font-size:.8rem;color:var(--muted);margin-top:.3rem}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;margin-bottom:1.5rem}
+.panel h2{font-size:1rem;font-weight:600;margin-bottom:1rem}
+.proto-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem;font-size:.9rem}
+.proto-name{width:110px;flex-shrink:0;color:var(--muted)}
+.proto-bar-wrap{flex:1;background:var(--card3);border-radius:99px;height:8px;overflow:hidden}
+.proto-bar{height:100%;border-radius:99px;min-width:4px}
+.proto-pct{width:36px;text-align:right;color:var(--muted);font-size:.82rem}
+.proto-cnt{width:40px;text-align:right;font-weight:600;font-size:.88rem}
+.lat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:.7rem}
+.lat-item{background:var(--card3);border-radius:10px;padding:.8rem;text-align:center}
+.lat-item .lv{font-size:1.4rem;font-weight:700;color:var(--amber)}
+.lat-item .ll{font-size:.72rem;color:var(--muted);margin-top:.2rem}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+td{padding:.45rem .5rem;border-bottom:1px solid var(--border)}
+.rank{color:var(--muted);width:32px}.cnt-td{text-align:right;font-weight:600;color:var(--accent)}
+.mini-bar{background:var(--card3);border-radius:99px;height:6px;overflow:hidden;width:100px}
+.mini-bar div{height:100%;background:var(--green);border-radius:99px;min-width:3px}
+.subs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.9rem}
+.sub-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;
+           padding:1rem;display:flex;flex-direction:column;gap:.5rem}
+.sub-label{font-size:.88rem;font-weight:500}
+.sub-count{font-size:1.7rem;font-weight:700;color:var(--accent)}
+.copy-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;
+           padding:.45rem .8rem;font-size:.82rem;cursor:pointer;transition:opacity .15s}
+.copy-btn:hover{opacity:.85}.copy-btn.ok{background:var(--green)}
+.sub-url{font-size:.68rem;color:var(--muted);word-break:break-all;font-family:monospace;
+          max-height:2.6em;overflow:hidden}
+.hist-row{display:flex;justify-content:space-between;padding:.4rem 0;
+           border-bottom:1px solid var(--border);font-size:.9rem}
+.hist-row:last-child{border:none}.hist-row span{color:var(--muted)}
+.ru-box{background:linear-gradient(135deg,#1e1535,#1a1d27);border:1px solid #f43f5e44;
+         border-radius:var(--radius);padding:1.2rem 1.4rem;margin-bottom:1.5rem}
+.ru-box h2{color:var(--rose);font-size:1rem;font-weight:600;margin-bottom:.6rem}
+.ru-box p{font-size:.88rem;color:var(--muted);line-height:1.6}
+.code-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;
+           padding:.5rem .8rem;font-family:monospace;font-size:.75rem;color:var(--accent2);
+           word-break:break-all;margin-top:.5rem;cursor:pointer}
+.code-box:hover{border-color:var(--accent)}
+footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:2.5rem}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+</style></head><body>
 <div class="wrap">
 
-  <header>
-    <h1>🔄 VPN Collector</h1>
-    <p>Автоматически собирает, тестирует и обновляет рабочие серверы каждый час</p>
-    <span class="badge">🕐 Обновлено: 2026-06-08 17:43 MSK</span>
-  </header>
+<header>
+  <h1>🔄 VPN Collector</h1>
+  <p>Автоматически собирает, тестирует и обновляет рабочие серверы каждый час</p>
+  <span class="badge">🕐 Обновлено: 2026-06-10 10:28 MSK</span>
+</header>
 
-  <!-- Главные цифры -->
-  <div class="grid grid-3">
-    <div class="stat-card green">
-      <div class="val">3844</div>
-      <div class="lbl">Рабочих серверов</div>
-    </div>
-    <div class="stat-card cyan">
-      <div class="val">1220</div>
-      <div class="lbl">TLS подтверждено 🔒</div>
-    </div>
-    <div class="stat-card amber">
-      <div class="val">32%</div>
-      <div class="lbl">Доля TLS-серверов</div>
-    </div>
-    <div class="stat-card">
-      <div class="val">1<small style="font-size:1rem">мс</small></div>
-      <div class="lbl">Минимальная задержка</div>
-    </div>
-    <div class="stat-card amber">
-      <div class="val">116<small style="font-size:1rem">мс</small></div>
-      <div class="lbl">Средняя задержка</div>
-    </div>
-    <div class="stat-card">
-      <div class="val">45<small style="font-size:1rem">мс</small></div>
-      <div class="lbl">Медиана (p50)</div>
-    </div>
-  </div>
+<div class="grid grid-3">
+  <div class="stat-card green"><div class="val">739</div><div class="lbl">Рабочих серверов</div></div>
+  <div class="stat-card rose"><div class="val">675</div><div class="lbl">🇷🇺 Обход РКН (Reality)</div></div>
+  <div class="stat-card cyan"><div class="val">527</div><div class="lbl">TLS подтверждено 🔒</div></div>
+  <div class="stat-card"><div class="val">10<small style="font-size:1rem">мс</small></div><div class="lbl">Мин. задержка</div></div>
+  <div class="stat-card amber"><div class="val">717<small style="font-size:1rem">мс</small></div><div class="lbl">Средняя задержка</div></div>
+  <div class="stat-card"><div class="val">493<small style="font-size:1rem">мс</small></div><div class="lbl">Медиана (p50)</div></div>
+</div>
 
-  <div class="grid grid-2">
+<div class="ru-box">
+  <h2>🇷🇺 Серверы для обхода РКН/ТСПУ — 675 шт.</h2>
+  <p>Только VLESS + XTLS Reality — единственный надёжный способ обойти глубокую инспекцию пакетов (ТСПУ).
+  Сервер маскируется под обычный HTTPS-трафик, DPI Роскомнадзора не распознаёт VPN.</p>
+  <div class="code-box" onclick="copyText(this,'https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/RU_BYPASS.txt')">https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/RU_BYPASS.txt</div>
+</div>
 
-    <!-- Протоколы -->
-    <div class="panel">
-      <h2>📡 По протоколам</h2>
-      
+<div class="grid grid-2">
+  <div class="panel"><h2>📡 По протоколам</h2>
         <div class="proto-row">
           <span class="proto-name">VLESS</span>
-          <div class="proto-bar-wrap">
-            <div class="proto-bar" style="width:53%;background:#6366f1"></div>
-          </div>
-          <span class="proto-pct">53%</span>
-          <span class="proto-cnt">2038</span>
+          <div class="proto-bar-wrap"><div class="proto-bar" style="width:91%;background:#6366f1"></div></div>
+          <span class="proto-pct">91%</span>
+          <span class="proto-cnt">675</span>
         </div>
         <div class="proto-row">
           <span class="proto-name">VMess</span>
-          <div class="proto-bar-wrap">
-            <div class="proto-bar" style="width:35%;background:#f59e0b"></div>
-          </div>
-          <span class="proto-pct">35%</span>
-          <span class="proto-cnt">1328</span>
+          <div class="proto-bar-wrap"><div class="proto-bar" style="width:3%;background:#f59e0b"></div></div>
+          <span class="proto-pct">3%</span>
+          <span class="proto-cnt">25</span>
         </div>
         <div class="proto-row">
           <span class="proto-name">Trojan</span>
-          <div class="proto-bar-wrap">
-            <div class="proto-bar" style="width:7%;background:#22c55e"></div>
-          </div>
-          <span class="proto-pct">7%</span>
-          <span class="proto-cnt">263</span>
-        </div>
-        <div class="proto-row">
-          <span class="proto-name">Hysteria2</span>
-          <div class="proto-bar-wrap">
-            <div class="proto-bar" style="width:0%;background:#ef4444"></div>
-          </div>
-          <span class="proto-pct">0%</span>
-          <span class="proto-cnt">19</span>
+          <div class="proto-bar-wrap"><div class="proto-bar" style="width:2%;background:#22c55e"></div></div>
+          <span class="proto-pct">2%</span>
+          <span class="proto-cnt">17</span>
         </div>
         <div class="proto-row">
           <span class="proto-name">Shadowsocks</span>
-          <div class="proto-bar-wrap">
-            <div class="proto-bar" style="width:5%;background:#06b6d4"></div>
-          </div>
-          <span class="proto-pct">5%</span>
-          <span class="proto-cnt">196</span>
+          <div class="proto-bar-wrap"><div class="proto-bar" style="width:3%;background:#06b6d4"></div></div>
+          <span class="proto-pct">3%</span>
+          <span class="proto-cnt">22</span>
         </div>
-    </div>
-
-    <!-- История надёжности -->
-    <div class="panel">
-      <h2>📝 История надёжности</h2>
-      
-        <div class="hist-row">
-          <span>Серверов в базе</span><strong>4071</strong>
-        </div>
-        <div class="hist-row">
-          <span>Оценено (≥3 проверок)</span><strong>3267</strong>
-        </div>
-        <div class="hist-row">
-          <span>Средний uptime</span><strong>100%</strong>
-        </div>
-        <div class="hist-row">
-          <span>Надёжных (uptime ≥70%)</span>
-          <strong style="color:var(--green)">3265</strong>
-        </div>
-    </div>
-
+        <div class="proto-row">
+          <span class="proto-name">RU Bypass</span>
+          <div class="proto-bar-wrap"><div class="proto-bar" style="width:91%;background:#f43f5e"></div></div>
+          <span class="proto-pct">91%</span>
+          <span class="proto-cnt">675</span>
+        </div></div>
+  <div class="panel"><h2>📝 История надёжности</h2>
+    
+        <div class="hist-row"><span>Серверов в базе</span><strong>18706</strong></div>
+        <div class="hist-row"><span>Оценено (≥3 чек.)</span><strong>3415</strong></div>
+        <div class="hist-row"><span>Средний uptime</span><strong>100%</strong></div>
+        <div class="hist-row"><span>Надёжных (≥70%)</span><strong style="color:var(--green)">3412</strong></div>
   </div>
+</div>
 
-  <!-- Задержки -->
-  <div class="panel">
-    <h2>⏱ Задержка серверов (мс)</h2>
-    <div class="lat-grid">
-      <div class="lat-item"><div class="lv">1</div><div class="ll">MIN</div></div>
-      <div class="lat-item"><div class="lv">116</div><div class="ll">AVG</div></div>
-      <div class="lat-item"><div class="lv">45</div><div class="ll">P50</div></div>
-      <div class="lat-item"><div class="lv">253</div><div class="ll">P90</div></div>
-      <div class="lat-item"><div class="lv">3507</div><div class="ll">MAX</div></div>
-    </div>
+<div class="panel"><h2>⏱ Задержка (мс)</h2>
+  <div class="lat-grid">
+    <div class="lat-item"><div class="lv">10</div><div class="ll">MIN</div></div>
+    <div class="lat-item"><div class="lv">717</div><div class="ll">AVG</div></div>
+    <div class="lat-item"><div class="lv">493</div><div class="ll">P50</div></div>
+    <div class="lat-item"><div class="lv">1437</div><div class="ll">P90</div></div>
+    <div class="lat-item"><div class="lv">3540</div><div class="ll">MAX</div></div>
   </div>
+</div>
 
-  <!-- Страны -->
-  <div class="panel">
-    <h2>🌍 Топ стран</h2>
-    <table><tbody>
-        <tr>
-          <td class="rank">#1</td>
-          <td>🌐 Unknown</td>
-          <td><div class="mini-bar"><div style="width:34%"></div></div></td>
-          <td class="cnt-td">1290</td>
-        </tr>
-        <tr>
-          <td class="rank">#2</td>
-          <td>🌐 Canada</td>
-          <td><div class="mini-bar"><div style="width:28%"></div></div></td>
-          <td class="cnt-td">1078</td>
-        </tr>
-        <tr>
-          <td class="rank">#3</td>
-          <td>🌐 United States</td>
-          <td><div class="mini-bar"><div style="width:9%"></div></div></td>
-          <td class="cnt-td">349</td>
-        </tr>
-        <tr>
-          <td class="rank">#4</td>
-          <td>🌐 United Kingdom</td>
-          <td><div class="mini-bar"><div style="width:3%"></div></div></td>
-          <td class="cnt-td">117</td>
-        </tr>
-        <tr>
-          <td class="rank">#5</td>
-          <td>🌐 Germany</td>
-          <td><div class="mini-bar"><div style="width:3%"></div></div></td>
-          <td class="cnt-td">107</td>
-        </tr>
-        <tr>
-          <td class="rank">#6</td>
-          <td>🌐 Russia</td>
-          <td><div class="mini-bar"><div style="width:2%"></div></div></td>
-          <td class="cnt-td">90</td>
-        </tr>
-        <tr>
-          <td class="rank">#7</td>
-          <td>🌐 Netherlands</td>
-          <td><div class="mini-bar"><div style="width:2%"></div></div></td>
-          <td class="cnt-td">73</td>
-        </tr>
-        <tr>
-          <td class="rank">#8</td>
-          <td>🌐 France</td>
-          <td><div class="mini-bar"><div style="width:2%"></div></div></td>
-          <td class="cnt-td">68</td>
-        </tr>
-        <tr>
-          <td class="rank">#9</td>
-          <td>🌐 The Netherlands</td>
-          <td><div class="mini-bar"><div style="width:2%"></div></div></td>
-          <td class="cnt-td">66</td>
-        </tr>
-        <tr>
-          <td class="rank">#10</td>
-          <td>🌐 Japan</td>
-          <td><div class="mini-bar"><div style="width:2%"></div></div></td>
-          <td class="cnt-td">61</td>
-        </tr>
-        <tr>
-          <td class="rank">#11</td>
-          <td>🌐 Italy</td>
-          <td><div class="mini-bar"><div style="width:1%"></div></div></td>
-          <td class="cnt-td">46</td>
-        </tr>
-        <tr>
-          <td class="rank">#12</td>
-          <td>🌐 Hong Kong</td>
-          <td><div class="mini-bar"><div style="width:1%"></div></div></td>
-          <td class="cnt-td">44</td>
-        </tr></tbody></table>
-  </div>
+<div class="panel"><h2>🌍 Топ стран</h2><table><tbody><tr><td class='rank'>#1</td><td>🌐 Russia</td><td><div class='mini-bar'><div style='width:31%'></div></div></td><td class='cnt-td'>232</td></tr><tr><td class='rank'>#2</td><td>🌐 Canada</td><td><div class='mini-bar'><div style='width:19%'></div></div></td><td class='cnt-td'>144</td></tr><tr><td class='rank'>#3</td><td>🌐 Germany</td><td><div class='mini-bar'><div style='width:9%'></div></div></td><td class='cnt-td'>69</td></tr><tr><td class='rank'>#4</td><td>🌐 United Kingdom</td><td><div class='mini-bar'><div style='width:7%'></div></div></td><td class='cnt-td'>50</td></tr><tr><td class='rank'>#5</td><td>🌐 United States</td><td><div class='mini-bar'><div style='width:6%'></div></div></td><td class='cnt-td'>47</td></tr><tr><td class='rank'>#6</td><td>🌐 Unknown</td><td><div class='mini-bar'><div style='width:3%'></div></div></td><td class='cnt-td'>25</td></tr><tr><td class='rank'>#7</td><td>🌐 Netherlands</td><td><div class='mini-bar'><div style='width:3%'></div></div></td><td class='cnt-td'>19</td></tr><tr><td class='rank'>#8</td><td>🌐 Sweden</td><td><div class='mini-bar'><div style='width:2%'></div></div></td><td class='cnt-td'>18</td></tr><tr><td class='rank'>#9</td><td>🌐 Bulgaria</td><td><div class='mini-bar'><div style='width:2%'></div></div></td><td class='cnt-td'>13</td></tr><tr><td class='rank'>#10</td><td>🌐 Indonesia</td><td><div class='mini-bar'><div style='width:1%'></div></div></td><td class='cnt-td'>10</td></tr><tr><td class='rank'>#11</td><td>🌐 United Arab Emirates</td><td><div class='mini-bar'><div style='width:1%'></div></div></td><td class='cnt-td'>9</td></tr><tr><td class='rank'>#12</td><td>🌐 Japan</td><td><div class='mini-bar'><div style='width:1%'></div></div></td><td class='cnt-td'>8</td></tr></tbody></table></div>
 
-  <!-- Инструкция -->
-  <div class="howto">
-    <h2>📲 Как добавить подписку в Karing / Hiddify / v2rayN</h2>
-    <div class="step">
-      <div class="step-num">1</div>
-      <div>Скопируй URL нужного файла (кнопки ниже)</div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div>Открой приложение → «Добавить профиль» → вставь URL</div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div>Дай название → сохрани → подключайся</div>
-    </div>
-    <p style="margin-top:.7rem;font-size:.85rem;color:var(--muted)">
-      Для большинства случаев достаточно файла <strong>VLESS_WORKING.txt</strong>.
-      Если нужна максимальная надёжность — используй <strong>TOP50_RELIABLE.txt</strong>.
-    </p>
-    <div class="code-box" onclick="copyText(this,'https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/VLESS_WORKING.txt')">https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/VLESS_WORKING.txt</div>
-  </div>
-
-  <!-- Подписки -->
-  <div class="panel">
-    <h2>📥 Все файлы подписок</h2>
-    <div class="subs-grid">
-      
+<div class="panel"><h2>📥 Подписки — нажми для копирования URL</h2>
+  <div class="subs-grid">
         <div class="sub-card">
-          <div class="sub-label">✅ Все рабочие</div>
-          <div class="sub-count">3844</div>
+          <div class="sub-label">✅ Все рабочие <span style="font-size:.7rem;background:#22c55e22;color:#22c55e;padding:1px 6px;border-radius:4px">Karing ✓</span></div>
+          <div class="sub-count">739</div>
           <button class="copy-btn" onclick="copyUrl(this,'https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/VLESS_WORKING.txt')">📋 Копировать URL</button>
           <div class="sub-url">https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/VLESS_WORKING.txt</div>
         </div>
         <div class="sub-card">
-          <div class="sub-label">🇷🇺 Обход РКН (Reality)</div>
-          <div class="sub-count">313</div>
+          <div class="sub-label">🇷🇺 Обход РКН (Reality) <span style="font-size:.7rem;background:#22c55e22;color:#22c55e;padding:1px 6px;border-radius:4px">Karing ✓</span></div>
+          <div class="sub-count">675</div>
           <button class="copy-btn" onclick="copyUrl(this,'https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/RU_BYPASS.txt')">📋 Копировать URL</button>
           <div class="sub-url">https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/RU_BYPASS.txt</div>
         </div>
         <div class="sub-card">
           <div class="sub-label">🔷 VLESS</div>
-          <div class="sub-count">2038</div>
+          <div class="sub-count">675</div>
           <button class="copy-btn" onclick="copyUrl(this,'https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/VLESS_ONLY.txt')">📋 Копировать URL</button>
           <div class="sub-url">https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/VLESS_ONLY.txt</div>
         </div>
         <div class="sub-card">
           <div class="sub-label">🔶 VMess</div>
-          <div class="sub-count">1328</div>
+          <div class="sub-count">25</div>
           <button class="copy-btn" onclick="copyUrl(this,'https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/VMESS_ONLY.txt')">📋 Копировать URL</button>
           <div class="sub-url">https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/VMESS_ONLY.txt</div>
         </div>
         <div class="sub-card">
           <div class="sub-label">🐴 Trojan</div>
-          <div class="sub-count">263</div>
+          <div class="sub-count">17</div>
           <button class="copy-btn" onclick="copyUrl(this,'https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/TROJAN_ONLY.txt')">📋 Копировать URL</button>
           <div class="sub-url">https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/TROJAN_ONLY.txt</div>
         </div>
         <div class="sub-card">
-          <div class="sub-label">⚡ Hysteria2</div>
-          <div class="sub-count">19</div>
-          <button class="copy-btn" onclick="copyUrl(this,'https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/HYSTERIA_ONLY.txt')">📋 Копировать URL</button>
-          <div class="sub-url">https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/HYSTERIA_ONLY.txt</div>
-        </div>
-        <div class="sub-card">
           <div class="sub-label">🔲 Shadowsocks</div>
-          <div class="sub-count">196</div>
+          <div class="sub-count">22</div>
           <button class="copy-btn" onclick="copyUrl(this,'https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/SS_ONLY.txt')">📋 Копировать URL</button>
           <div class="sub-url">https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/SS_ONLY.txt</div>
         </div>
@@ -386,34 +191,13 @@
           <div class="sub-count">50</div>
           <button class="copy-btn" onclick="copyUrl(this,'https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/TOP50_RELIABLE.txt')">📋 Копировать URL</button>
           <div class="sub-url">https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output/TOP50_RELIABLE.txt</div>
-        </div>
-    </div>
-  </div>
+        </div></div>
+</div>
 
-  <footer>
-    Обновляется каждый час автоматически через GitHub Actions •
-    Все серверы проходят TCP + TLS проверку •
-    <a href="https://github.com/vit352018/Claude-VPN-Parcer">GitHub</a>
-  </footer>
-
+<footer>Обновляется каждый час · GitHub Actions · TCP+TLS проверка всех серверов</footer>
 </div>
 <script>
-function copyUrl(btn, url) {
-  navigator.clipboard.writeText(url).then(() => {
-    btn.textContent = '✅ Скопировано!';
-    btn.classList.add('ok');
-    setTimeout(() => { btn.textContent = '📋 Копировать URL'; btn.classList.remove('ok'); }, 2000);
-  });
-}
-function copyText(el, text) {
-  navigator.clipboard.writeText(text).then(() => {
-    const orig = el.textContent;
-    el.textContent = '✅ Скопировано!';
-    setTimeout(() => el.textContent = orig, 2000);
-  });
-}
-// Авто-обновление страницы каждые 5 минут
-setTimeout(() => location.reload(), 5 * 60 * 1000);
-</script>
-</body>
-</html>
+function copyUrl(btn,url){navigator.clipboard.writeText(url).then(()=>{btn.textContent='✅ Скопировано!';btn.classList.add('ok');setTimeout(()=>{btn.textContent='📋 Копировать URL';btn.classList.remove('ok')},2000)})}
+function copyText(el,text){navigator.clipboard.writeText(text).then(()=>{const o=el.textContent;el.textContent='✅ Скопировано!';setTimeout(()=>el.textContent=o,2000)})}
+setTimeout(()=>location.reload(),5*60*1000);
+</script></body></html>
