@@ -23,6 +23,7 @@ from geoip         import geolocate_hosts
 from writer        import write_all_outputs
 from html_gen      import generate_html
 from yandex_upload import upload_all
+from yandex_s3     import upload_all as yandex_s3_upload
 from tg_notify     import send_report, send_error
 from history       import update as history_update, get_scores_bulk, prune_old
 
@@ -233,10 +234,32 @@ async def main():
 
         # ── 9. Яндекс Диск ────────────────────────────────────────────────────
         yd_result = None
-        if (cfg.YANDEX_TOKEN or (cfg.YANDEX_LOGIN and cfg.YANDEX_PASS)) and time_left() > 60:
-            log.info("☁️  ШАГ 9 — Яндекс Диск…  (%.0f сек)", elapsed())
+
+        # ── 9a. Yandex Object Storage (S3) — постоянные прямые ссылки ────────
+        if cfg.YANDEX_S3_BUCKET and cfg.YANDEX_S3_ACCESS_KEY and time_left() > 60:
+            log.info("☁️  ШАГ 9a — Yandex Object Storage (S3)…  (%.0f сек)", elapsed())
             try:
-                yd_result = await asyncio.wait_for(
+                s3_result = await asyncio.wait_for(
+                    yandex_s3_upload(
+                        bucket=cfg.YANDEX_S3_BUCKET,
+                        access_key=cfg.YANDEX_S3_ACCESS_KEY,
+                        secret_key=cfg.YANDEX_S3_SECRET_KEY,
+                    ),
+                    timeout=90,
+                )
+                yd_result = s3_result
+            except asyncio.TimeoutError:
+                log.warning("   Yandex S3: таймаут")
+            except Exception as e:
+                log.warning("   Yandex S3: %s", e)
+        else:
+            log.info("☁️  ШАГ 9a — Yandex S3 пропущен (нет YANDEX_S3_BUCKET)")
+
+        # ── 9b. Яндекс Диск (запасной, без гарантии постоянных ссылок) ───────
+        if (cfg.YANDEX_TOKEN or (cfg.YANDEX_LOGIN and cfg.YANDEX_PASS)) and time_left() > 60:
+            log.info("☁️  ШАГ 9b — Яндекс Диск…  (%.0f сек)", elapsed())
+            try:
+                disk_result = await asyncio.wait_for(
                     upload_all(
                         token=cfg.YANDEX_TOKEN,
                         login=cfg.YANDEX_LOGIN,
@@ -244,12 +267,14 @@ async def main():
                     ),
                     timeout=90,
                 )
+                if yd_result is None:
+                    yd_result = disk_result
             except asyncio.TimeoutError:
                 log.warning("   Яндекс Диск: таймаут")
             except Exception as e:
                 log.warning("   Яндекс Диск: %s", e)
         else:
-            log.info("☁️  ШАГ 9 — Яндекс Диск пропущен")
+            log.info("☁️  ШАГ 9b — Яндекс Диск пропущен")
 
         # ── 10. Telegram ───────────────────────────────────────────────────────
         elapsed_total = int(elapsed())
