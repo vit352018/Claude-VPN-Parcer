@@ -21,6 +21,27 @@
     "configs_found": 4414
   },
   {
+    "name": "0xRadikal/Free-v2ray-Configs (auto)",
+    "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/configs.txt",
+    "type": "raw",
+    "stars": 7,
+    "configs_found": 2682
+  },
+  {
+    "name": "0xRadikal/Free-v2ray-Configs (auto)",
+    "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/configs_base64.txt",
+    "type": "raw",
+    "stars": 7,
+    "configs_found": 2682
+  },
+  {
+    "name": "0xRadikal/Free-v2ray-Configs (auto)",
+    "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/heavy/configs.txt",
+    "type": "raw",
+    "stars": 7,
+    "configs_found": 2492
+  },
+  {
     "name": "xyfqzy/free-nodes (auto)",
     "url": "https://raw.githubusercontent.com/xyfqzy/free-nodes/main/nodes/v2ray.txt",
     "type": "raw",
