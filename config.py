@@ -20,9 +20,13 @@ GITHUB_USERNAME, _, GITHUB_REPO = _repo.partition("/")
 RAW_BASE  = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{GITHUB_REPO}/main/output"
 PAGES_URL = f"https://{GITHUB_USERNAME}.github.io/{GITHUB_REPO}/"
 
-# Яндекс Диск — OAuth-токен (рекомендуется, даёт прямые ссылки для Karing)
+# Яндекс Object Storage (S3) — даёт ПОСТОЯННЫЕ прямые ссылки, читается Karing
+YANDEX_S3_BUCKET     : str = os.environ.get("YANDEX_S3_BUCKET",     "").strip()
+YANDEX_S3_ACCESS_KEY : str = os.environ.get("YANDEX_S3_ACCESS_KEY", "").strip()
+YANDEX_S3_SECRET_KEY : str = os.environ.get("YANDEX_S3_SECRET_KEY", "").strip()
+
+# Яндекс Диск — запасные варианты (без гарантии постоянных прямых ссылок)
 YANDEX_TOKEN  : str = os.environ.get("YANDEX_TOKEN",  "").strip()
-# Запасной вариант: логин + пароль приложения (WebDAV)
 YANDEX_LOGIN  : str = os.environ.get("YANDEX_LOGIN",  "").strip()
 YANDEX_PASS   : str = os.environ.get("YANDEX_PASS",   "").strip()
 YANDEX_FOLDER : str = os.environ.get("YANDEX_FOLDER", "vless-collector").strip()
