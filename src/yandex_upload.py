@@ -1,16 +1,34 @@
 """
-yandex_upload.py — загружает файлы на Яндекс Диск.
+yandex_upload.py — загружает файлы на Яндекс Диск с ПОСТОЯННЫМИ ссылками.
 
 Два режима:
   1. OAuth-токен (YANDEX_TOKEN) — рекомендуется.
-     Загружает файлы через REST API, открывает папку публично,
-     получает прямые ссылки для скачивания — именно их читает Karing.
+     Загружает файлы → публикует КАЖДЫЙ файл индивидуально →
+     получает постоянную ссылку вида https://disk.yandex.ru/i/<hash>
 
   2. WebDAV (YANDEX_LOGIN + YANDEX_PASS) — запасной вариант.
-     Загружает файлы, но прямые ссылки недоступны.
-     Нужно вручную открыть папку на disk.yandex.ru.
+     Загружает файлы, но без постоянных ссылок.
 
-Как получить OAuth-токен (5 минут):
+─────────────────────────────────────────────────────────────────────────
+ПОЧЕМУ ССЫЛКА /i/<hash> ПОСТОЯННАЯ:
+
+  Когда файл публикуется индивидуально через API publish,
+  Яндекс выдаёт хэш привязанный к ПУТИ файла на диске
+  (например vless-collector/VLESS_WORKING.txt).
+
+  Хэш НЕ меняется при перезаписи файла по тому же пути —
+  только если файл "распубликовать" вручную.
+
+  Сама ссылка https://disk.yandex.ru/i/<hash> — это редирект (HTTP 302).
+  При каждом запросе Яндекс генерирует свежую временную ссылку
+  на текущее содержимое файла и сразу переадресует на неё.
+
+  Karing (как и любой нормальный HTTP-клиент) автоматически следует
+  за редиректами — поэтому ссылка /i/<hash> работает БЕССРОЧНО,
+  всегда отдавая актуальное содержимое файла.
+
+─────────────────────────────────────────────────────────────────────────
+КАК ПОЛУЧИТЬ OAuth-ТОКЕН (5 минут):
   1. https://oauth.yandex.ru/ → "Зарегистрировать приложение"
   2. Название: vless-collector, Платформа: Веб-сервисы
   3. Redirect URI: https://oauth.yandex.ru/verification_code
@@ -70,23 +88,39 @@ async def ensure_folder(session, folder: str) -> bool:
     return False
 
 
-async def publish_folder(session, folder: str) -> str | None:
-    """Открывает папку публично, возвращает public_key."""
-    async with session.put(f"{YADISK_API}/resources/publish", params={"path": folder},
-                           timeout=aiohttp.ClientTimeout(total=30)) as resp:
+async def publish_resource(session, path: str) -> str | None:
+    """
+    Публикует ресурс (файл или папку) индивидуально и возвращает
+    постоянную публичную ссылку (public_url).
+
+    Для файлов это обычно https://disk.yandex.ru/i/<hash>
+    Эта ссылка не меняется при перезаписи файла по тому же пути.
+    """
+    async with session.put(
+        f"{YADISK_API}/resources/publish",
+        params={"path": path},
+        timeout=aiohttp.ClientTimeout(total=30),
+    ) as resp:
         if resp.status not in (200, 201, 409):
-            log.warning("⚠️  Публикация папки: HTTP %s", resp.status)
+            log.warning("  ⚠️  Публикация %s: HTTP %s", path, resp.status)
             return None
-    data, status = await _api_get(session, f"{YADISK_API}/resources",
-                                  {"path": folder, "fields": "public_key,public_url"})
+
+    data, status = await _api_get(
+        session, f"{YADISK_API}/resources",
+        {"path": path, "fields": "public_key,public_url"},
+    )
     if status == 200:
-        log.info("🌐 Публичная ссылка: %s", data.get("public_url", ""))
-        return data.get("public_key")
+        return data.get("public_url")
     return None
 
 
-async def upload_file_api(session, local_path: Path, remote_folder: str) -> tuple[bool, str | None]:
-    """Загружает файл через REST API. Возвращает (успех, прямая_ссылка)."""
+async def upload_file_api(
+    session, local_path: Path, remote_folder: str,
+) -> tuple[bool, str | None]:
+    """
+    Загружает файл и публикует его индивидуально.
+    Возвращает (успех, постоянная_ссылка disk.yandex.ru/i/<hash>).
+    """
     if not local_path.exists():
         log.warning("  Файл не найден: %s", local_path.name)
         return False, None
@@ -112,11 +146,9 @@ async def upload_file_api(session, local_path: Path, remote_folder: str) -> tupl
 
         log.info("  ✅ %-25s (%d байт)", local_path.name, len(data_bytes))
 
-        # Шаг 3: получить прямую ссылку для скачивания
-        dl_data, dl_status = await _api_get(session, f"{YADISK_API}/resources/download",
-                                            {"path": remote_path})
-        direct_url = dl_data.get("href") if dl_status == 200 else None
-        return True, direct_url
+        # Шаг 3: публикуем файл индивидуально → постоянная ссылка /i/<hash>
+        permanent_url = await publish_resource(session, remote_path)
+        return True, permanent_url
 
     except Exception as e:
         log.error("  💥 %-25s %s", local_path.name, e)
@@ -125,31 +157,31 @@ async def upload_file_api(session, local_path: Path, remote_folder: str) -> tupl
 
 def _save_links(links: dict[str, str], raw_base: str):
     """
-    Сохраняет все ссылки в output/yadisk_links.txt.
+    Сохраняет постоянные ссылки в output/yadisk_links.txt.
 
     Содержит:
-    - Постоянные ссылки с GitHub (рекомендуются для Karing)
-    - Временные прямые ссылки с Яндекс Диска (~30 минут)
+    - Постоянные ссылки с GitHub (raw.githubusercontent.com)
+    - Постоянные ссылки с Яндекс Диска (disk.yandex.ru/i/<hash>)
+      Обе категории НЕ истекают и работают всегда.
     """
     lines = [
         "# ═══════════════════════════════════════════════════════",
         "# Ссылки для подписок Karing / Hiddify / v2rayN",
+        "# Все ссылки ниже ПОСТОЯННЫЕ — не истекают.",
         "# ═══════════════════════════════════════════════════════",
         "",
-        "# ПОСТОЯННЫЕ ссылки (GitHub) — рекомендуются:",
-        "# Работают всегда, обновляются каждый час.",
+        "# ── GitHub (если не в белом списке — используй Яндекс ниже) ──",
         "",
     ]
     for filename in FILES_TO_UPLOAD:
-        if filename.endswith((".txt",)):
+        if filename.endswith(".txt"):
             lines.append(f"# {filename}:")
             lines.append(f"{raw_base}/{filename}")
             lines.append("")
 
     lines += [
         "",
-        "# ВРЕМЕННЫЕ прямые ссылки Яндекс Диска (~30 минут):",
-        "# Обновляются при каждом запуске бота.",
+        "# ── Яндекс Диск (постоянные, через редирект disk.yandex.ru/i/...) ──",
         "",
     ]
     for filename, url in sorted(links.items()):
@@ -168,27 +200,26 @@ async def _upload_via_api(token: str, raw_base: str) -> dict:
     headers   = {"Authorization": f"OAuth {token}", "Accept": "application/json"}
     connector = aiohttp.TCPConnector(ssl=True)
     results   = {"uploaded": 0, "failed": 0, "skipped": 0}
-    dl_links: dict[str, str] = {}
+    permalinks: dict[str, str] = {}
 
     async with aiohttp.ClientSession(headers=headers, connector=connector) as session:
         if not await ensure_folder(session, REMOTE_FOLDER):
             return results
-        await publish_folder(session, REMOTE_FOLDER)
 
         for filename in FILES_TO_UPLOAD:
             local_path = OUTPUT_DIR / filename
             if not local_path.exists():
                 results["skipped"] += 1; continue
-            ok, direct_url = await upload_file_api(session, local_path, REMOTE_FOLDER)
+            ok, permanent_url = await upload_file_api(session, local_path, REMOTE_FOLDER)
             if ok:
                 results["uploaded"] += 1
-                if direct_url:
-                    dl_links[filename] = direct_url
+                if permanent_url:
+                    permalinks[filename] = permanent_url
             else:
                 results["failed"] += 1
 
-    if dl_links:
-        _save_links(dl_links, raw_base)
+    if permalinks:
+        _save_links(permalinks, raw_base)
 
     log.info("☁️  API: загружено=%d  ошибок=%d  пропущено=%d",
              results["uploaded"], results["failed"], results["skipped"])
@@ -198,11 +229,11 @@ async def _upload_via_api(token: str, raw_base: str) -> dict:
 # ── WebDAV (запасной вариант) ─────────────────────────────────────────────────
 
 async def _upload_via_webdav(login: str, password: str) -> dict:
-    """Загрузка через WebDAV. Прямые ссылки недоступны."""
+    """Загрузка через WebDAV. Постоянные ссылки недоступны."""
     log.info("☁️  Яндекс Диск WebDAV (логин: %s)…", login)
     log.warning(
-        "⚠️  WebDAV не поддерживает прямые ссылки для Karing.\n"
-        "    Для работы с Karing настрой YANDEX_TOKEN (OAuth).\n"
+        "⚠️  WebDAV не даёт постоянных ссылок.\n"
+        "    Для постоянных ссылок настрой YANDEX_TOKEN (OAuth).\n"
         "    Инструкция: читай комментарий в yandex_upload.py"
     )
     WEBDAV    = "https://webdav.yandex.ru"

@@ -114,9 +114,10 @@ def write_all_outputs(
         else:                                            buckets["other"].append((config_str, lat))
         buckets["all"].append((config_str, lat))
 
-        # RU_BYPASS: из RU-источника ИЛИ Reality/XTLS по параметрам
-        key = config_str.split("#")[0].rstrip("?& ")
-        if key in ru_keys or is_russia_bypass(config_str):
+        # RU_BYPASS: ТОЛЬКО реальный Reality/XTLS — источник не учитываем.
+        # Простой "пришёл из RU-репозитория" не гарантирует обход ТСПУ:
+        # там могут быть и обычные VLESS+TLS, которые DPI распознаёт.
+        if is_russia_bypass(config_str):
             buckets["ru_bypass"].append((config_str, lat))
 
         host = _get_host(config_str)
