@@ -6,7 +6,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 # ================= НАСТРОЙКИ =================
-TELEGRAM_TOKEN = os.getenv("TG_BOT_TOKEN")
+TELEGRAM_TOKEN = os.getenv("TG_BOT_TOKENR")
 GITHUB_TOKEN = os.getenv("GH_PAT")
 REPO_OWNER = "vit352018"           # ←←← ИЗМЕНИ НА СВОЙ
 REPO_NAME = "Claude-VPN-Parcer" # ←←← ИЗМЕНИ НА СВОЙ
