@@ -40,7 +40,7 @@ jobs:
       - name: Check if update needed
         id: check
         run: |
-          # Пропускаем запуск если последнее обновление было меньше 55 минут назад.
+          # Пропускаем запуск если последнее обновление было меньше 20 минут назад.
           # Это нужно чтобы при частом cron не обновляться слишком часто.
           SKIP=false
           if [ -f output/stats.json ]; then
@@ -56,7 +56,7 @@ jobs:
               print(9999)
           " 2>/dev/null || echo "9999")
             echo "Секунд с последнего обновления: $UPDATED"
-            if [ "$UPDATED" -lt 3300 ]; then
+            if [ "$UPDATED" -lt 1200 ]; then
               echo "Обновление было менее 55 минут назад — пропускаем"
               SKIP=true
             fi
