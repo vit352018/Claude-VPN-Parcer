@@ -77,6 +77,13 @@
     "configs_found": 639
   },
   {
+    "name": "cbusifabcap/daily_free_vpn (auto)",
+    "url": "https://raw.githubusercontent.com/cbusifabcap/daily_free_vpn/main/sub.txt",
+    "type": "raw",
+    "stars": 23,
+    "configs_found": 615
+  },
+  {
     "name": "xiaoji235/airport-free (auto)",
     "url": "https://raw.githubusercontent.com/xiaoji235/airport-free/main/v2ray/clashnodecc.txt",
     "type": "raw",
