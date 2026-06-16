@@ -20,17 +20,22 @@ def trigger_workflow():
     
     data = {"ref": "main"}
 
-    response = requests.post(url, headers=headers, json=data)
-    
-    if response.status_code == 204:
-        print(f"[{datetime.now()}] ✅ Workflow успешно запущен")
-        return True
-    else:
-        print(f"[{datetime.now()}] ❌ Ошибка {response.status_code}: {response.text}")
+    try:
+        response = requests.post(url, headers=headers, json=data, timeout=10)
+        if response.status_code == 204:
+            print(f"[{datetime.now()}] ✅ Workflow запущен успешно")
+            return True
+        else:
+            print(f"[{datetime.now()}] ❌ Ошибка {response.status_code}")
+            return False
+    except Exception as e:
+        print(f"[{datetime.now()}] Ошибка соединения: {e}")
         return False
 
+
 if __name__ == "__main__":
-    print("Запуск Runner...")
+    print("Runner запущен. Будет запускать workflow каждые 15 минут.")
+    
     while True:
         trigger_workflow()
-        time.sleep(900)  # 900 секунд = 15 минут
+        time.sleep(900)   # 900 секунд = 15 минут
