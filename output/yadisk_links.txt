@@ -543,3 +543,37 @@ https://storage.yandexcloud.net/vless-collector/VLESS_WORKING.txt
 
 # VMESS_ONLY.txt:
 https://storage.yandexcloud.net/vless-collector/VMESS_ONLY.txt
+
+# ═══════════════════════════════════════════════════════
+# Постоянные ссылки — Yandex Object Storage
+# Никогда не истекают, отдают сырой текст напрямую.
+# ═══════════════════════════════════════════════════════
+
+# Бакет: vless-collector
+
+# HYSTERIA_ONLY.txt:
+https://storage.yandexcloud.net/vless-collector/HYSTERIA_ONLY.txt
+
+# RU_BYPASS.txt:
+https://storage.yandexcloud.net/vless-collector/RU_BYPASS.txt
+
+# SS_ONLY.txt:
+https://storage.yandexcloud.net/vless-collector/SS_ONLY.txt
+
+# TOP50.txt:
+https://storage.yandexcloud.net/vless-collector/TOP50.txt
+
+# TOP50_RELIABLE.txt:
+https://storage.yandexcloud.net/vless-collector/TOP50_RELIABLE.txt
+
+# TROJAN_ONLY.txt:
+https://storage.yandexcloud.net/vless-collector/TROJAN_ONLY.txt
+
+# VLESS_ONLY.txt:
+https://storage.yandexcloud.net/vless-collector/VLESS_ONLY.txt
+
+# VLESS_WORKING.txt:
+https://storage.yandexcloud.net/vless-collector/VLESS_WORKING.txt
+
+# VMESS_ONLY.txt:
+https://storage.yandexcloud.net/vless-collector/VMESS_ONLY.txt
