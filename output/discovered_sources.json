@@ -119,6 +119,13 @@
     "configs_found": 200
   },
   {
+    "name": "Barabama/FreeNodes (auto)",
+    "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/feat/ai-crawler-v2/nodes/clashnode.txt",
+    "type": "raw",
+    "stars": 2852,
+    "configs_found": 198
+  },
+  {
     "name": "MahanKenway/Freedom-V2Ray (auto)",
     "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/vless.txt",
     "type": "raw",
