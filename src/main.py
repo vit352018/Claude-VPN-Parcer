@@ -1,5 +1,18 @@
 """
 main.py — главный пайплайн с жёстким таймаутом 12 минут.
+
+Шаги:
+  1.  Поиск новых источников (раз в сутки)
+  2.  Сбор с GitHub + Telegram
+  3.  Дедупликация + лимит MAX_CONFIGS
+  4.  Тест TCP + TLS
+  5.  История надёжности
+  6.  Геолокация
+  7.  Запись файлов (включая RU_BYPASS и UNIVERSAL_BL_WT)
+  8.  HTML-дашборд
+  9a. Yandex Object Storage (S3)
+  9b. Яндекс Диск (запасной)
+  10. Telegram-уведомление
 """
 import asyncio
 import base64
@@ -34,9 +47,7 @@ logging.basicConfig(
 )
 log = logging.getLogger("main")
 
-# Жёсткий дедлайн — за сколько секунд должно уложиться всё
-HARD_DEADLINE = 12 * 60   # 12 минут
-
+HARD_DEADLINE    = 12 * 60   # 12 минут максимум
 DISCOVERY_MARKER = Path(__file__).parent.parent / "output" / ".last_discovery"
 
 
@@ -55,12 +66,11 @@ def _mark_discovery():
 
 
 def _parse(cfg_str: str):
-    """Вытаскивает (host, port, sni) из строки конфига."""
     try:
         if cfg_str.lower().startswith("vmess://"):
             b64 = cfg_str[8:].split("#")[0].split("?")[0]
             b64 += "=" * (-len(b64) % 4)
-            d    = _json.loads(base64.b64decode(b64).decode("utf-8", errors="ignore"))
+            d   = _json.loads(base64.b64decode(b64).decode("utf-8", errors="ignore"))
             h, p, s = str(d.get("add", "")), int(d.get("port", 0)), d.get("sni")
             return (h, p, s) if h and p else None
         else:
@@ -76,58 +86,54 @@ def _parse(cfg_str: str):
 async def main():
     t_start = time.monotonic()
 
-    def elapsed():
-        return time.monotonic() - t_start
+    def elapsed():  return time.monotonic() - t_start
+    def time_left(): return HARD_DEADLINE - elapsed()
 
-    def time_left():
-        return HARD_DEADLINE - elapsed()
-
-    log.info("=" * 60)
+    log.info("=" * 62)
     log.info("🚀 VLESS Collector  %s  (дедлайн %d мин)",
              datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
              HARD_DEADLINE // 60)
-    log.info("=" * 60)
+    log.info("=" * 62)
 
     try:
-        # ── 1. Поиск новых источников (раз в сутки, макс 60 сек) ─────────────
+        # ── 1. Поиск новых источников (раз в сутки) ───────────────────────────
         if _should_discover() and time_left() > 120:
             log.info("🔍 ШАГ 1 — Поиск новых источников…")
             try:
                 from source_discovery import discover_new_sources
                 new = await asyncio.wait_for(
-                    discover_new_sources(max_new=5),
-                    timeout=60,
+                    discover_new_sources(max_new=5), timeout=60
                 )
-                log.info("   Найдено новых: %d  (%.0f сек)", len(new), elapsed())
+                log.info("   Найдено: %d  (%.0f сек)", len(new), elapsed())
                 _mark_discovery()
             except asyncio.TimeoutError:
-                log.warning("   Поиск источников: таймаут 60 сек, пропускаем")
+                log.warning("   Поиск: таймаут 60 сек")
             except Exception as e:
-                log.warning("   Поиск источников: %s", e)
+                log.warning("   Поиск: %s", e)
         else:
             log.info("🔍 ШАГ 1 — Пропущен")
 
-        # ── 2. Сбор конфигов (макс 90 сек) ───────────────────────────────────
-        log.info("📥 ШАГ 2 — Сбор из источников…  (%.0f сек)", elapsed())
+        # ── 2. Сбор конфигов ──────────────────────────────────────────────────
+        log.info("📥 ШАГ 2 — Сбор конфигов…  (%.0f сек)", elapsed())
         try:
-            github_cfgs, ru_keys = await asyncio.wait_for(
+            github_cfgs, ru_keys, universal_keys = await asyncio.wait_for(
                 collect_all(), timeout=90
             )
         except asyncio.TimeoutError:
-            log.warning("   GitHub: таймаут, берём пустой список")
-            github_cfgs, ru_keys = [], set()
+            log.warning("   GitHub: таймаут")
+            github_cfgs, ru_keys, universal_keys = [], set(), set()
 
         try:
             tg_cfgs = await asyncio.wait_for(
                 collect_from_telegram(), timeout=60
             )
         except asyncio.TimeoutError:
-            log.warning("   Telegram: таймаут, пропускаем")
+            log.warning("   Telegram: таймаут")
             tg_cfgs = []
 
         all_raw = github_cfgs + tg_cfgs
-        log.info("   Найдено: %d  RU: %d  (%.0f сек)",
-                 len(all_raw), len(ru_keys), elapsed())
+        log.info("   Найдено: %d  RU: %d  Universal: %d  (%.0f сек)",
+                 len(all_raw), len(ru_keys), len(universal_keys), elapsed())
 
         # ── 3. Дедупликация ───────────────────────────────────────────────────
         seen, unique = set(), []
@@ -141,29 +147,26 @@ async def main():
         if not unique:
             raise RuntimeError("Нет конфигов из источников")
 
-        # ── 3.5. Лимит конфигов — RU идут первыми ────────────────────────────
+        # Лимит — RU и Universal идут первыми
         limit = cfg.MAX_CONFIGS
         if len(unique) > limit:
-            ru_first = [c for c in unique
-                        if c.split("#")[0].rstrip("?& ") in ru_keys]
-            rest     = [c for c in unique
-                        if c.split("#")[0].rstrip("?& ") not in ru_keys]
-            slots    = max(0, limit - len(ru_first))
-            unique   = ru_first + rest[:slots]
-            log.info("   Обрезано до %d (RU: %d + остальные: %d)",
-                     len(unique), len(ru_first), slots)
+            priority_keys = ru_keys | universal_keys
+            prio  = [c for c in unique if c.split("#")[0].rstrip("?& ") in priority_keys]
+            rest  = [c for c in unique if c.split("#")[0].rstrip("?& ") not in priority_keys]
+            slots = max(0, limit - len(prio))
+            unique = prio + rest[:slots]
+            log.info("   Лимит %d: приоритет %d + остальные %d",
+                     limit, len(prio), slots)
 
         # ── 4. Тест серверов ──────────────────────────────────────────────────
-        # Вычисляем сколько времени есть на тест
-        test_budget = min(int(time_left()) - 180, 480)  # оставляем 3 мин на финал
+        test_budget = min(int(time_left()) - 180, 480)
         if test_budget < 30:
-            log.warning("⏰ Мало времени на тест (%d сек) — пропускаем", test_budget)
             raise RuntimeError("Закончилось время до тестирования")
 
         log.info("🔍 ШАГ 4 — Тест %d конфигов (бюджет %d сек)…",
                  len(unique), test_budget)
 
-        targets: list   = []
+        targets:   list = []
         cfg_by_hp: dict = {}
         for c in unique:
             t = _parse(c)
@@ -177,7 +180,7 @@ async def main():
                 timeout=test_budget,
             )
         except asyncio.TimeoutError:
-            log.warning("   Тест: таймаут %d сек — используем частичные результаты", test_budget)
+            log.warning("   Тест: таймаут %d сек — частичные результаты", test_budget)
             test_results = []
 
         working: list = []
@@ -208,19 +211,17 @@ async def main():
         history_update(ok_h, all_h)
         score_map = get_scores_bulk(list(ok_h))
 
-        # ── 6. Геолокация (макс 60 сек) ───────────────────────────────────────
+        # ── 6. Геолокация ─────────────────────────────────────────────────────
         log.info("🌍 ШАГ 6 — Геолокация…  (%.0f сек)", elapsed())
         hosts = list({urlparse(c).hostname or "" for c, _ in working
                       if urlparse(c).hostname})
         try:
-            geo_map = await asyncio.wait_for(
-                geolocate_hosts(hosts), timeout=60
-            )
+            geo_map = await asyncio.wait_for(geolocate_hosts(hosts), timeout=60)
         except asyncio.TimeoutError:
-            log.warning("   Геолокация: таймаут, пропускаем")
+            log.warning("   Геолокация: таймаут")
             geo_map = {}
 
-        # ── 7-8. Запись файлов + HTML ──────────────────────────────────────────
+        # ── 7. Запись файлов ──────────────────────────────────────────────────
         log.info("💾 ШАГ 7 — Запись файлов…  (%.0f сек)", elapsed())
         stats = write_all_outputs(
             working,
@@ -228,18 +229,19 @@ async def main():
             tls_map=tls_map,
             score_map=score_map,
             ru_keys=ru_keys,
+            universal_keys=universal_keys,
         )
+
+        # ── 8. HTML ───────────────────────────────────────────────────────────
         log.info("🌐 ШАГ 8 — HTML-дашборд…")
         generate_html(stats)
 
-        # ── 9. Яндекс Диск ────────────────────────────────────────────────────
+        # ── 9a. Yandex Object Storage (S3) ────────────────────────────────────
         yd_result = None
-
-        # ── 9a. Yandex Object Storage (S3) — постоянные прямые ссылки ────────
         if cfg.YANDEX_S3_BUCKET and cfg.YANDEX_S3_ACCESS_KEY and time_left() > 60:
-            log.info("☁️  ШАГ 9a — Yandex Object Storage (S3)…  (%.0f сек)", elapsed())
+            log.info("☁️  ШАГ 9a — Yandex Object Storage…  (%.0f сек)", elapsed())
             try:
-                s3_result = await asyncio.wait_for(
+                yd_result = await asyncio.wait_for(
                     yandex_s3_upload(
                         bucket=cfg.YANDEX_S3_BUCKET,
                         access_key=cfg.YANDEX_S3_ACCESS_KEY,
@@ -247,15 +249,14 @@ async def main():
                     ),
                     timeout=90,
                 )
-                yd_result = s3_result
             except asyncio.TimeoutError:
                 log.warning("   Yandex S3: таймаут")
             except Exception as e:
                 log.warning("   Yandex S3: %s", e)
         else:
-            log.info("☁️  ШАГ 9a — Yandex S3 пропущен (нет YANDEX_S3_BUCKET)")
+            log.info("☁️  ШАГ 9a — Yandex S3 пропущен")
 
-        # ── 9b. Яндекс Диск (запасной, без гарантии постоянных ссылок) ───────
+        # ── 9b. Яндекс Диск (запасной) ────────────────────────────────────────
         if (cfg.YANDEX_TOKEN or (cfg.YANDEX_LOGIN and cfg.YANDEX_PASS)) and time_left() > 60:
             log.info("☁️  ШАГ 9b — Яндекс Диск…  (%.0f сек)", elapsed())
             try:
@@ -276,7 +277,7 @@ async def main():
         else:
             log.info("☁️  ШАГ 9b — Яндекс Диск пропущен")
 
-        # ── 10. Telegram ───────────────────────────────────────────────────────
+        # ── 10. Telegram ──────────────────────────────────────────────────────
         elapsed_total = int(elapsed())
         if cfg.TG_BOT_TOKEN and cfg.TG_CHAT_ID:
             log.info("📨 ШАГ 10 — Telegram…")
@@ -288,20 +289,19 @@ async def main():
             except Exception as e:
                 log.warning("   Telegram: %s", e)
 
-        log.info("=" * 60)
-        log.info("🏁 ГОТОВО за %d сек | серверов: %d | RU: %d",
+        log.info("=" * 62)
+        log.info("🏁 ГОТОВО за %d сек | всего: %d | RU: %d | Universal: %d",
                  elapsed_total,
                  stats["total_working"],
-                 stats["by_protocol"].get("ru_bypass", 0))
-        log.info("=" * 60)
+                 stats["by_protocol"].get("ru_bypass", 0),
+                 stats["by_protocol"].get("universal", 0))
+        log.info("=" * 62)
 
     except Exception as e:
         log.error("💥 %s\n%s", e, traceback.format_exc())
         if cfg.TG_BOT_TOKEN and cfg.TG_CHAT_ID:
             try:
-                await asyncio.wait_for(
-                    send_error(traceback.format_exc()), timeout=10
-                )
+                await asyncio.wait_for(send_error(traceback.format_exc()), timeout=10)
             except Exception:
                 pass
         sys.exit(1)
