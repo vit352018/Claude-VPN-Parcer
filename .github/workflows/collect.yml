@@ -1,11 +1,7 @@
 name: Collect and Test VPN Configs
 
 on:
-  schedule:
-    # Каждые 15 минут — GitHub задерживает запуски, поэтому бьём чаще.
-    # Благодаря concurrency одновременно работает только один экземпляр.
-    - cron: "*/15 * * * *"
-  workflow_dispatch:
+ workflow_dispatch:
 
 permissions:
   contents: write
@@ -40,7 +36,7 @@ jobs:
       - name: Check if update needed
         id: check
         run: |
-          # Пропускаем запуск если последнее обновление было меньше 20 минут назад.
+          # Пропускаем запуск если последнее обновление было меньше 12 минут назад.
           # Это нужно чтобы при частом cron не обновляться слишком часто.
           SKIP=false
           if [ -f output/stats.json ]; then
@@ -56,8 +52,8 @@ jobs:
               print(9999)
           " 2>/dev/null || echo "9999")
             echo "Секунд с последнего обновления: $UPDATED"
-            if [ "$UPDATED" -lt 1200 ]; then
-              echo "Обновление было менее 20 минут назад — пропускаем"
+            if [ "$UPDATED" -lt 720 ]; then
+              echo "Обновление было менее 12 минут назад — пропускаем"
               SKIP=true
             fi
           fi
