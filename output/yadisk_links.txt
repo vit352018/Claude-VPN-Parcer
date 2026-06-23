@@ -11,8 +11,11 @@ https://storage.yandexcloud.net/vless-collector/VLESS_WORKING.txt
 # RU_BYPASS.txt:
 https://storage.yandexcloud.net/vless-collector/RU_BYPASS.txt
 
-# UNIVERSAL_BL_WT.txt:
-https://storage.yandexcloud.net/vless-collector/UNIVERSAL_BL_WT.txt
+# MOB_WL.txt:
+https://storage.yandexcloud.net/vless-collector/MOB_WL.txt
+
+# WIFI_BL.txt:
+https://storage.yandexcloud.net/vless-collector/WIFI_BL.txt
 
 # VLESS_ONLY.txt:
 https://storage.yandexcloud.net/vless-collector/VLESS_ONLY.txt
