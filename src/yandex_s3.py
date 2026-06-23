@@ -30,7 +30,8 @@ CONTENT_TYPES = {
 FILES_TO_UPLOAD = [
     "VLESS_WORKING.txt",
     "RU_BYPASS.txt",
-    "UNIVERSAL_BL_WT.txt",
+    "MOB_WL.txt",
+    "WIFI_BL.txt",
     "VLESS_ONLY.txt",
     "VMESS_ONLY.txt",
     "TROJAN_ONLY.txt",

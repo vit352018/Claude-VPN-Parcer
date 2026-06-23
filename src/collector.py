@@ -1,15 +1,11 @@
 """
 collector.py — скачивает конфиги из GitHub-источников.
 
-Источники делятся на три типа (поле в словаре):
-  ru=True        — специальные для РФ (Reality, XTLS)
-  universal=True — новые источники igareck (BL+WT коллекция)
-  (обычные)      — общие бесплатные ноды
-
-Файлы на выходе:
-  VLESS_WORKING.txt  — все рабочие
-  RU_BYPASS.txt      — только Reality/XTLS (обход ТСПУ)
-  UNIVERSAL_BL_WT.txt — серверы из universal-источников
+Источники делятся на типы (поле в словаре):
+  ru=True      — специальные для РФ (Reality, XTLS)
+  mob_wl=True  — белые списки мобильные → MOB_WL.txt
+  wifi_bl=True — чёрные списки → WIFI_BL.txt
+  (обычные)    — общие бесплатные ноды
 """
 
 import asyncio
@@ -57,32 +53,33 @@ SOURCES: list[dict] = [
         "type": "raw", "ru": True,
     },
 
-    # ── Universal BL+WT (новые источники igareck) ─────────────────────────────
-    # Эти источники собираются в отдельный файл UNIVERSAL_BL_WT.txt
+    # ── Mob WL (белые списки мобильные) → MOB_WL.txt ─────────────────────────
     {
         "name": "igareck WHITE-SNI-RU-all",
         "url":  "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/WHITE-SNI-RU-all.txt",
-        "type": "raw", "universal": True,
+        "type": "raw", "mob_wl": True,
     },
     {
         "name": "igareck WHITE-CIDR-RU-checked",
         "url":  "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/WHITE-CIDR-RU-checked.txt",
-        "type": "raw", "universal": True,
+        "type": "raw", "mob_wl": True,
     },
     {
         "name": "igareck Vless-Reality-White-Lists-Rus-Mobile",
         "url":  "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/Vless-Reality-White-Lists-Rus-Mobile.txt",
-        "type": "raw", "universal": True,
+        "type": "raw", "mob_wl": True,
     },
+
+    # ── WiFi BL (чёрные списки) → WIFI_BL.txt ────────────────────────────────
     {
         "name": "igareck BLACK_VLESS_RUS_mobile",
         "url":  "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/BLACK_VLESS_RUS_mobile.txt",
-        "type": "raw", "universal": True,
+        "type": "raw", "wifi_bl": True,
     },
     {
         "name": "igareck BLACK_SS+All_RUS",
         "url":  "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/BLACK_SS%2BAll_RUS.txt",
-        "type": "raw", "universal": True,
+        "type": "raw", "wifi_bl": True,
     },
 
     # ── Общие источники (все протоколы) ───────────────────────────────────────
@@ -134,8 +131,9 @@ PROTOCOLS = ("vless://", "vmess://", "trojan://", "ss://", "hysteria2://", "hy2:
 # URL источников помеченных ru=True — для приоритизации в тесте
 RU_SOURCE_URLS: set[str] = {s["url"] for s in SOURCES if s.get("ru")}
 
-# URL источников помеченных universal=True
-UNIVERSAL_SOURCE_URLS: set[str] = {s["url"] for s in SOURCES if s.get("universal")}
+# URL источников по категориям
+MOB_WL_SOURCE_URLS: set[str] = {s["url"] for s in SOURCES if s.get("mob_wl")}
+WIFI_BL_SOURCE_URLS: set[str] = {s["url"] for s in SOURCES if s.get("wifi_bl")}
 
 # Параметры скачивания (перекрываются из config.py через main.py)
 FETCH_TIMEOUT = 10
@@ -224,16 +222,9 @@ async def fetch_source_with_retry(
     return []
 
 
-async def collect_all() -> tuple[list[str], set[str], set[str]]:
+async def collect_all() -> tuple[list[str], set[str], set[str], set[str]]:
     """
-    Скачивает конфиги из всех источников параллельно.
-    Автоматически подхватывает источники из source_discovery.
-
-    Возвращает:
-      (unique_configs, ru_keys, universal_keys)
-
-      ru_keys        — ключи конфигов из RU-источников (для приоритизации)
-      universal_keys — ключи конфигов из universal-источников (для UNIVERSAL_BL_WT.txt)
+    Возвращает: (unique_configs, ru_keys, mob_wl_keys, wifi_bl_keys)
     """
     all_sources = list(SOURCES)
 
@@ -259,19 +250,17 @@ async def collect_all() -> tuple[list[str], set[str], set[str]]:
         results = await asyncio.gather(*tasks)
 
     all_configs: list[str] = []
-    ru_keys:        set[str] = set()
-    universal_keys: set[str] = set()
+    ru_keys:      set[str] = set()
+    mob_wl_keys:  set[str] = set()
+    wifi_bl_keys: set[str] = set()
 
     for source, batch in zip(all_sources, results):
-        is_ru        = source.get("ru", False)
-        is_universal = source.get("universal", False)
         for c in batch:
             all_configs.append(c)
             key = c.split("#")[0].rstrip("?& ")
-            if is_ru:
-                ru_keys.add(key)
-            if is_universal:
-                universal_keys.add(key)
+            if source.get("ru"):      ru_keys.add(key)
+            if source.get("mob_wl"):  mob_wl_keys.add(key)
+            if source.get("wifi_bl"): wifi_bl_keys.add(key)
 
     # Дедупликация
     seen:   set[str]  = set()
@@ -281,6 +270,6 @@ async def collect_all() -> tuple[list[str], set[str], set[str]]:
         if key not in seen:
             seen.add(key); unique.append(c)
 
-    log.info("📦 Уникальных: %d  RU: %d  Universal BL+WT: %d",
-             len(unique), len(ru_keys), len(universal_keys))
-    return unique, ru_keys, universal_keys
+    log.info("📦 Уникальных: %d  RU: %d  MobWL: %d  WiFiBL: %d",
+             len(unique), len(ru_keys), len(mob_wl_keys), len(wifi_bl_keys))
+    return unique, ru_keys, mob_wl_keys, wifi_bl_keys

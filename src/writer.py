@@ -95,20 +95,22 @@ def write_all_outputs(
     geo_map:        dict | None = None,
     tls_map:        dict | None = None,
     score_map:      dict | None = None,
-    ru_keys:        set[str] | None = None,
-    universal_keys: set[str] | None = None,
+    ru_keys:      set[str] | None = None,
+    mob_wl_keys:  set[str] | None = None,
+    wifi_bl_keys: set[str] | None = None,
 ) -> dict:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     now_msk        = datetime.now(ZoneInfo("Europe/Moscow"))
     geo_map        = geo_map        or {}
     tls_map        = tls_map        or {}
     score_map      = score_map      or {}
-    ru_keys        = ru_keys        or set()
-    universal_keys = universal_keys or set()
+    ru_keys      = ru_keys      or set()
+    mob_wl_keys  = mob_wl_keys  or set()
+    wifi_bl_keys = wifi_bl_keys or set()
 
     # ── Разбивка по протоколам ────────────────────────────────────────────────
     buckets: dict[str, list[tuple[str, int]]] = {
-        "all": [], "ru_bypass": [], "universal": [],
+        "all": [], "ru_bypass": [], "mob_wl": [], "wifi_bl": [],
         "vless": [], "vmess": [], "trojan": [],
         "hysteria": [], "ss": [], "other": [],
     }
@@ -131,9 +133,9 @@ def write_all_outputs(
         if is_russia_bypass(config_str):
             buckets["ru_bypass"].append((config_str, lat))
 
-        # UNIVERSAL_BL_WT — серверы из universal-источников igareck
-        if key in universal_keys:
-            buckets["universal"].append((config_str, lat))
+        # MOB_WL и WIFI_BL — по маркерам источника
+        if key in mob_wl_keys:  buckets["mob_wl"].append((config_str, lat))
+        if key in wifi_bl_keys: buckets["wifi_bl"].append((config_str, lat))
 
         host = _get_host(config_str)
         geo  = geo_map.get(host, {})
@@ -157,7 +159,8 @@ def write_all_outputs(
     files_cfg = [
         ("VLESS_WORKING.txt",    "all",       "✅ All Working Servers | Auto-collected"),
         ("RU_BYPASS.txt",        "ru_bypass", "🇷🇺 RU Bypass (Reality+XTLS) | Обход РКН/ТСПУ"),
-        ("UNIVERSAL_BL_WT.txt",  "universal", "🌐 Universal BL+WT | igareck collection"),
+        ("MOB_WL.txt",   "mob_wl",  "📱 Mob WL | Mobile White Lists | igareck"),
+        ("WIFI_BL.txt",  "wifi_bl", "📶 WiFi BL | Black Lists | igareck"),
         ("VLESS_ONLY.txt",       "vless",     "🔷 VLESS Only | Auto-collected"),
         ("VMESS_ONLY.txt",       "vmess",     "🔶 VMess Only | Auto-collected"),
         ("TROJAN_ONLY.txt",      "trojan",    "🐴 Trojan Only | Auto-collected"),
@@ -223,7 +226,8 @@ def write_all_outputs(
             "ss":         len(buckets["ss"]),
             "other":      len(buckets["other"]),
             "ru_bypass":  len(buckets["ru_bypass"]),
-            "universal":  len(buckets["universal"]),
+            "mob_wl":     len(buckets["mob_wl"]),
+            "wifi_bl":    len(buckets["wifi_bl"]),
         },
         "latency": {
             "min_ms": min(latencies) if latencies else 0,

@@ -116,12 +116,12 @@ async def main():
         # ── 2. Сбор конфигов ──────────────────────────────────────────────────
         log.info("📥 ШАГ 2 — Сбор конфигов…  (%.0f сек)", elapsed())
         try:
-            github_cfgs, ru_keys, universal_keys = await asyncio.wait_for(
+            github_cfgs, ru_keys, mob_wl_keys, wifi_bl_keys = await asyncio.wait_for(
                 collect_all(), timeout=90
             )
         except asyncio.TimeoutError:
             log.warning("   GitHub: таймаут")
-            github_cfgs, ru_keys, universal_keys = [], set(), set()
+            github_cfgs, ru_keys, mob_wl_keys, wifi_bl_keys = [], set(), set(), set()
 
         try:
             tg_cfgs = await asyncio.wait_for(
@@ -132,8 +132,8 @@ async def main():
             tg_cfgs = []
 
         all_raw = github_cfgs + tg_cfgs
-        log.info("   Найдено: %d  RU: %d  Universal: %d  (%.0f сек)",
-                 len(all_raw), len(ru_keys), len(universal_keys), elapsed())
+        log.info("   Найдено: %d  RU: %d  MobWL: %d  WiFiBL: %d  (%.0f сек)",
+                 len(all_raw), len(ru_keys), len(mob_wl_keys), len(wifi_bl_keys), elapsed())
 
         # ── 3. Дедупликация ───────────────────────────────────────────────────
         seen, unique = set(), []
@@ -150,13 +150,13 @@ async def main():
         # Лимит — RU и Universal идут первыми
         limit = cfg.MAX_CONFIGS
         if len(unique) > limit:
-            priority_keys = ru_keys | universal_keys
+            priority_keys = ru_keys | mob_wl_keys | wifi_bl_keys
             prio  = [c for c in unique if c.split("#")[0].rstrip("?& ") in priority_keys]
             rest  = [c for c in unique if c.split("#")[0].rstrip("?& ") not in priority_keys]
             slots = max(0, limit - len(prio))
             unique = prio + rest[:slots]
             log.info("   Лимит %d: приоритет %d + остальные %d",
-                     limit, len(prio), slots)
+                     limit, len(prio), slots)  # prio = RU + MobWL + WiFiBL
 
         # ── 4. Тест серверов ──────────────────────────────────────────────────
         test_budget = min(int(time_left()) - 180, 480)
@@ -229,7 +229,8 @@ async def main():
             tls_map=tls_map,
             score_map=score_map,
             ru_keys=ru_keys,
-            universal_keys=universal_keys,
+            mob_wl_keys=mob_wl_keys,
+            wifi_bl_keys=wifi_bl_keys,
         )
 
         # ── 8. HTML ───────────────────────────────────────────────────────────
@@ -290,11 +291,12 @@ async def main():
                 log.warning("   Telegram: %s", e)
 
         log.info("=" * 62)
-        log.info("🏁 ГОТОВО за %d сек | всего: %d | RU: %d | Universal: %d",
+        log.info("🏁 ГОТОВО за %d сек | всего: %d | RU: %d | MobWL: %d | WiFiBL: %d",
                  elapsed_total,
                  stats["total_working"],
                  stats["by_protocol"].get("ru_bypass", 0),
-                 stats["by_protocol"].get("universal", 0))
+                 stats["by_protocol"].get("mob_wl", 0),
+                 stats["by_protocol"].get("wifi_bl", 0))
         log.info("=" * 62)
 
     except Exception as e:
