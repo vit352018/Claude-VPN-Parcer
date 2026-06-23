@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-06-23T01:31:29.602229+00:00",
-  "updated_msk": "2026-06-23T04:31:29.527411+03:00",
+  "updated_utc": "2026-06-23T01:46:21.835890+00:00",
+  "updated_msk": "2026-06-23T04:46:21.759291+03:00",
   "total_working": 676,
-  "tls_confirmed": 371,
+  "tls_confirmed": 363,
   "by_protocol": {
     "vless": 605,
     "vmess": 13,
@@ -10,15 +10,15 @@
     "hysteria": 1,
     "ss": 0,
     "other": 0,
-    "ru_bypass": 210,
+    "ru_bypass": 209,
     "universal": 400
   },
   "latency": {
-    "min_ms": 10,
-    "avg_ms": 741,
-    "max_ms": 3100,
+    "min_ms": 3,
+    "avg_ms": 761,
+    "max_ms": 3848,
     "p50_ms": 497,
-    "p90_ms": 1694
+    "p90_ms": 1705
   },
   "top_countries": {
     "United States": 131,
@@ -26,8 +26,8 @@
     "Hong Kong": 48,
     "Germany": 45,
     "United Kingdom": 42,
-    "The Netherlands": 30,
     "Japan": 30,
+    "The Netherlands": 30,
     "Singapore": 18,
     "Latvia": 15,
     "France": 14,
@@ -39,7 +39,7 @@
   },
   "files": {
     "VLESS_WORKING.txt": 676,
-    "RU_BYPASS.txt": 210,
+    "RU_BYPASS.txt": 209,
     "UNIVERSAL_BL_WT.txt": 400,
     "VLESS_ONLY.txt": 605,
     "VMESS_ONLY.txt": 13,
