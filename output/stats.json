@@ -1,25 +1,25 @@
 {
-  "updated_utc": "2026-06-23T20:31:33.558020+00:00",
-  "updated_msk": "2026-06-23T23:31:33.492356+03:00",
-  "total_working": 644,
-  "tls_confirmed": 222,
+  "updated_utc": "2026-06-23T20:46:20.365795+00:00",
+  "updated_msk": "2026-06-23T23:46:20.294995+03:00",
+  "total_working": 642,
+  "tls_confirmed": 226,
   "by_protocol": {
-    "vless": 570,
+    "vless": 568,
     "vmess": 2,
     "trojan": 62,
     "hysteria": 10,
     "ss": 0,
     "other": 0,
-    "ru_bypass": 122,
-    "mob_wl": 164,
+    "ru_bypass": 120,
+    "mob_wl": 162,
     "wifi_bl": 189
   },
   "latency": {
-    "min_ms": 11,
-    "avg_ms": 448,
-    "max_ms": 2763,
-    "p50_ms": 114,
-    "p90_ms": 1240
+    "min_ms": 16,
+    "avg_ms": 437,
+    "max_ms": 2848,
+    "p50_ms": 91,
+    "p90_ms": 1175
   },
   "top_countries": {
     "United States": 173,
@@ -39,11 +39,11 @@
     "Curacao": 11
   },
   "files": {
-    "VLESS_WORKING.txt": 644,
-    "RU_BYPASS.txt": 122,
-    "MOB_WL.txt": 164,
+    "VLESS_WORKING.txt": 642,
+    "RU_BYPASS.txt": 120,
+    "MOB_WL.txt": 162,
     "WIFI_BL.txt": 189,
-    "VLESS_ONLY.txt": 570,
+    "VLESS_ONLY.txt": 568,
     "VMESS_ONLY.txt": 2,
     "TROJAN_ONLY.txt": 62,
     "HYSTERIA_ONLY.txt": 10,
