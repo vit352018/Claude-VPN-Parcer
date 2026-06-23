@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-06-23T22:16:21.161074+00:00",
-  "updated_msk": "2026-06-24T01:16:21.084894+03:00",
+  "updated_utc": "2026-06-23T22:31:38.784544+00:00",
+  "updated_msk": "2026-06-24T01:31:38.706585+03:00",
   "total_working": 694,
-  "tls_confirmed": 289,
+  "tls_confirmed": 287,
   "by_protocol": {
     "vless": 602,
     "vmess": 13,
@@ -15,18 +15,18 @@
     "wifi_bl": 201
   },
   "latency": {
-    "min_ms": 15,
-    "avg_ms": 571,
-    "max_ms": 3628,
-    "p50_ms": 62,
-    "p90_ms": 1667
+    "min_ms": 12,
+    "avg_ms": 562,
+    "max_ms": 3749,
+    "p50_ms": 130,
+    "p90_ms": 1729
   },
   "top_countries": {
     "United States": 167,
     "Russia": 101,
     "Hong Kong": 49,
     "United Kingdom": 39,
-    "Hungary": 34,
+    "Hungary": 32,
     "Germany": 29,
     "The Netherlands": 28,
     "Canada": 20,
@@ -34,8 +34,8 @@
     "Georgia": 18,
     "Singapore": 17,
     "Czechia": 16,
+    "Unknown": 15,
     "Cyprus": 13,
-    "Unknown": 13,
     "Kazakhstan": 12
   },
   "files": {
