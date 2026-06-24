@@ -1,25 +1,25 @@
 {
-  "updated_utc": "2026-06-24T08:16:19.971589+00:00",
-  "updated_msk": "2026-06-24T11:16:19.895548+03:00",
+  "updated_utc": "2026-06-24T08:31:29.895584+00:00",
+  "updated_msk": "2026-06-24T11:31:29.818882+03:00",
   "total_working": 711,
-  "tls_confirmed": 203,
+  "tls_confirmed": 194,
   "by_protocol": {
-    "vless": 629,
+    "vless": 631,
     "vmess": 9,
-    "trojan": 70,
+    "trojan": 68,
     "hysteria": 3,
     "ss": 0,
     "other": 0,
     "ru_bypass": 79,
     "mob_wl": 167,
-    "wifi_bl": 184
+    "wifi_bl": 183
   },
   "latency": {
-    "min_ms": 18,
-    "avg_ms": 357,
-    "max_ms": 3175,
-    "p50_ms": 158,
-    "p90_ms": 994
+    "min_ms": 22,
+    "avg_ms": 400,
+    "max_ms": 2932,
+    "p50_ms": 215,
+    "p90_ms": 945
   },
   "top_countries": {
     "United States": 208,
@@ -42,10 +42,10 @@
     "VLESS_WORKING.txt": 711,
     "RU_BYPASS.txt": 79,
     "MOB_WL.txt": 167,
-    "WIFI_BL.txt": 184,
-    "VLESS_ONLY.txt": 629,
+    "WIFI_BL.txt": 183,
+    "VLESS_ONLY.txt": 631,
     "VMESS_ONLY.txt": 9,
-    "TROJAN_ONLY.txt": 70,
+    "TROJAN_ONLY.txt": 68,
     "HYSTERIA_ONLY.txt": 3,
     "TOP50.txt": 50,
     "TOP50_RELIABLE.txt": 50
