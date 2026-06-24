@@ -144,6 +144,17 @@ async def main():
         log.info("🧹 ШАГ 3 — Уникальных: %d  (дублей: %d)",
                  len(unique), len(all_raw) - len(unique))
 
+        # Сохраняем сырые конфиги mob_wl и wifi_bl ДО TCP-теста.
+        # Эти файлы берутся напрямую из источников igareck —
+        # они уже проверены автором, TCP-тест не нужен и только
+        # отсеивает нужные серверы (например Reality на нестандартных портах).
+        raw_mob_wl  = [c for c in unique
+                       if c.split("#")[0].rstrip("?& ") in mob_wl_keys]
+        raw_wifi_bl = [c for c in unique
+                       if c.split("#")[0].rstrip("?& ") in wifi_bl_keys]
+        log.info("   Сырых MobWL: %d  WiFiBL: %d (без TCP-теста)",
+                 len(raw_mob_wl), len(raw_wifi_bl))
+
         if not unique:
             raise RuntimeError("Нет конфигов из источников")
 
@@ -229,8 +240,8 @@ async def main():
             tls_map=tls_map,
             score_map=score_map,
             ru_keys=ru_keys,
-            mob_wl_keys=mob_wl_keys,
-            wifi_bl_keys=wifi_bl_keys,
+            raw_mob_wl=raw_mob_wl,
+            raw_wifi_bl=raw_wifi_bl,
         )
 
         # ── 8. HTML ───────────────────────────────────────────────────────────

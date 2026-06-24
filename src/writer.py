@@ -96,21 +96,21 @@ def write_all_outputs(
     tls_map:        dict | None = None,
     score_map:      dict | None = None,
     ru_keys:      set[str] | None = None,
-    mob_wl_keys:  set[str] | None = None,
-    wifi_bl_keys: set[str] | None = None,
+    raw_mob_wl:   list[str] | None = None,   # сырые конфиги из mob_wl-источников
+    raw_wifi_bl:  list[str] | None = None,   # сырые конфиги из wifi_bl-источников
 ) -> dict:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     now_msk        = datetime.now(ZoneInfo("Europe/Moscow"))
     geo_map        = geo_map        or {}
     tls_map        = tls_map        or {}
     score_map      = score_map      or {}
-    ru_keys      = ru_keys      or set()
-    mob_wl_keys  = mob_wl_keys  or set()
-    wifi_bl_keys = wifi_bl_keys or set()
+    ru_keys     = ru_keys     or set()
+    raw_mob_wl  = raw_mob_wl  or []
+    raw_wifi_bl = raw_wifi_bl or []
 
     # ── Разбивка по протоколам ────────────────────────────────────────────────
     buckets: dict[str, list[tuple[str, int]]] = {
-        "all": [], "ru_bypass": [], "mob_wl": [], "wifi_bl": [],
+        "all": [], "ru_bypass": [],
         "vless": [], "vmess": [], "trojan": [],
         "hysteria": [], "ss": [], "other": [],
     }
@@ -133,9 +133,7 @@ def write_all_outputs(
         if is_russia_bypass(config_str):
             buckets["ru_bypass"].append((config_str, lat))
 
-        # MOB_WL и WIFI_BL — по маркерам источника
-        if key in mob_wl_keys:  buckets["mob_wl"].append((config_str, lat))
-        if key in wifi_bl_keys: buckets["wifi_bl"].append((config_str, lat))
+        # mob_wl и wifi_bl записываются отдельно из сырых конфигов (без TCP-теста)
 
         host = _get_host(config_str)
         geo  = geo_map.get(host, {})
@@ -159,8 +157,7 @@ def write_all_outputs(
     files_cfg = [
         ("VLESS_WORKING.txt",    "all",       "✅ All Working Servers | Auto-collected"),
         ("RU_BYPASS.txt",        "ru_bypass", "🇷🇺 RU Bypass (Reality+XTLS) | Обход РКН/ТСПУ"),
-        ("MOB_WL.txt",   "mob_wl",  "📱 Mob WL | Mobile White Lists | igareck"),
-        ("WIFI_BL.txt",  "wifi_bl", "📶 WiFi BL | Black Lists | igareck"),
+        # MOB_WL.txt и WIFI_BL.txt записываются ниже напрямую из сырых конфигов
         ("VLESS_ONLY.txt",       "vless",     "🔷 VLESS Only | Auto-collected"),
         ("VMESS_ONLY.txt",       "vmess",     "🔶 VMess Only | Auto-collected"),
         ("TROJAN_ONLY.txt",      "trojan",    "🐴 Trojan Only | Auto-collected"),
@@ -211,6 +208,26 @@ def write_all_outputs(
         written["TOP50_RELIABLE.txt"] = len(top50_reliable)
         log.info("  💾 %-28s %d конфигов", "TOP50_RELIABLE.txt", len(top50_reliable))
 
+    # ── MOB_WL.txt и WIFI_BL.txt — сырые конфиги без TCP-теста ─────────────────
+    # Эти файлы берутся напрямую из источников igareck без какой-либо фильтрации.
+    # Автор репозитория уже проверил серверы — наш TCP-тест здесь не нужен
+    # и только мешает (Reality-серверы на нестандартных портах могут отсеяться).
+    for filename, raw_list, title in [
+        ("MOB_WL.txt",  raw_mob_wl,  "📱 Mob WL | Mobile White Lists | igareck"),
+        ("WIFI_BL.txt", raw_wifi_bl, "📶 WiFi BL | Black Lists | igareck"),
+    ]:
+        if not raw_list:
+            continue
+        full_title = f"{title} | {now_msk.strftime('%Y-%m-%d %H:%M')} MSK"
+        lines = _header(full_title, len(raw_list), now_msk, f"{raw_base}/{filename}")
+        for config_str in raw_list:
+            # Для сырых конфигов просто добавляем без изменений —
+            # оригинальные метки igareck лучше наших
+            lines.append(config_str)
+        (OUTPUT_DIR / filename).write_text("\n".join(lines) + "\n", encoding="utf-8")
+        written[filename] = len(raw_list)
+        log.info("  💾 %-28s %d конфигов (сырые)", filename, len(raw_list))
+
     # ── stats.json ────────────────────────────────────────────────────────────
     latencies = [lat for _, lat in buckets["all"]]
     stats = {
@@ -226,8 +243,8 @@ def write_all_outputs(
             "ss":         len(buckets["ss"]),
             "other":      len(buckets["other"]),
             "ru_bypass":  len(buckets["ru_bypass"]),
-            "mob_wl":     len(buckets["mob_wl"]),
-            "wifi_bl":    len(buckets["wifi_bl"]),
+            "mob_wl":     len(raw_mob_wl),
+            "wifi_bl":    len(raw_wifi_bl),
         },
         "latency": {
             "min_ms": min(latencies) if latencies else 0,
