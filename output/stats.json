@@ -1,25 +1,25 @@
 {
-  "updated_utc": "2026-06-24T01:46:28.186248+00:00",
-  "updated_msk": "2026-06-24T04:46:28.132625+03:00",
-  "total_working": 685,
-  "tls_confirmed": 283,
+  "updated_utc": "2026-06-24T02:01:40.397491+00:00",
+  "updated_msk": "2026-06-24T05:01:40.325564+03:00",
+  "total_working": 694,
+  "tls_confirmed": 292,
   "by_protocol": {
-    "vless": 596,
+    "vless": 601,
     "vmess": 13,
-    "trojan": 64,
+    "trojan": 68,
     "hysteria": 12,
     "ss": 0,
     "other": 0,
-    "ru_bypass": 158,
-    "mob_wl": 173,
-    "wifi_bl": 194
+    "ru_bypass": 163,
+    "mob_wl": 172,
+    "wifi_bl": 201
   },
   "latency": {
-    "min_ms": 2,
-    "avg_ms": 378,
-    "max_ms": 2767,
-    "p50_ms": 44,
-    "p90_ms": 1273
+    "min_ms": 12,
+    "avg_ms": 558,
+    "max_ms": 3482,
+    "p50_ms": 135,
+    "p90_ms": 1629
   },
   "top_countries": {
     "United States": 169,
@@ -28,7 +28,7 @@
     "Hungary": 34,
     "United Kingdom": 33,
     "Germany": 30,
-    "The Netherlands": 23,
+    "The Netherlands": 28,
     "Canada": 21,
     "Japan": 19,
     "Georgia": 18,
@@ -36,16 +36,16 @@
     "Czechia": 16,
     "Finland": 15,
     "Unknown": 13,
-    "Belize": 12
+    "Kazakhstan": 12
   },
   "files": {
-    "VLESS_WORKING.txt": 685,
-    "RU_BYPASS.txt": 158,
-    "MOB_WL.txt": 173,
-    "WIFI_BL.txt": 194,
-    "VLESS_ONLY.txt": 596,
+    "VLESS_WORKING.txt": 694,
+    "RU_BYPASS.txt": 163,
+    "MOB_WL.txt": 172,
+    "WIFI_BL.txt": 201,
+    "VLESS_ONLY.txt": 601,
     "VMESS_ONLY.txt": 13,
-    "TROJAN_ONLY.txt": 64,
+    "TROJAN_ONLY.txt": 68,
     "HYSTERIA_ONLY.txt": 12,
     "TOP50.txt": 50,
     "TOP50_RELIABLE.txt": 50
