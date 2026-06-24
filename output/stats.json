@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-06-24T07:31:28.057793+00:00",
-  "updated_msk": "2026-06-24T10:31:27.981835+03:00",
+  "updated_utc": "2026-06-24T07:46:16.434167+00:00",
+  "updated_msk": "2026-06-24T10:46:16.364295+03:00",
   "total_working": 718,
-  "tls_confirmed": 207,
+  "tls_confirmed": 217,
   "by_protocol": {
     "vless": 635,
     "vmess": 9,
@@ -15,11 +15,11 @@
     "wifi_bl": 186
   },
   "latency": {
-    "min_ms": 16,
-    "avg_ms": 368,
-    "max_ms": 3081,
-    "p50_ms": 118,
-    "p90_ms": 1027
+    "min_ms": 17,
+    "avg_ms": 362,
+    "max_ms": 3087,
+    "p50_ms": 196,
+    "p90_ms": 968
   },
   "top_countries": {
     "United States": 210,
