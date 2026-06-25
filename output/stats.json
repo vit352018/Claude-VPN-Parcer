@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-06-25T06:31:30.128899+00:00",
-  "updated_msk": "2026-06-25T09:31:30.095237+03:00",
+  "updated_utc": "2026-06-25T06:46:26.362671+00:00",
+  "updated_msk": "2026-06-25T09:46:26.338499+03:00",
   "total_working": 325,
-  "tls_confirmed": 241,
+  "tls_confirmed": 220,
   "by_protocol": {
     "vless": 142,
     "vmess": 20,
@@ -15,28 +15,28 @@
     "wifi_bl": 256
   },
   "latency": {
-    "min_ms": 13,
-    "avg_ms": 805,
-    "max_ms": 2871,
-    "p50_ms": 750,
-    "p90_ms": 1756
+    "min_ms": 18,
+    "avg_ms": 584,
+    "max_ms": 3376,
+    "p50_ms": 480,
+    "p90_ms": 1394
   },
   "top_countries": {
     "United States": 65,
     "Finland": 56,
     "Germany": 34,
     "Japan": 25,
-    "Unknown": 19,
+    "Unknown": 21,
     "Russia": 18,
     "Hong Kong": 17,
-    "Iran": 16,
+    "Iran": 14,
     "United Kingdom": 11,
+    "The Netherlands": 10,
     "Canada": 10,
     "Singapore": 9,
-    "The Netherlands": 8,
-    "Poland": 7,
-    "Belize": 4,
-    "Indonesia": 4
+    "Poland": 5,
+    "Indonesia": 4,
+    "Belize": 4
   },
   "files": {
     "VLESS_WORKING.txt": 325,
