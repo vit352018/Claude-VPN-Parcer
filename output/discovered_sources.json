@@ -49,6 +49,13 @@
     "configs_found": 2280
   },
   {
+    "name": "Alirewa/V2ray-Configs (auto)",
+    "url": "https://raw.githubusercontent.com/Alirewa/V2ray-Configs/main/config.txt",
+    "type": "raw",
+    "stars": 5,
+    "configs_found": 2000
+  },
+  {
     "name": "xyfqzy/free-nodes (auto)",
     "url": "https://raw.githubusercontent.com/xyfqzy/free-nodes/main/nodes/vless.txt",
     "type": "raw",
@@ -138,6 +145,27 @@
     "type": "raw",
     "stars": 65,
     "configs_found": 174
+  },
+  {
+    "name": "Alirewa/V2ray-Configs (auto)",
+    "url": "https://raw.githubusercontent.com/Alirewa/V2ray-Configs/main/sub1.txt",
+    "type": "raw",
+    "stars": 5,
+    "configs_found": 100
+  },
+  {
+    "name": "Alirewa/V2ray-Configs (auto)",
+    "url": "https://raw.githubusercontent.com/Alirewa/V2ray-Configs/main/sub2.txt",
+    "type": "raw",
+    "stars": 5,
+    "configs_found": 100
+  },
+  {
+    "name": "Alirewa/V2ray-Configs (auto)",
+    "url": "https://raw.githubusercontent.com/Alirewa/V2ray-Configs/main/sub3.txt",
+    "type": "raw",
+    "stars": 5,
+    "configs_found": 100
   },
   {
     "name": "Barabama/FreeNodes (auto)",
