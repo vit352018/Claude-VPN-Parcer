@@ -33,6 +33,49 @@ log = logging.getLogger("writer")
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
 
+def _sanitize_config(cfg_str: str) -> str:
+    """
+    Чистит конфиг от мусора — текста который попал в параметры URL
+    вместо метки (до символа #).
+
+    Проблема: некоторые агрегаторы добавляют метку прямо в URL без #:
+      &alpn=h3freenettirUnited StatesChicagoping:49ms#...
+    Такой ключ Karing не распарсит корректно.
+
+    Решение: находим первый # — это граница между URL и меткой.
+    Всё до # — URL-параметры, всё после — метка.
+    Если # нет совсем — конфиг возвращаем как есть.
+    """
+    # Находим схему (vless://, vmess:// и т.д.)
+    proto_end = cfg_str.find("://")
+    if proto_end == -1:
+        return cfg_str
+
+    # Ищем первый # после схемы
+    hash_pos = cfg_str.find("#", proto_end)
+    if hash_pos == -1:
+        # Нет метки — конфиг без изменений
+        return cfg_str
+
+    url_part   = cfg_str[:hash_pos]
+    label_part = cfg_str[hash_pos:]  # включая #
+
+    # Проверяем нет ли мусора в URL-части:
+    # признак — нелатинские слова или "ping:" внутри значения параметра
+    import re
+    # Если в URL есть незакодированные пробелы или "ping:" — это мусор
+    if " " in url_part or "ping:" in url_part.lower():
+        # Обрезаем URL до первого пробела или мусорного вхождения
+        # Ищем где начинается мусор: первый пробел в параметрах
+        clean_url = url_part.split(" ")[0]
+        # Убираем незакодированные символы в конце параметров
+        clean_url = re.sub(r'[^--￿]+$', '', clean_url)
+        clean_url = clean_url.rstrip("&?")
+        return clean_url + label_part
+
+    return cfg_str
+
+
 def _get_host(config_str: str) -> str:
     try:
         if config_str.lower().startswith("vmess://"):
@@ -221,9 +264,8 @@ def write_all_outputs(
         full_title = f"{title} | {now_msk.strftime('%Y-%m-%d %H:%M')} MSK"
         lines = _header(full_title, len(raw_list), now_msk, f"{raw_base}/{filename}")
         for config_str in raw_list:
-            # Для сырых конфигов просто добавляем без изменений —
-            # оригинальные метки igareck лучше наших
-            lines.append(config_str)
+            # Чистим от мусора (текст попавший в параметры URL вместо метки)
+            lines.append(_sanitize_config(config_str))
         (OUTPUT_DIR / filename).write_text("\n".join(lines) + "\n", encoding="utf-8")
         written[filename] = len(raw_list)
         log.info("  💾 %-28s %d конфигов (сырые)", filename, len(raw_list))
