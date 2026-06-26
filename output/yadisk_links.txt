@@ -17,6 +17,9 @@ https://storage.yandexcloud.net/vless-collector/MOB_WL.txt
 # WIFI_BL.txt:
 https://storage.yandexcloud.net/vless-collector/WIFI_BL.txt
 
+# MIXED.txt:
+https://storage.yandexcloud.net/vless-collector/MIXED.txt
+
 # VLESS_ONLY.txt:
 https://storage.yandexcloud.net/vless-collector/VLESS_ONLY.txt
 
