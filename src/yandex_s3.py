@@ -32,6 +32,7 @@ FILES_TO_UPLOAD = [
     "RU_BYPASS.txt",
     "MOB_WL.txt",
     "WIFI_BL.txt",
+    "MIXED.txt",
     "VLESS_ONLY.txt",
     "VMESS_ONLY.txt",
     "TROJAN_ONLY.txt",

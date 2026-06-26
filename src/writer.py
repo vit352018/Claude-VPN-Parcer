@@ -270,6 +270,47 @@ def write_all_outputs(
         written[filename] = len(raw_list)
         log.info("  💾 %-28s %d конфигов (сырые)", filename, len(raw_list))
 
+    # ── MIXED.txt — чередование WL и BL для быстрого поиска ────────────────────
+    # Схема: WL, BL, WL, BL, WL, BL...
+    # Karing перебирает серверы сверху вниз — при чередовании он быстро найдёт
+    # рабочий вне зависимости от типа сети (мобильная или WiFi).
+    # В конце добавляем хвост если один список длиннее другого.
+    if raw_mob_wl or raw_wifi_bl:
+        # Дедупликация между двумя списками (приоритет у mob_wl)
+        seen_mixed: set[str] = set()
+        wl_clean: list[str] = []
+        bl_clean: list[str] = []
+
+        for c in raw_mob_wl:
+            k = c.split("#")[0].rstrip("?& ")
+            if k not in seen_mixed:
+                seen_mixed.add(k)
+                wl_clean.append(_sanitize_config(c))
+
+        for c in raw_wifi_bl:
+            k = c.split("#")[0].rstrip("?& ")
+            if k not in seen_mixed:
+                seen_mixed.add(k)
+                bl_clean.append(_sanitize_config(c))
+
+        # Чередуем: WL[0], BL[0], WL[1], BL[1], ...
+        mixed: list[str] = []
+        for i in range(max(len(wl_clean), len(bl_clean))):
+            if i < len(wl_clean):
+                mixed.append(wl_clean[i])
+            if i < len(bl_clean):
+                mixed.append(bl_clean[i])
+
+        total_mixed = len(mixed)
+        full_title  = f"🔀 Mixed WL+BL | Auto | {now_msk.strftime('%Y-%m-%d %H:%M')} MSK"
+        lines = _header(full_title, total_mixed, now_msk, f"{raw_base}/MIXED.txt")
+        lines.extend(mixed)
+
+        (OUTPUT_DIR / "MIXED.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+        written["MIXED.txt"] = total_mixed
+        log.info("  💾 %-28s %d конфигов (WL:%d + BL:%d, чередование)",
+                 "MIXED.txt", total_mixed, len(wl_clean), len(bl_clean))
+
     # ── stats.json ────────────────────────────────────────────────────────────
     latencies = [lat for _, lat in buckets["all"]]
     stats = {
@@ -287,6 +328,7 @@ def write_all_outputs(
             "ru_bypass":  len(buckets["ru_bypass"]),
             "mob_wl":     len(raw_mob_wl),
             "wifi_bl":    len(raw_wifi_bl),
+            "mixed":      written.get("MIXED.txt", 0),
         },
         "latency": {
             "min_ms": min(latencies) if latencies else 0,
