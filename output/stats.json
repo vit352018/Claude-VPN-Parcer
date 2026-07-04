@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-07-04T15:15:46.099520+00:00",
-  "updated_msk": "2026-07-04T18:15:46.076850+03:00",
+  "updated_utc": "2026-07-04T15:31:03.885980+00:00",
+  "updated_msk": "2026-07-04T18:31:03.865844+03:00",
   "total_working": 191,
-  "tls_confirmed": 139,
+  "tls_confirmed": 144,
   "by_protocol": {
     "vless": 139,
     "vmess": 17,
@@ -16,14 +16,14 @@
     "mixed": 407
   },
   "latency": {
-    "min_ms": 1,
-    "avg_ms": 928,
-    "max_ms": 2362,
-    "p50_ms": 854,
-    "p90_ms": 1962
+    "min_ms": 18,
+    "avg_ms": 846,
+    "max_ms": 2250,
+    "p50_ms": 779,
+    "p90_ms": 1904
   },
   "top_countries": {
-    "Russia": 43,
+    "Russia": 42,
     "United States": 24,
     "Japan": 19,
     "Unknown": 14,
@@ -36,8 +36,8 @@
     "Iran": 5,
     "Hong Kong": 5,
     "Poland": 4,
-    "Lithuania": 3,
-    "South Korea": 3
+    "Singapore": 3,
+    "Lithuania": 3
   },
   "files": {
     "VLESS_WORKING.txt": 191,
