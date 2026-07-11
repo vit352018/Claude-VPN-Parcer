@@ -182,6 +182,13 @@
     "configs_found": 23
   },
   {
+    "name": "zhuhaiuk/free-nodes (auto)",
+    "url": "https://raw.githubusercontent.com/zhuhaiuk/free-nodes/main/nodes.txt",
+    "type": "raw",
+    "stars": 34,
+    "configs_found": 20
+  },
+  {
     "name": "snakem982/proxypool (auto)",
     "url": "https://raw.githubusercontent.com/snakem982/proxypool/main/source/v2ray-2.txt",
     "type": "raw",
@@ -201,12 +208,5 @@
     "type": "raw",
     "stars": 2801,
     "configs_found": 13
-  },
-  {
-    "name": "Au1rxx/free-vpn-subscriptions (auto)",
-    "url": "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/by-country/v2ray-base64-CA.txt",
-    "type": "raw",
-    "stars": 69,
-    "configs_found": 7
   }
 ]
