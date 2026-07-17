@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-07-17T02:31:18.325733+00:00",
-  "updated_msk": "2026-07-17T05:31:18.276863+03:00",
+  "updated_utc": "2026-07-17T03:01:27.413242+00:00",
+  "updated_msk": "2026-07-17T06:01:27.363043+03:00",
   "total_working": 466,
-  "tls_confirmed": 371,
+  "tls_confirmed": 376,
   "by_protocol": {
     "vless": 396,
     "vmess": 4,
@@ -16,11 +16,11 @@
     "mixed": 406
   },
   "latency": {
-    "min_ms": 15,
-    "avg_ms": 861,
-    "max_ms": 3319,
-    "p50_ms": 764,
-    "p90_ms": 1646
+    "min_ms": 17,
+    "avg_ms": 855,
+    "max_ms": 2985,
+    "p50_ms": 738,
+    "p90_ms": 1700
   },
   "top_countries": {
     "Russia": 165,
