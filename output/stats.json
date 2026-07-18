@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-07-18T15:01:25.020481+00:00",
-  "updated_msk": "2026-07-18T18:01:24.967005+03:00",
+  "updated_utc": "2026-07-18T15:31:19.077919+00:00",
+  "updated_msk": "2026-07-18T18:31:19.030879+03:00",
   "total_working": 518,
-  "tls_confirmed": 456,
+  "tls_confirmed": 460,
   "by_protocol": {
     "vless": 463,
     "vmess": 0,
@@ -10,46 +10,46 @@
     "hysteria": 4,
     "ss": 0,
     "other": 0,
-    "ru_bypass": 60,
-    "mob_wl": 91,
+    "ru_bypass": 53,
+    "mob_wl": 87,
     "wifi_bl": 207,
-    "mixed": 295
+    "mixed": 291
   },
   "latency": {
-    "min_ms": 18,
-    "avg_ms": 1052,
-    "max_ms": 2578,
-    "p50_ms": 983,
-    "p90_ms": 1960
+    "min_ms": 14,
+    "avg_ms": 979,
+    "max_ms": 2384,
+    "p50_ms": 899,
+    "p90_ms": 1819
   },
   "top_countries": {
     "United Kingdom": 157,
-    "Russia": 87,
+    "Russia": 89,
     "United States": 83,
-    "The Netherlands": 22,
+    "France": 30,
     "Hong Kong": 21,
-    "Latvia": 18,
-    "Bulgaria": 15,
-    "France": 14,
+    "The Netherlands": 18,
+    "Bulgaria": 17,
     "Canada": 14,
     "Germany": 12,
+    "Singapore": 7,
     "Japan": 7,
-    "Singapore": 6,
     "Cyprus": 6,
     "Curacao": 6,
-    "Armenia": 6
+    "Armenia": 6,
+    "Malta": 5
   },
   "files": {
     "VLESS_WORKING.txt": 518,
-    "RU_BYPASS.txt": 60,
+    "RU_BYPASS.txt": 53,
     "VLESS_ONLY.txt": 463,
     "TROJAN_ONLY.txt": 51,
     "HYSTERIA_ONLY.txt": 4,
     "TOP50.txt": 50,
     "TOP50_RELIABLE.txt": 50,
-    "MOB_WL.txt": 91,
+    "MOB_WL.txt": 87,
     "WIFI_BL.txt": 207,
-    "MIXED.txt": 295
+    "MIXED.txt": 291
   },
   "raw_base": "https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output"
 }
