@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-07-19T16:01:53.491755+00:00",
-  "updated_msk": "2026-07-19T19:01:53.395771+03:00",
+  "updated_utc": "2026-07-19T16:31:49.143448+00:00",
+  "updated_msk": "2026-07-19T19:31:49.042693+03:00",
   "total_working": 1076,
-  "tls_confirmed": 718,
+  "tls_confirmed": 707,
   "by_protocol": {
     "vless": 1022,
     "vmess": 3,
@@ -16,11 +16,11 @@
     "mixed": 324
   },
   "latency": {
-    "min_ms": 5,
-    "avg_ms": 646,
-    "max_ms": 2803,
-    "p50_ms": 481,
-    "p90_ms": 1608
+    "min_ms": 23,
+    "avg_ms": 700,
+    "max_ms": 2907,
+    "p50_ms": 564,
+    "p90_ms": 1707
   },
   "top_countries": {
     "United Kingdom": 558,
@@ -37,7 +37,7 @@
     "Bulgaria": 13,
     "Czechia": 11,
     "Japan": 10,
-    "Malta": 7
+    "Belize": 7
   },
   "files": {
     "VLESS_WORKING.txt": 1076,
