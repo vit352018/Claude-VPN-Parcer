@@ -77,6 +77,13 @@
     "configs_found": 1697
   },
   {
+    "name": "Au1rxx/free-vpn-subscriptions (auto)",
+    "url": "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/v2ray-base64-0001.txt",
+    "type": "raw",
+    "stars": 347,
+    "configs_found": 1011
+  },
+  {
     "name": "xiaoji235/airport-free (auto)",
     "url": "https://raw.githubusercontent.com/xiaoji235/airport-free/main/v2ray.txt",
     "type": "raw",
@@ -201,12 +208,5 @@
     "type": "raw",
     "stars": 2801,
     "configs_found": 14
-  },
-  {
-    "name": "Barabama/FreeNodes (auto)",
-    "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/nodev2ray.txt",
-    "type": "raw",
-    "stars": 2801,
-    "configs_found": 13
   }
 ]
