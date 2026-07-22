@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-07-22T19:31:42.310485+00:00",
-  "updated_msk": "2026-07-22T22:31:42.274663+03:00",
+  "updated_utc": "2026-07-22T20:01:54.920690+00:00",
+  "updated_msk": "2026-07-22T23:01:54.887619+03:00",
   "total_working": 407,
-  "tls_confirmed": 226,
+  "tls_confirmed": 231,
   "by_protocol": {
     "vless": 332,
     "vmess": 17,
@@ -16,22 +16,22 @@
     "mixed": 268
   },
   "latency": {
-    "min_ms": 11,
-    "avg_ms": 608,
-    "max_ms": 3619,
-    "p50_ms": 397,
-    "p90_ms": 1533
+    "min_ms": 8,
+    "avg_ms": 599,
+    "max_ms": 2355,
+    "p50_ms": 365,
+    "p90_ms": 1521
   },
   "top_countries": {
     "Philippines": 97,
-    "Germany": 83,
-    "Russia": 39,
-    "United States": 32,
-    "The Netherlands": 21,
-    "Canada": 20,
+    "Germany": 89,
+    "Russia": 38,
+    "United States": 30,
+    "Canada": 23,
+    "The Netherlands": 20,
     "Unknown": 17,
     "France": 14,
-    "Poland": 14,
+    "Poland": 10,
     "Saudi Arabia": 7,
     "Hungary": 6,
     "South Korea": 6,
