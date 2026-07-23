@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-07-23T21:01:46.354533+00:00",
-  "updated_msk": "2026-07-24T00:01:46.306311+03:00",
+  "updated_utc": "2026-07-23T21:31:40.701653+00:00",
+  "updated_msk": "2026-07-24T00:31:40.654815+03:00",
   "total_working": 456,
-  "tls_confirmed": 277,
+  "tls_confirmed": 298,
   "by_protocol": {
     "vless": 401,
     "vmess": 13,
@@ -16,11 +16,11 @@
     "mixed": 254
   },
   "latency": {
-    "min_ms": 27,
-    "avg_ms": 1001,
-    "max_ms": 2895,
-    "p50_ms": 774,
-    "p90_ms": 1982
+    "min_ms": 5,
+    "avg_ms": 934,
+    "max_ms": 2873,
+    "p50_ms": 790,
+    "p90_ms": 1983
   },
   "top_countries": {
     "Philippines": 167,
