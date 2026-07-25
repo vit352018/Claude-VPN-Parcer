@@ -1,29 +1,29 @@
 {
-  "updated_utc": "2026-07-25T14:31:41.844046+00:00",
-  "updated_msk": "2026-07-25T17:31:41.818473+03:00",
-  "total_working": 407,
-  "tls_confirmed": 278,
+  "updated_utc": "2026-07-25T15:01:51.378512+00:00",
+  "updated_msk": "2026-07-25T18:01:51.333029+03:00",
+  "total_working": 405,
+  "tls_confirmed": 277,
   "by_protocol": {
-    "vless": 321,
+    "vless": 319,
     "vmess": 19,
     "trojan": 56,
     "hysteria": 11,
     "ss": 0,
     "other": 0,
-    "ru_bypass": 254,
+    "ru_bypass": 252,
     "mob_wl": 104,
     "wifi_bl": 186,
     "mixed": 289
   },
   "latency": {
-    "min_ms": 7,
-    "avg_ms": 509,
-    "max_ms": 2691,
-    "p50_ms": 352,
-    "p90_ms": 1335
+    "min_ms": 1,
+    "avg_ms": 739,
+    "max_ms": 3308,
+    "p50_ms": 464,
+    "p90_ms": 1908
   },
   "top_countries": {
-    "Russia": 110,
+    "Russia": 109,
     "Philippines": 73,
     "United States": 55,
     "Canada": 26,
@@ -40,9 +40,9 @@
     "Hong Kong": 5
   },
   "files": {
-    "VLESS_WORKING.txt": 407,
-    "RU_BYPASS.txt": 254,
-    "VLESS_ONLY.txt": 321,
+    "VLESS_WORKING.txt": 405,
+    "RU_BYPASS.txt": 252,
+    "VLESS_ONLY.txt": 319,
     "VMESS_ONLY.txt": 19,
     "TROJAN_ONLY.txt": 56,
     "HYSTERIA_ONLY.txt": 11,
