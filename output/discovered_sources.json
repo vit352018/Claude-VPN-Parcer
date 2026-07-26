@@ -168,6 +168,13 @@
     "configs_found": 174
   },
   {
+    "name": "snakem982/proxypool (auto)",
+    "url": "https://raw.githubusercontent.com/snakem982/proxypool/main/source/v2ray-2.txt",
+    "type": "raw",
+    "stars": 1936,
+    "configs_found": 117
+  },
+  {
     "name": "F0rc3Run/F0rc3Run (auto)",
     "url": "https://raw.githubusercontent.com/F0rc3Run/F0rc3Run/main/splitted-by-protocol/vmess.txt",
     "type": "raw",
@@ -198,13 +205,6 @@
   {
     "name": "Barabama/FreeNodes (auto)",
     "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/nodefree.txt",
-    "type": "raw",
-    "stars": 2801,
-    "configs_found": 23
-  },
-  {
-    "name": "Barabama/FreeNodes (auto)",
-    "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/v2rayshare.txt",
     "type": "raw",
     "stars": 2801,
     "configs_found": 23
