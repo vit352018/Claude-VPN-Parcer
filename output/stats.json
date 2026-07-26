@@ -1,33 +1,33 @@
 {
-  "updated_utc": "2026-07-26T16:01:47.006878+00:00",
-  "updated_msk": "2026-07-26T19:01:46.943612+03:00",
-  "total_working": 600,
-  "tls_confirmed": 407,
+  "updated_utc": "2026-07-26T16:31:30.880143+00:00",
+  "updated_msk": "2026-07-26T19:31:30.824234+03:00",
+  "total_working": 575,
+  "tls_confirmed": 409,
   "by_protocol": {
-    "vless": 439,
+    "vless": 415,
     "vmess": 14,
-    "trojan": 137,
+    "trojan": 136,
     "hysteria": 7,
     "ss": 3,
     "other": 0,
-    "ru_bypass": 372,
-    "mob_wl": 189,
+    "ru_bypass": 350,
+    "mob_wl": 170,
     "wifi_bl": 249,
-    "mixed": 432
+    "mixed": 413
   },
   "latency": {
-    "min_ms": 13,
-    "avg_ms": 873,
-    "max_ms": 2867,
-    "p50_ms": 734,
-    "p90_ms": 1573
+    "min_ms": 11,
+    "avg_ms": 841,
+    "max_ms": 3211,
+    "p50_ms": 775,
+    "p90_ms": 1463
   },
   "top_countries": {
-    "Russia": 169,
+    "Russia": 150,
     "Philippines": 139,
-    "United States": 75,
+    "United States": 73,
     "The Netherlands": 27,
-    "Germany": 23,
+    "Germany": 22,
     "Canada": 20,
     "United Kingdom": 11,
     "Unknown": 10,
@@ -40,18 +40,18 @@
     "Curacao": 6
   },
   "files": {
-    "VLESS_WORKING.txt": 600,
-    "RU_BYPASS.txt": 372,
-    "VLESS_ONLY.txt": 439,
+    "VLESS_WORKING.txt": 575,
+    "RU_BYPASS.txt": 350,
+    "VLESS_ONLY.txt": 415,
     "VMESS_ONLY.txt": 14,
-    "TROJAN_ONLY.txt": 137,
+    "TROJAN_ONLY.txt": 136,
     "HYSTERIA_ONLY.txt": 7,
     "SS_ONLY.txt": 3,
     "TOP50.txt": 50,
     "TOP50_RELIABLE.txt": 50,
-    "MOB_WL.txt": 189,
+    "MOB_WL.txt": 170,
     "WIFI_BL.txt": 249,
-    "MIXED.txt": 432
+    "MIXED.txt": 413
   },
   "raw_base": "https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output"
 }
