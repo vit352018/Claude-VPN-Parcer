@@ -203,10 +203,10 @@
     "configs_found": 100
   },
   {
-    "name": "Barabama/FreeNodes (auto)",
-    "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/nodefree.txt",
+    "name": "zhuhaiuk/free-nodes (auto)",
+    "url": "https://raw.githubusercontent.com/zhuhaiuk/free-nodes/main/nodes.txt",
     "type": "raw",
-    "stars": 2801,
-    "configs_found": 23
+    "stars": 78,
+    "configs_found": 48
   }
 ]
