@@ -1,29 +1,29 @@
 {
-  "updated_utc": "2026-07-28T16:31:39.724555+00:00",
-  "updated_msk": "2026-07-28T19:31:39.679151+03:00",
-  "total_working": 452,
-  "tls_confirmed": 350,
+  "updated_utc": "2026-07-28T17:01:49.181339+00:00",
+  "updated_msk": "2026-07-28T20:01:49.151294+03:00",
+  "total_working": 500,
+  "tls_confirmed": 431,
   "by_protocol": {
-    "vless": 300,
-    "vmess": 4,
-    "trojan": 134,
-    "hysteria": 14,
+    "vless": 358,
+    "vmess": 2,
+    "trojan": 127,
+    "hysteria": 13,
     "ss": 0,
     "other": 0,
-    "ru_bypass": 196,
-    "mob_wl": 113,
+    "ru_bypass": 266,
+    "mob_wl": 155,
     "wifi_bl": 222,
-    "mixed": 325
+    "mixed": 376
   },
   "latency": {
-    "min_ms": 8,
-    "avg_ms": 796,
-    "max_ms": 2878,
-    "p50_ms": 696,
-    "p90_ms": 1592
+    "min_ms": 10,
+    "avg_ms": 554,
+    "max_ms": 3255,
+    "p50_ms": 460,
+    "p90_ms": 1075
   },
   "top_countries": {
-    "Russia": 117,
+    "Russia": 167,
     "United States": 82,
     "Canada": 41,
     "Germany": 34,
@@ -37,20 +37,20 @@
     "Curacao": 5,
     "Hong Kong": 5,
     "Latvia": 5,
-    "Unknown": 4
+    "Denmark": 4
   },
   "files": {
-    "VLESS_WORKING.txt": 452,
-    "RU_BYPASS.txt": 196,
-    "VLESS_ONLY.txt": 300,
-    "VMESS_ONLY.txt": 4,
-    "TROJAN_ONLY.txt": 134,
-    "HYSTERIA_ONLY.txt": 14,
+    "VLESS_WORKING.txt": 500,
+    "RU_BYPASS.txt": 266,
+    "VLESS_ONLY.txt": 358,
+    "VMESS_ONLY.txt": 2,
+    "TROJAN_ONLY.txt": 127,
+    "HYSTERIA_ONLY.txt": 13,
     "TOP50.txt": 50,
     "TOP50_RELIABLE.txt": 50,
-    "MOB_WL.txt": 113,
+    "MOB_WL.txt": 155,
     "WIFI_BL.txt": 222,
-    "MIXED.txt": 325
+    "MIXED.txt": 376
   },
   "raw_base": "https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output"
 }
