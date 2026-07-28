@@ -1,33 +1,33 @@
 {
-  "updated_utc": "2026-07-28T19:01:54.726694+00:00",
-  "updated_msk": "2026-07-28T22:01:54.685976+03:00",
-  "total_working": 562,
-  "tls_confirmed": 366,
+  "updated_utc": "2026-07-28T19:31:37.223108+00:00",
+  "updated_msk": "2026-07-28T22:31:37.165879+03:00",
+  "total_working": 570,
+  "tls_confirmed": 436,
   "by_protocol": {
-    "vless": 358,
+    "vless": 363,
     "vmess": 5,
-    "trojan": 160,
+    "trojan": 163,
     "hysteria": 13,
     "ss": 26,
     "other": 0,
-    "ru_bypass": 216,
-    "mob_wl": 157,
+    "ru_bypass": 224,
+    "mob_wl": 163,
     "wifi_bl": 283,
-    "mixed": 438
+    "mixed": 444
   },
   "latency": {
     "min_ms": 17,
-    "avg_ms": 645,
-    "max_ms": 2927,
-    "p50_ms": 545,
-    "p90_ms": 1208
+    "avg_ms": 816,
+    "max_ms": 3510,
+    "p50_ms": 693,
+    "p90_ms": 1484
   },
   "top_countries": {
-    "Russia": 161,
+    "Russia": 164,
     "United States": 110,
     "Canada": 53,
-    "The Netherlands": 26,
-    "Germany": 26,
+    "The Netherlands": 31,
+    "Germany": 25,
     "France": 22,
     "Hong Kong": 19,
     "Hungary": 16,
@@ -35,23 +35,23 @@
     "United Kingdom": 13,
     "Philippines": 11,
     "Curacao": 6,
-    "Estonia": 6,
     "Belize": 6,
-    "Spain": 5
+    "Estonia": 5,
+    "Unknown": 5
   },
   "files": {
-    "VLESS_WORKING.txt": 562,
-    "RU_BYPASS.txt": 216,
-    "VLESS_ONLY.txt": 358,
+    "VLESS_WORKING.txt": 570,
+    "RU_BYPASS.txt": 224,
+    "VLESS_ONLY.txt": 363,
     "VMESS_ONLY.txt": 5,
-    "TROJAN_ONLY.txt": 160,
+    "TROJAN_ONLY.txt": 163,
     "HYSTERIA_ONLY.txt": 13,
     "SS_ONLY.txt": 26,
     "TOP50.txt": 50,
     "TOP50_RELIABLE.txt": 50,
-    "MOB_WL.txt": 157,
+    "MOB_WL.txt": 163,
     "WIFI_BL.txt": 283,
-    "MIXED.txt": 438
+    "MIXED.txt": 444
   },
   "raw_base": "https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output"
 }
