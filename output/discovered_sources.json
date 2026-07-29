@@ -84,6 +84,13 @@
     "configs_found": 1697
   },
   {
+    "name": "Au1rxx/free-vpn-subscriptions (auto)",
+    "url": "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/v2ray-base64-0002.txt",
+    "type": "raw",
+    "stars": 389,
+    "configs_found": 1639
+  },
+  {
     "name": "F0rc3Run/F0rc3Run (auto)",
     "url": "https://raw.githubusercontent.com/F0rc3Run/F0rc3Run/main/splitted-by-protocol/vless.txt",
     "type": "raw",
@@ -201,12 +208,5 @@
     "type": "raw",
     "stars": 5,
     "configs_found": 100
-  },
-  {
-    "name": "zhuhaiuk/free-nodes (auto)",
-    "url": "https://raw.githubusercontent.com/zhuhaiuk/free-nodes/main/nodes.txt",
-    "type": "raw",
-    "stars": 78,
-    "configs_found": 48
   }
 ]
