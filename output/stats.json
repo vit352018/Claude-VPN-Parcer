@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-07-30T03:01:38.247796+00:00",
-  "updated_msk": "2026-07-30T06:01:38.190352+03:00",
+  "updated_utc": "2026-07-30T03:31:35.151265+00:00",
+  "updated_msk": "2026-07-30T06:31:35.093929+03:00",
   "total_working": 527,
-  "tls_confirmed": 428,
+  "tls_confirmed": 422,
   "by_protocol": {
     "vless": 459,
     "vmess": 11,
@@ -16,11 +16,11 @@
     "mixed": 442
   },
   "latency": {
-    "min_ms": 14,
-    "avg_ms": 792,
-    "max_ms": 2746,
-    "p50_ms": 631,
-    "p90_ms": 1575
+    "min_ms": 16,
+    "avg_ms": 829,
+    "max_ms": 2631,
+    "p50_ms": 705,
+    "p90_ms": 1513
   },
   "top_countries": {
     "Russia": 180,
@@ -30,14 +30,14 @@
     "Germany": 21,
     "France": 17,
     "Poland": 16,
-    "Switzerland": 11,
     "Unknown": 11,
+    "Switzerland": 11,
     "United Kingdom": 10,
     "Philippines": 9,
     "Hungary": 6,
     "Latvia": 6,
     "Taiwan": 5,
-    "Türkiye": 3
+    "Austria": 3
   },
   "files": {
     "VLESS_WORKING.txt": 527,
