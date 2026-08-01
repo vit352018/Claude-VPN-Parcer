@@ -147,6 +147,13 @@
     "configs_found": 274
   },
   {
+    "name": "Barabama/FreeNodes (auto)",
+    "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/feat/ai-crawler-v2/nodes/freeclashnode.txt",
+    "type": "raw",
+    "stars": 3004,
+    "configs_found": 250
+  },
+  {
     "name": "wenxig/free-nodes-sub (auto)",
     "url": "https://raw.githubusercontent.com/wenxig/free-nodes-sub/main/data/sub.txt",
     "type": "raw",
@@ -198,13 +205,6 @@
   {
     "name": "Alirewa/V2ray-Configs (auto)",
     "url": "https://raw.githubusercontent.com/Alirewa/V2ray-Configs/main/sub1.txt",
-    "type": "raw",
-    "stars": 5,
-    "configs_found": 100
-  },
-  {
-    "name": "Alirewa/V2ray-Configs (auto)",
-    "url": "https://raw.githubusercontent.com/Alirewa/V2ray-Configs/main/sub2.txt",
     "type": "raw",
     "stars": 5,
     "configs_found": 100
