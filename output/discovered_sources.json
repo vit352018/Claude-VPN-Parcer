@@ -105,6 +105,13 @@
     "configs_found": 1011
   },
   {
+    "name": "rtwo2/FastNodes (auto)",
+    "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/vless_part10.txt",
+    "type": "raw",
+    "stars": 65,
+    "configs_found": 1000
+  },
+  {
     "name": "xiaoji235/airport-free (auto)",
     "url": "https://raw.githubusercontent.com/xiaoji235/airport-free/main/v2ray.txt",
     "type": "raw",
@@ -131,6 +138,27 @@
     "type": "raw",
     "stars": 52,
     "configs_found": 536
+  },
+  {
+    "name": "rtwo2/FastNodes (auto)",
+    "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/vless_part100.txt",
+    "type": "raw",
+    "stars": 65,
+    "configs_found": 500
+  },
+  {
+    "name": "rtwo2/FastNodes (auto)",
+    "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/vless_part101.txt",
+    "type": "raw",
+    "stars": 65,
+    "configs_found": 500
+  },
+  {
+    "name": "rtwo2/FastNodes (auto)",
+    "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/vless_part102.txt",
+    "type": "raw",
+    "stars": 65,
+    "configs_found": 500
   },
   {
     "name": "xyfqzy/free-nodes (auto)",
@@ -180,33 +208,5 @@
     "type": "raw",
     "stars": 65,
     "configs_found": 194
-  },
-  {
-    "name": "MahanKenway/Freedom-V2Ray (auto)",
-    "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/ss_sub.txt",
-    "type": "raw",
-    "stars": 65,
-    "configs_found": 174
-  },
-  {
-    "name": "snakem982/proxypool (auto)",
-    "url": "https://raw.githubusercontent.com/snakem982/proxypool/main/source/v2ray-2.txt",
-    "type": "raw",
-    "stars": 1936,
-    "configs_found": 117
-  },
-  {
-    "name": "F0rc3Run/F0rc3Run (auto)",
-    "url": "https://raw.githubusercontent.com/F0rc3Run/F0rc3Run/main/splitted-by-protocol/vmess.txt",
-    "type": "raw",
-    "stars": 276,
-    "configs_found": 105
-  },
-  {
-    "name": "Alirewa/V2ray-Configs (auto)",
-    "url": "https://raw.githubusercontent.com/Alirewa/V2ray-Configs/main/sub1.txt",
-    "type": "raw",
-    "stars": 5,
-    "configs_found": 100
   }
 ]
