@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-08-07T18:01:47.029421+00:00",
-  "updated_msk": "2026-08-07T21:01:46.995006+03:00",
+  "updated_utc": "2026-08-07T18:31:50.817107+00:00",
+  "updated_msk": "2026-08-07T21:31:50.766487+03:00",
   "total_working": 450,
-  "tls_confirmed": 186,
+  "tls_confirmed": 205,
   "by_protocol": {
     "vless": 393,
     "vmess": 9,
@@ -16,11 +16,11 @@
     "mixed": 250
   },
   "latency": {
-    "min_ms": 7,
-    "avg_ms": 543,
-    "max_ms": 2898,
-    "p50_ms": 484,
-    "p90_ms": 1166
+    "min_ms": 13,
+    "avg_ms": 776,
+    "max_ms": 3633,
+    "p50_ms": 590,
+    "p90_ms": 1665
   },
   "top_countries": {
     "France": 173,
