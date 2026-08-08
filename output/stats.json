@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-08-08T22:01:52.123800+00:00",
-  "updated_msk": "2026-08-09T01:01:52.082353+03:00",
+  "updated_utc": "2026-08-08T22:31:43.320389+00:00",
+  "updated_msk": "2026-08-09T01:31:43.276373+03:00",
   "total_working": 420,
-  "tls_confirmed": 336,
+  "tls_confirmed": 339,
   "by_protocol": {
     "vless": 313,
     "vmess": 46,
@@ -17,10 +17,10 @@
   },
   "latency": {
     "min_ms": 1,
-    "avg_ms": 711,
-    "max_ms": 2601,
-    "p50_ms": 508,
-    "p90_ms": 1749
+    "avg_ms": 714,
+    "max_ms": 2675,
+    "p50_ms": 500,
+    "p90_ms": 1915
   },
   "top_countries": {
     "Russia": 147,
@@ -32,8 +32,8 @@
     "United Kingdom": 17,
     "Hong Kong": 14,
     "South Korea": 7,
-    "Canada": 3,
     "Romania": 3,
+    "Canada": 3,
     "Switzerland": 3,
     "Estonia": 3,
     "Belgium": 2,
