@@ -1,14 +1,14 @@
 {
-  "updated_utc": "2026-08-14T22:01:28.181480+00:00",
-  "updated_msk": "2026-08-15T01:01:28.161887+03:00",
-  "total_working": 255,
-  "tls_confirmed": 203,
+  "updated_utc": "2026-08-14T22:31:12.425057+00:00",
+  "updated_msk": "2026-08-15T01:31:12.400137+03:00",
+  "total_working": 256,
+  "tls_confirmed": 205,
   "by_protocol": {
     "vless": 120,
     "vmess": 32,
     "trojan": 72,
     "hysteria": 13,
-    "ss": 18,
+    "ss": 19,
     "other": 0,
     "ru_bypass": 86,
     "mob_wl": 29,
@@ -16,11 +16,11 @@
     "mixed": 222
   },
   "latency": {
-    "min_ms": 13,
-    "avg_ms": 606,
-    "max_ms": 3296,
-    "p50_ms": 451,
-    "p90_ms": 1268
+    "min_ms": 8,
+    "avg_ms": 639,
+    "max_ms": 3404,
+    "p50_ms": 491,
+    "p90_ms": 1428
   },
   "top_countries": {
     "Canada": 62,
@@ -40,13 +40,13 @@
     "Switzerland": 1
   },
   "files": {
-    "VLESS_WORKING.txt": 255,
+    "VLESS_WORKING.txt": 256,
     "RU_BYPASS.txt": 86,
     "VLESS_ONLY.txt": 120,
     "VMESS_ONLY.txt": 32,
     "TROJAN_ONLY.txt": 72,
     "HYSTERIA_ONLY.txt": 13,
-    "SS_ONLY.txt": 18,
+    "SS_ONLY.txt": 19,
     "TOP50.txt": 50,
     "TOP50_RELIABLE.txt": 50,
     "MOB_WL.txt": 29,
