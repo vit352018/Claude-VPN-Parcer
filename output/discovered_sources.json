@@ -189,6 +189,13 @@
     "configs_found": 208
   },
   {
+    "name": "zhuhaiuk/free-nodes (auto)",
+    "url": "https://raw.githubusercontent.com/zhuhaiuk/free-nodes/main/nodes.txt",
+    "type": "raw",
+    "stars": 137,
+    "configs_found": 203
+  },
+  {
     "name": "miladtahanian/V2RayCFGTesterPro (auto)",
     "url": "https://raw.githubusercontent.com/miladtahanian/V2RayCFGTesterPro/main/subscriptions/subscription.txt",
     "type": "raw",
@@ -201,12 +208,5 @@
     "type": "raw",
     "stars": 2852,
     "configs_found": 198
-  },
-  {
-    "name": "MahanKenway/Freedom-V2Ray (auto)",
-    "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/vless.txt",
-    "type": "raw",
-    "stars": 65,
-    "configs_found": 194
   }
 ]
