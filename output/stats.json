@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-08-18T18:01:24.479442+00:00",
-  "updated_msk": "2026-08-18T21:01:24.447664+03:00",
+  "updated_utc": "2026-08-18T18:31:11.402971+00:00",
+  "updated_msk": "2026-08-18T21:31:11.380878+03:00",
   "total_working": 294,
-  "tls_confirmed": 233,
+  "tls_confirmed": 239,
   "by_protocol": {
     "vless": 188,
     "vmess": 7,
@@ -16,11 +16,11 @@
     "mixed": 263
   },
   "latency": {
-    "min_ms": 5,
-    "avg_ms": 776,
-    "max_ms": 2112,
-    "p50_ms": 643,
-    "p90_ms": 1735
+    "min_ms": 2,
+    "avg_ms": 571,
+    "max_ms": 3483,
+    "p50_ms": 323,
+    "p90_ms": 1570
   },
   "top_countries": {
     "Russia": 64,
@@ -28,15 +28,15 @@
     "The Netherlands": 37,
     "United States": 19,
     "Turkey": 19,
+    "Finland": 14,
     "France": 13,
-    "Germany": 12,
     "Thailand": 12,
     "Unknown": 7,
-    "Finland": 7,
-    "Estonia": 7,
     "Poland": 7,
+    "Estonia": 7,
     "Hong Kong": 6,
     "Israel": 6,
+    "Germany": 5,
     "Belarus": 5
   },
   "files": {
