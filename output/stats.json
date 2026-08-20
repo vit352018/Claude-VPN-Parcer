@@ -1,30 +1,30 @@
 {
-  "updated_utc": "2026-08-20T02:01:44.038128+00:00",
-  "updated_msk": "2026-08-20T05:01:44.009507+03:00",
-  "total_working": 395,
-  "tls_confirmed": 321,
+  "updated_utc": "2026-08-20T02:31:05.939578+00:00",
+  "updated_msk": "2026-08-20T05:31:05.910383+03:00",
+  "total_working": 393,
+  "tls_confirmed": 331,
   "by_protocol": {
-    "vless": 267,
+    "vless": 278,
     "vmess": 28,
-    "trojan": 88,
+    "trojan": 75,
     "hysteria": 12,
     "ss": 0,
     "other": 0,
-    "ru_bypass": 228,
-    "mob_wl": 154,
+    "ru_bypass": 234,
+    "mob_wl": 169,
     "wifi_bl": 202,
-    "mixed": 352
+    "mixed": 367
   },
   "latency": {
-    "min_ms": 2,
-    "avg_ms": 699,
-    "max_ms": 2883,
-    "p50_ms": 508,
-    "p90_ms": 1595
+    "min_ms": 17,
+    "avg_ms": 696,
+    "max_ms": 2344,
+    "p50_ms": 530,
+    "p90_ms": 1534
   },
   "top_countries": {
-    "Russia": 114,
-    "Canada": 66,
+    "Russia": 127,
+    "Canada": 52,
     "United States": 33,
     "The Netherlands": 30,
     "Unknown": 28,
@@ -33,24 +33,24 @@
     "Sweden": 16,
     "Seychelles": 9,
     "Thailand": 8,
-    "Japan": 6,
     "Spain": 6,
+    "Japan": 6,
     "Finland": 5,
-    "Brazil": 4,
+    "Norway": 4,
     "South Korea": 4
   },
   "files": {
-    "VLESS_WORKING.txt": 395,
-    "RU_BYPASS.txt": 228,
-    "VLESS_ONLY.txt": 267,
+    "VLESS_WORKING.txt": 393,
+    "RU_BYPASS.txt": 234,
+    "VLESS_ONLY.txt": 278,
     "VMESS_ONLY.txt": 28,
-    "TROJAN_ONLY.txt": 88,
+    "TROJAN_ONLY.txt": 75,
     "HYSTERIA_ONLY.txt": 12,
     "TOP50.txt": 50,
     "TOP50_RELIABLE.txt": 50,
-    "MOB_WL.txt": 154,
+    "MOB_WL.txt": 169,
     "WIFI_BL.txt": 202,
-    "MIXED.txt": 352
+    "MIXED.txt": 367
   },
   "raw_base": "https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output"
 }
