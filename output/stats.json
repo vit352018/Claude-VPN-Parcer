@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-08-21T00:01:25.472091+00:00",
-  "updated_msk": "2026-08-21T03:01:25.431175+03:00",
+  "updated_utc": "2026-08-21T00:31:29.915043+00:00",
+  "updated_msk": "2026-08-21T03:31:29.870584+03:00",
   "total_working": 410,
-  "tls_confirmed": 335,
+  "tls_confirmed": 347,
   "by_protocol": {
     "vless": 295,
     "vmess": 37,
@@ -17,10 +17,10 @@
   },
   "latency": {
     "min_ms": 5,
-    "avg_ms": 682,
-    "max_ms": 2507,
-    "p50_ms": 511,
-    "p90_ms": 1429
+    "avg_ms": 771,
+    "max_ms": 2587,
+    "p50_ms": 617,
+    "p90_ms": 1456
   },
   "top_countries": {
     "The Netherlands": 93,
