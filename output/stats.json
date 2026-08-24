@@ -1,30 +1,30 @@
 {
-  "updated_utc": "2026-08-24T14:01:58.289643+00:00",
-  "updated_msk": "2026-08-24T17:01:58.244788+03:00",
+  "updated_utc": "2026-08-24T14:31:41.442065+00:00",
+  "updated_msk": "2026-08-24T17:31:41.408590+03:00",
   "total_working": 430,
-  "tls_confirmed": 350,
+  "tls_confirmed": 341,
   "by_protocol": {
-    "vless": 289,
+    "vless": 280,
     "vmess": 21,
-    "trojan": 112,
+    "trojan": 121,
     "hysteria": 8,
     "ss": 0,
     "other": 0,
-    "ru_bypass": 224,
-    "mob_wl": 131,
+    "ru_bypass": 215,
+    "mob_wl": 122,
     "wifi_bl": 205,
-    "mixed": 336
+    "mixed": 327
   },
   "latency": {
-    "min_ms": 25,
-    "avg_ms": 536,
-    "max_ms": 1806,
-    "p50_ms": 465,
-    "p90_ms": 1090
+    "min_ms": 2,
+    "avg_ms": 444,
+    "max_ms": 2929,
+    "p50_ms": 323,
+    "p90_ms": 887
   },
   "top_countries": {
-    "Russia": 93,
-    "Canada": 78,
+    "Canada": 86,
+    "Russia": 84,
     "Japan": 63,
     "United States": 50,
     "The Netherlands": 43,
@@ -32,25 +32,25 @@
     "Unknown": 21,
     "Finland": 12,
     "Thailand": 9,
-    "Brazil": 8,
     "China": 8,
+    "Brazil": 8,
     "Germany": 5,
-    "Romania": 3,
     "Malaysia": 3,
-    "Croatia": 2
+    "Romania": 3,
+    "Turkey": 2
   },
   "files": {
     "VLESS_WORKING.txt": 430,
-    "RU_BYPASS.txt": 224,
-    "VLESS_ONLY.txt": 289,
+    "RU_BYPASS.txt": 215,
+    "VLESS_ONLY.txt": 280,
     "VMESS_ONLY.txt": 21,
-    "TROJAN_ONLY.txt": 112,
+    "TROJAN_ONLY.txt": 121,
     "HYSTERIA_ONLY.txt": 8,
     "TOP50.txt": 50,
     "TOP50_RELIABLE.txt": 50,
-    "MOB_WL.txt": 131,
+    "MOB_WL.txt": 122,
     "WIFI_BL.txt": 205,
-    "MIXED.txt": 336
+    "MIXED.txt": 327
   },
   "raw_base": "https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output"
 }
