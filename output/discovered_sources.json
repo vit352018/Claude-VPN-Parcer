@@ -1,5 +1,12 @@
 [
   {
+    "name": "anonymouskeys/Free-configs- (auto)",
+    "url": "https://raw.githubusercontent.com/anonymouskeys/Free-configs-/main/output/protocol/vless.txt",
+    "type": "raw",
+    "stars": 5,
+    "configs_found": 23240
+  },
+  {
     "name": "rtwo2/FastNodes (auto)",
     "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/vless.txt",
     "type": "raw",
@@ -112,6 +119,13 @@
     "configs_found": 1000
   },
   {
+    "name": "anonymouskeys/Free-configs- (auto)",
+    "url": "https://raw.githubusercontent.com/anonymouskeys/Free-configs-/main/output/protocol/vmess.txt",
+    "type": "raw",
+    "stars": 5,
+    "configs_found": 880
+  },
+  {
     "name": "xiaoji235/airport-free (auto)",
     "url": "https://raw.githubusercontent.com/xiaoji235/airport-free/main/v2ray.txt",
     "type": "raw",
@@ -168,6 +182,13 @@
     "configs_found": 332
   },
   {
+    "name": "ProblemTheCode/SylphNet-public (auto)",
+    "url": "https://raw.githubusercontent.com/ProblemTheCode/SylphNet-public/main/sub/sub.txt",
+    "type": "raw",
+    "stars": 6,
+    "configs_found": 306
+  },
+  {
     "name": "MahanKenway/Freedom-V2Ray (auto)",
     "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/trojan_sub.txt",
     "type": "raw",
@@ -187,26 +208,5 @@
     "type": "raw",
     "stars": 50,
     "configs_found": 208
-  },
-  {
-    "name": "zhuhaiuk/free-nodes (auto)",
-    "url": "https://raw.githubusercontent.com/zhuhaiuk/free-nodes/main/nodes.txt",
-    "type": "raw",
-    "stars": 137,
-    "configs_found": 203
-  },
-  {
-    "name": "miladtahanian/V2RayCFGTesterPro (auto)",
-    "url": "https://raw.githubusercontent.com/miladtahanian/V2RayCFGTesterPro/main/subscriptions/subscription.txt",
-    "type": "raw",
-    "stars": 16,
-    "configs_found": 200
-  },
-  {
-    "name": "Barabama/FreeNodes (auto)",
-    "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/feat/ai-crawler-v2/nodes/clashnode.txt",
-    "type": "raw",
-    "stars": 2852,
-    "configs_found": 198
   }
 ]
