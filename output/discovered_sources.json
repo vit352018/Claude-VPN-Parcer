@@ -14,6 +14,13 @@
     "configs_found": 19389
   },
   {
+    "name": "nukcrow/black-crow (auto)",
+    "url": "https://raw.githubusercontent.com/nukcrow/black-crow/main/sub/general/all_configs.txt",
+    "type": "raw",
+    "stars": 8,
+    "configs_found": 7975
+  },
+  {
     "name": "OrionPotter/free-proxy (auto)",
     "url": "https://raw.githubusercontent.com/OrionPotter/free-proxy/main/output/subscription.txt",
     "type": "raw",
@@ -119,6 +126,34 @@
     "configs_found": 1000
   },
   {
+    "name": "nukcrow/black-crow (auto)",
+    "url": "https://raw.githubusercontent.com/nukcrow/black-crow/main/sub/general/sub1.txt",
+    "type": "raw",
+    "stars": 8,
+    "configs_found": 1000
+  },
+  {
+    "name": "nukcrow/black-crow (auto)",
+    "url": "https://raw.githubusercontent.com/nukcrow/black-crow/main/sub/general/sub2.txt",
+    "type": "raw",
+    "stars": 8,
+    "configs_found": 1000
+  },
+  {
+    "name": "nukcrow/black-crow (auto)",
+    "url": "https://raw.githubusercontent.com/nukcrow/black-crow/main/sub/general/sub3.txt",
+    "type": "raw",
+    "stars": 8,
+    "configs_found": 1000
+  },
+  {
+    "name": "nukcrow/black-crow (auto)",
+    "url": "https://raw.githubusercontent.com/nukcrow/black-crow/main/sub/general/sub4.txt",
+    "type": "raw",
+    "stars": 8,
+    "configs_found": 999
+  },
+  {
     "name": "anonymouskeys/Free-configs- (auto)",
     "url": "https://raw.githubusercontent.com/anonymouskeys/Free-configs-/main/output/protocol/vmess.txt",
     "type": "raw",
@@ -173,40 +208,5 @@
     "type": "raw",
     "stars": 65,
     "configs_found": 500
-  },
-  {
-    "name": "xyfqzy/free-nodes (auto)",
-    "url": "https://raw.githubusercontent.com/xyfqzy/free-nodes/main/nodes/vmess.txt",
-    "type": "raw",
-    "stars": 118,
-    "configs_found": 332
-  },
-  {
-    "name": "ProblemTheCode/SylphNet-public (auto)",
-    "url": "https://raw.githubusercontent.com/ProblemTheCode/SylphNet-public/main/sub/sub.txt",
-    "type": "raw",
-    "stars": 6,
-    "configs_found": 306
-  },
-  {
-    "name": "MahanKenway/Freedom-V2Ray (auto)",
-    "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/trojan_sub.txt",
-    "type": "raw",
-    "stars": 65,
-    "configs_found": 274
-  },
-  {
-    "name": "Barabama/FreeNodes (auto)",
-    "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/feat/ai-crawler-v2/nodes/freeclashnode.txt",
-    "type": "raw",
-    "stars": 3004,
-    "configs_found": 250
-  },
-  {
-    "name": "wenxig/free-nodes-sub (auto)",
-    "url": "https://raw.githubusercontent.com/wenxig/free-nodes-sub/main/data/sub.txt",
-    "type": "raw",
-    "stars": 50,
-    "configs_found": 208
   }
 ]
