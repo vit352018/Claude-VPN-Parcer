@@ -1,56 +1,56 @@
 {
-  "updated_utc": "2026-09-26T01:01:48.744028+00:00",
-  "updated_msk": "2026-09-26T04:01:48.707473+03:00",
-  "total_working": 337,
-  "tls_confirmed": 257,
+  "updated_utc": "2026-09-26T02:01:47.594376+00:00",
+  "updated_msk": "2026-09-26T05:01:47.565698+03:00",
+  "total_working": 361,
+  "tls_confirmed": 274,
   "by_protocol": {
-    "vless": 305,
+    "vless": 329,
     "vmess": 21,
     "trojan": 9,
     "hysteria": 2,
     "ss": 0,
     "other": 0,
-    "ru_bypass": 197,
-    "mob_wl": 57,
+    "ru_bypass": 215,
+    "mob_wl": 117,
     "wifi_bl": 177,
-    "mixed": 225
+    "mixed": 286
   },
   "latency": {
-    "min_ms": 13,
-    "avg_ms": 656,
-    "max_ms": 2865,
-    "p50_ms": 452,
-    "p90_ms": 1617
+    "min_ms": 28,
+    "avg_ms": 483,
+    "max_ms": 2061,
+    "p50_ms": 344,
+    "p90_ms": 1054
   },
   "top_countries": {
-    "Russia": 45,
-    "The Netherlands": 44,
-    "Austria": 40,
+    "Russia": 100,
+    "The Netherlands": 47,
+    "Austria": 37,
     "United Arab Emirates": 22,
     "Unknown": 21,
     "United States": 20,
-    "Australia": 16,
-    "Germany": 15,
+    "Germany": 16,
     "Switzerland": 14,
     "Turkey": 13,
     "Japan": 13,
-    "Canada": 9,
-    "Sweden": 8,
     "India": 8,
-    "South Korea": 8
+    "Sweden": 8,
+    "Iran": 6,
+    "Finland": 6,
+    "Poland": 5
   },
   "files": {
-    "VLESS_WORKING.txt": 337,
-    "RU_BYPASS.txt": 197,
-    "VLESS_ONLY.txt": 305,
+    "VLESS_WORKING.txt": 361,
+    "RU_BYPASS.txt": 215,
+    "VLESS_ONLY.txt": 329,
     "VMESS_ONLY.txt": 21,
     "TROJAN_ONLY.txt": 9,
     "HYSTERIA_ONLY.txt": 2,
     "TOP50.txt": 50,
     "TOP50_RELIABLE.txt": 50,
-    "MOB_WL.txt": 57,
+    "MOB_WL.txt": 117,
     "WIFI_BL.txt": 177,
-    "MIXED.txt": 225
+    "MIXED.txt": 286
   },
   "raw_base": "https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output"
 }
