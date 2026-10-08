@@ -71,6 +71,8 @@ https://raw.githubusercontent.com/ТВО_ИМЯ/vless-collector/main/output/RU_B
 |---|---|
 | `VLESS_WORKING.txt` | Все рабочие серверы |
 | `RU_BYPASS.txt` | **🇷🇺 Только для обхода РКН/ТСПУ** (VLESS Reality + XTLS) |
+| `MOB_WL_2.txt` | Reality/XTLS из доп. источников и Telegram, без проверки |
+| `MIXED2.txt` | Быстрые проверенные чёрные + MOB_WL_2 через один, до 500 |
 | `VLESS_ONLY.txt` | Только VLESS |
 | `VMESS_ONLY.txt` | Только VMess |
 | `TROJAN_ONLY.txt` | Только Trojan |

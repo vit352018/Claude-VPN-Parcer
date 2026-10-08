@@ -38,6 +38,8 @@ def generate_html(stats: dict):
         ("TROJAN_ONLY.txt",    "🐴 Trojan",              by_proto.get("trojan",0)),
         ("HYSTERIA_ONLY.txt",  "⚡ Hysteria2",           by_proto.get("hysteria",0)),
         ("SS_ONLY.txt",        "🔲 Shadowsocks",         by_proto.get("ss",0)),
+        ("MOB_WL_2.txt",       "🚀 Обход РКН без теста", by_proto.get("mob_wl_2",0)),
+        ("MIXED2.txt",         "🔀 Быстрые WL+BL",       by_proto.get("mixed2",0)),
         ("TOP50.txt",          "🏆 TOP-50 быстрых",      min(50,total)),
         ("TOP50_RELIABLE.txt", "🛡 TOP-50 надёжных",     min(50,total)),
     ]
