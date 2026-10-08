@@ -4,6 +4,7 @@ collector.py — скачивает конфиги из GitHub-источник�
 Источники делятся на типы (поле в словаре):
   ru=True      — специальные для РФ (Reality, XTLS)
   mob_wl=True  — белые списки мобильные → MOB_WL.txt
+  mob_wl_2=True — обход РКН из доп. источников → MOB_WL_2.txt (только Reality/XTLS, без теста)
   wifi_bl=True — чёрные списки → WIFI_BL.txt
   (обычные)    — общие бесплатные ноды
 """
@@ -40,17 +41,17 @@ SOURCES: list[dict] = [
     {
         "name": "soroushmirzaei reality",
         "url":  "https://raw.githubusercontent.com/soroushmirzaei/telegram-configs-collector/main/splitted/reality",
-        "type": "raw", "ru": True,
+        "type": "raw", "ru": True, "mob_wl_2": True,
     },
     {
         "name": "yebekhe TVC reality",
         "url":  "https://raw.githubusercontent.com/yebekhe/TVC/main/subscriptions/xray/reality",
-        "type": "raw", "ru": True,
+        "type": "raw", "ru": True, "mob_wl_2": True,
     },
     {
         "name": "MatinGhanbari sub10",
         "url":  "https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/xray/sub10.txt",
-        "type": "raw", "ru": True,
+        "type": "raw", "ru": True, "mob_wl_2": True,
     },
 
     # ── Mob WL (белые списки мобильные) → MOB_WL.txt ─────────────────────────
@@ -122,6 +123,11 @@ SOURCES: list[dict] = [
         "name": "Leon406 SubCrawler vless",
         "url":  "https://raw.githubusercontent.com/Leon406/SubCrawler/main/sub/share/vless",
         "type": "raw",
+    },
+    {
+        "name": "Au1rxx free-vpn-subscriptions",
+        "url":  "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/v2ray-base64.txt",
+        "type": "base64", "mob_wl_2": True,
     },
 ]
 
@@ -222,9 +228,9 @@ async def fetch_source_with_retry(
     return []
 
 
-async def collect_all() -> tuple[list[str], set[str], set[str], set[str]]:
+async def collect_all() -> tuple[list[str], set[str], set[str], set[str], set[str]]:
     """
-    Возвращает: (unique_configs, ru_keys, mob_wl_keys, wifi_bl_keys)
+    Возвращает: (unique_configs, ru_keys, mob_wl_keys, wifi_bl_keys, mob_wl_2_keys)
     """
     all_sources = list(SOURCES)
 
@@ -253,6 +259,7 @@ async def collect_all() -> tuple[list[str], set[str], set[str], set[str]]:
     ru_keys:      set[str] = set()
     mob_wl_keys:  set[str] = set()
     wifi_bl_keys: set[str] = set()
+    mob_wl_2_keys: set[str] = set()
 
     for source, batch in zip(all_sources, results):
         for c in batch:
@@ -261,6 +268,7 @@ async def collect_all() -> tuple[list[str], set[str], set[str], set[str]]:
             if source.get("ru"):      ru_keys.add(key)
             if source.get("mob_wl"):  mob_wl_keys.add(key)
             if source.get("wifi_bl"): wifi_bl_keys.add(key)
+            if source.get("mob_wl_2"): mob_wl_2_keys.add(key)
 
     # Дедупликация
     seen:   set[str]  = set()
@@ -272,4 +280,4 @@ async def collect_all() -> tuple[list[str], set[str], set[str], set[str]]:
 
     log.info("📦 Уникальных: %d  RU: %d  MobWL: %d  WiFiBL: %d",
              len(unique), len(ru_keys), len(mob_wl_keys), len(wifi_bl_keys))
-    return unique, ru_keys, mob_wl_keys, wifi_bl_keys
+    return unique, ru_keys, mob_wl_keys, wifi_bl_keys, mob_wl_2_keys

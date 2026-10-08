@@ -141,6 +141,7 @@ def write_all_outputs(
     ru_keys:      set[str] | None = None,
     raw_mob_wl:   list[str] | None = None,   # сырые конфиги из mob_wl-источников
     raw_wifi_bl:  list[str] | None = None,   # сырые конфиги из wifi_bl-источников
+    raw_mob_wl_2: list[str] | None = None,   # сырые конфиги MOB_WL_2 (обход РКН, без теста)
 ) -> dict:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     now_msk        = datetime.now(ZoneInfo("Europe/Moscow"))
@@ -150,6 +151,7 @@ def write_all_outputs(
     ru_keys     = ru_keys     or set()
     raw_mob_wl  = raw_mob_wl  or []
     raw_wifi_bl = raw_wifi_bl or []
+    raw_mob_wl_2 = raw_mob_wl_2 or []
 
     # ── Разбивка по протоколам ────────────────────────────────────────────────
     buckets: dict[str, list[tuple[str, int]]] = {
@@ -258,6 +260,7 @@ def write_all_outputs(
     for filename, raw_list, title in [
         ("MOB_WL.txt",  raw_mob_wl,  "📱 Mob WL | Mobile White Lists | igareck"),
         ("WIFI_BL.txt", raw_wifi_bl, "📶 WiFi BL | Black Lists | igareck"),
+        ("MOB_WL_2.txt", raw_mob_wl_2, "🚀 Mob WL 2 | Reality+XTLS | Обход РКН"),
     ]:
         if not raw_list:
             continue
@@ -311,6 +314,44 @@ def write_all_outputs(
         log.info("  💾 %-28s %d конфигов (WL:%d + BL:%d, чередование)",
                  "MIXED.txt", total_mixed, len(wl_clean), len(bl_clean))
 
+    # ── MIXED2.txt — быстрые ПРОВЕРЕННЫЕ чёрные + белые (MOB_WL_2) БЕЗ проверки, через один ───
+    # Белые (MOB_WL_2) кладём как есть, без TCP-теста: для них проверка даёт неверные данные.
+    # Чёрные берём только прошедшие TCP-тест (working), самые быстрые первыми.
+    # Чередуем: MOB_WL_2, BL, MOB_WL_2, BL, ... Если одна сторона короче — хвост добирается
+    # из другой. Максимум MIXED2_LIMIT серверов.
+    MIXED2_LIMIT = 500
+    if raw_wifi_bl or raw_mob_wl_2:
+        def _k(c): return c.split("#")[0].rstrip("?& ")
+        wl2_seen: set[str] = set()
+        wl2_list: list[str] = []
+        for c in raw_mob_wl_2:
+            k = _k(c)
+            if k not in wl2_seen:
+                wl2_seen.add(k); wl2_list.append(c)
+        bl_keys = {_k(c) for c in raw_wifi_bl}
+        bl_fast = [(c, l) for c, l in sorted(working, key=lambda x: x[1])
+                   if _k(c) in bl_keys and _k(c) not in wl2_seen]
+        picked: list[tuple[str, str, int]] = []      # (тип, конфиг, задержка)
+        for i in range(max(len(wl2_list), len(bl_fast))):
+            if i < len(wl2_list): picked.append(("wl", wl2_list[i], 0))
+            if i < len(bl_fast):  picked.append(("bl", bl_fast[i][0], bl_fast[i][1]))
+        picked = picked[:MIXED2_LIMIT]
+        if picked:
+            full_title = f"🔀 Mixed2 | Fast tested BL + MOB_WL_2 (без теста) | {now_msk.strftime('%Y-%m-%d %H:%M')} MSK"
+            lines = _header(full_title, len(picked), now_msk, f"{raw_base}/MIXED2.txt")
+            for kind, config_str, lat in picked:
+                if kind == "wl":
+                    lines.append(_sanitize_config(config_str))
+                else:
+                    host = _get_host(config_str)
+                    geo  = dict(geo_map.get(host, {})); geo["tls_ok"] = tls_map.get(host, False)
+                    lines.append(_clean_label(_sanitize_config(config_str), lat, geo, score_map.get(host, -1.0)))
+            (OUTPUT_DIR / "MIXED2.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+            written["MIXED2.txt"] = len(picked)
+            n_wl2 = sum(1 for kind, _, _ in picked if kind == "wl")
+            log.info("  💾 %-28s %d конфигов (MOB_WL_2 без теста:%d + BL проверенных:%d, чередование)",
+                     "MIXED2.txt", len(picked), n_wl2, len(picked) - n_wl2)
+
     # ── stats.json ────────────────────────────────────────────────────────────
     latencies = [lat for _, lat in buckets["all"]]
     stats = {
@@ -328,7 +369,9 @@ def write_all_outputs(
             "ru_bypass":  len(buckets["ru_bypass"]),
             "mob_wl":     len(raw_mob_wl),
             "wifi_bl":    len(raw_wifi_bl),
+            "mob_wl_2":   len(raw_mob_wl_2),
             "mixed":      written.get("MIXED.txt", 0),
+            "mixed2":     written.get("MIXED2.txt", 0),
         },
         "latency": {
             "min_ms": min(latencies) if latencies else 0,

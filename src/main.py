@@ -29,7 +29,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 sys.path.insert(0, str(Path(__file__).parent))
 
 import config as cfg
-from collector     import collect_all
+from collector     import collect_all, is_russia_bypass
 from tg_scraper    import collect_from_telegram
 from tester        import batch_test
 from geoip         import geolocate_hosts
@@ -116,12 +116,12 @@ async def main():
         # ── 2. Сбор конфигов ──────────────────────────────────────────────────
         log.info("📥 ШАГ 2 — Сбор конфигов…  (%.0f сек)", elapsed())
         try:
-            github_cfgs, ru_keys, mob_wl_keys, wifi_bl_keys = await asyncio.wait_for(
+            github_cfgs, ru_keys, mob_wl_keys, wifi_bl_keys, mob_wl_2_keys = await asyncio.wait_for(
                 collect_all(), timeout=90
             )
         except asyncio.TimeoutError:
             log.warning("   GitHub: таймаут")
-            github_cfgs, ru_keys, mob_wl_keys, wifi_bl_keys = [], set(), set(), set()
+            github_cfgs, ru_keys, mob_wl_keys, wifi_bl_keys, mob_wl_2_keys = [], set(), set(), set(), set()
 
         try:
             tg_cfgs = await asyncio.wait_for(
@@ -154,6 +154,15 @@ async def main():
                        if c.split("#")[0].rstrip("?& ") in wifi_bl_keys]
         log.info("   Сырых MobWL: %d  WiFiBL: %d (без TCP-теста)",
                  len(raw_mob_wl), len(raw_wifi_bl))
+
+        # MOB_WL_2: обход РКН из доп. источников (GitHub, кроме igareck) + Telegram.
+        # Только VLESS Reality/XTLS (is_russia_bypass), без TCP-теста.
+        raw_mob_wl_2, _seen_2 = [], set()
+        for c in [u for u in unique if u.split("#")[0].rstrip("?& ") in mob_wl_2_keys] + tg_cfgs:
+            k = c.split("#")[0].rstrip("?& ")
+            if is_russia_bypass(c) and k not in _seen_2:
+                _seen_2.add(k); raw_mob_wl_2.append(c)
+        log.info("   Сырых MobWL2: %d (без TCP-теста)", len(raw_mob_wl_2))
 
         if not unique:
             raise RuntimeError("Нет конфигов из источников")
@@ -242,6 +251,7 @@ async def main():
             ru_keys=ru_keys,
             raw_mob_wl=raw_mob_wl,
             raw_wifi_bl=raw_wifi_bl,
+            raw_mob_wl_2=raw_mob_wl_2,
         )
 
         # ── 8. HTML ───────────────────────────────────────────────────────────
