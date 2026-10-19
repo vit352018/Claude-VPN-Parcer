@@ -1,5 +1,19 @@
 [
   {
+    "name": "morpheusadam/v2ray-config (auto)",
+    "url": "https://raw.githubusercontent.com/morpheusadam/v2ray-config/main/subs/bundles/vless-base64.txt",
+    "type": "raw",
+    "stars": 33,
+    "configs_found": 29796
+  },
+  {
+    "name": "morpheusadam/v2ray-config (auto)",
+    "url": "https://raw.githubusercontent.com/morpheusadam/v2ray-config/main/subs/bundles/vless.txt",
+    "type": "raw",
+    "stars": 33,
+    "configs_found": 29796
+  },
+  {
     "name": "anonymouskeys/Free-configs- (auto)",
     "url": "https://raw.githubusercontent.com/anonymouskeys/Free-configs-/main/output/protocol/vless.txt",
     "type": "raw",
@@ -12,6 +26,20 @@
     "type": "raw",
     "stars": 38,
     "configs_found": 19389
+  },
+  {
+    "name": "morpheusadam/v2ray-config (auto)",
+    "url": "https://raw.githubusercontent.com/morpheusadam/v2ray-config/main/subs/bundles/vmess-base64.txt",
+    "type": "raw",
+    "stars": 33,
+    "configs_found": 8805
+  },
+  {
+    "name": "morpheusadam/v2ray-config (auto)",
+    "url": "https://raw.githubusercontent.com/morpheusadam/v2ray-config/main/subs/bundles/vmess.txt",
+    "type": "raw",
+    "stars": 33,
+    "configs_found": 8805
   },
   {
     "name": "nukcrow/black-crow (auto)",
@@ -180,33 +208,5 @@
     "type": "raw",
     "stars": 507,
     "configs_found": 607
-  },
-  {
-    "name": "0xRadikal/Free-v2ray-Configs (auto)",
-    "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs.txt",
-    "type": "raw",
-    "stars": 52,
-    "configs_found": 536
-  },
-  {
-    "name": "rtwo2/FastNodes (auto)",
-    "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/vless_part100.txt",
-    "type": "raw",
-    "stars": 65,
-    "configs_found": 500
-  },
-  {
-    "name": "rtwo2/FastNodes (auto)",
-    "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/vless_part101.txt",
-    "type": "raw",
-    "stars": 65,
-    "configs_found": 500
-  },
-  {
-    "name": "rtwo2/FastNodes (auto)",
-    "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/vless_part102.txt",
-    "type": "raw",
-    "stars": 65,
-    "configs_found": 500
   }
 ]
