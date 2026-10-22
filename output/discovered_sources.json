@@ -14,6 +14,41 @@
     "configs_found": 29796
   },
   {
+    "name": "3000S-HTTP/sNSub (auto)",
+    "url": "https://raw.githubusercontent.com/3000S-HTTP/sNSub/main/output/configs.txt",
+    "type": "raw",
+    "stars": 5,
+    "configs_found": 25526
+  },
+  {
+    "name": "3000S-HTTP/sNSub (auto)",
+    "url": "https://raw.githubusercontent.com/3000S-HTTP/sNSub/main/output/configs_base64.txt",
+    "type": "raw",
+    "stars": 5,
+    "configs_found": 25526
+  },
+  {
+    "name": "3000S-HTTP/sNSub (auto)",
+    "url": "https://raw.githubusercontent.com/3000S-HTTP/sNSub/main/output/configs_vless_vmess.txt",
+    "type": "raw",
+    "stars": 5,
+    "configs_found": 24282
+  },
+  {
+    "name": "3000S-HTTP/sNSub (auto)",
+    "url": "https://raw.githubusercontent.com/3000S-HTTP/sNSub/main/output/configs_vless_vmess_base64.txt",
+    "type": "raw",
+    "stars": 5,
+    "configs_found": 24282
+  },
+  {
+    "name": "3000S-HTTP/sNSub (auto)",
+    "url": "https://raw.githubusercontent.com/3000S-HTTP/sNSub/main/output/vless.txt",
+    "type": "raw",
+    "stars": 5,
+    "configs_found": 23719
+  },
+  {
     "name": "anonymouskeys/Free-configs- (auto)",
     "url": "https://raw.githubusercontent.com/anonymouskeys/Free-configs-/main/output/protocol/vless.txt",
     "type": "raw",
@@ -173,40 +208,5 @@
     "type": "raw",
     "stars": 8,
     "configs_found": 1000
-  },
-  {
-    "name": "nukcrow/black-crow (auto)",
-    "url": "https://raw.githubusercontent.com/nukcrow/black-crow/main/sub/general/sub4.txt",
-    "type": "raw",
-    "stars": 8,
-    "configs_found": 999
-  },
-  {
-    "name": "0xRadikal/Free-v2ray-Configs (auto)",
-    "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs.txt",
-    "type": "raw",
-    "stars": 758,
-    "configs_found": 892
-  },
-  {
-    "name": "anonymouskeys/Free-configs- (auto)",
-    "url": "https://raw.githubusercontent.com/anonymouskeys/Free-configs-/main/output/protocol/vmess.txt",
-    "type": "raw",
-    "stars": 5,
-    "configs_found": 880
-  },
-  {
-    "name": "xiaoji235/airport-free (auto)",
-    "url": "https://raw.githubusercontent.com/xiaoji235/airport-free/main/v2ray.txt",
-    "type": "raw",
-    "stars": 507,
-    "configs_found": 639
-  },
-  {
-    "name": "cbusifabcap/daily_free_vpn (auto)",
-    "url": "https://raw.githubusercontent.com/cbusifabcap/daily_free_vpn/main/sub.txt",
-    "type": "raw",
-    "stars": 23,
-    "configs_found": 615
   }
 ]
