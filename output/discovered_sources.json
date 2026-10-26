@@ -182,6 +182,13 @@
     "configs_found": 1011
   },
   {
+    "name": "0xRadikal/Free-v2ray-Configs (auto)",
+    "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs.txt",
+    "type": "raw",
+    "stars": 767,
+    "configs_found": 1002
+  },
+  {
     "name": "rtwo2/FastNodes (auto)",
     "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/vless_part10.txt",
     "type": "raw",
@@ -198,13 +205,6 @@
   {
     "name": "nukcrow/black-crow (auto)",
     "url": "https://raw.githubusercontent.com/nukcrow/black-crow/main/sub/general/sub2.txt",
-    "type": "raw",
-    "stars": 8,
-    "configs_found": 1000
-  },
-  {
-    "name": "nukcrow/black-crow (auto)",
-    "url": "https://raw.githubusercontent.com/nukcrow/black-crow/main/sub/general/sub3.txt",
     "type": "raw",
     "stars": 8,
     "configs_found": 1000
