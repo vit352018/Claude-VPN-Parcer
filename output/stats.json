@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-11-02T10:01:24.264828+00:00",
-  "updated_msk": "2026-11-02T13:01:24.232741+03:00",
+  "updated_utc": "2026-11-02T11:01:27.386527+00:00",
+  "updated_msk": "2026-11-02T14:01:27.333869+03:00",
   "total_working": 443,
-  "tls_confirmed": 337,
+  "tls_confirmed": 329,
   "by_protocol": {
     "vless": 320,
     "vmess": 35,
@@ -13,16 +13,16 @@
     "ru_bypass": 134,
     "mob_wl": 154,
     "wifi_bl": 207,
-    "mob_wl_2": 789,
+    "mob_wl_2": 790,
     "mixed": 358,
     "mixed2": 500
   },
   "latency": {
-    "min_ms": 1,
-    "avg_ms": 135,
-    "max_ms": 606,
-    "p50_ms": 129,
-    "p90_ms": 291
+    "min_ms": 2,
+    "avg_ms": 176,
+    "max_ms": 1420,
+    "p50_ms": 151,
+    "p90_ms": 321
   },
   "top_countries": {
     "Russia": 144,
@@ -38,8 +38,8 @@
     "Philippines": 4,
     "Italy": 2,
     "United Kingdom": 1,
-    "Australia": 1,
-    "Hong Kong": 1
+    "Hong Kong": 1,
+    "Australia": 1
   },
   "files": {
     "VLESS_WORKING.txt": 443,
@@ -53,7 +53,7 @@
     "TOP50_RELIABLE.txt": 50,
     "MOB_WL.txt": 154,
     "WIFI_BL.txt": 207,
-    "MOB_WL_2.txt": 789,
+    "MOB_WL_2.txt": 790,
     "MIXED.txt": 358,
     "MIXED2.txt": 500
   },
