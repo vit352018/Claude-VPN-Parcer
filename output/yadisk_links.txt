@@ -26,6 +26,9 @@ https://storage.yandexcloud.net/vless-collector/MIXED.txt
 # MIXED2.txt:
 https://storage.yandexcloud.net/vless-collector/MIXED2.txt
 
+# NL.txt:
+https://storage.yandexcloud.net/vless-collector/NL.txt
+
 # VLESS_ONLY.txt:
 https://storage.yandexcloud.net/vless-collector/VLESS_ONLY.txt
 
