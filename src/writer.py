@@ -352,6 +352,20 @@ def write_all_outputs(
             log.info("  💾 %-28s %d конфигов (MOB_WL_2 без теста:%d + BL проверенных:%d, чередование)",
                      "MIXED2.txt", len(picked), n_wl2, len(picked) - n_wl2)
 
+    # ── NL.txt — все ПРОВЕРЕННЫЕ серверы из Нидерландов (country_code == NL), быстрые первыми ──
+    nl_list = [(c, l) for c, l in sorted(working, key=lambda x: x[1])
+               if geo_map.get(_get_host(c), {}).get("country_code") == "NL"]
+    if nl_list:
+        full_title = f"🇳🇱 Netherlands | Проверенные серверы | {now_msk.strftime('%Y-%m-%d %H:%M')} MSK"
+        lines = _header(full_title, len(nl_list), now_msk, f"{raw_base}/NL.txt")
+        for config_str, lat in nl_list:
+            host = _get_host(config_str)
+            geo  = dict(geo_map.get(host, {})); geo["tls_ok"] = tls_map.get(host, False)
+            lines.append(_clean_label(config_str, lat, geo, score_map.get(host, -1.0)))
+        (OUTPUT_DIR / "NL.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+        written["NL.txt"] = len(nl_list)
+        log.info("  💾 %-28s %d конфигов (Нидерланды, проверенные)", "NL.txt", len(nl_list))
+
     # ── stats.json ────────────────────────────────────────────────────────────
     latencies = [lat for _, lat in buckets["all"]]
     stats = {
@@ -372,6 +386,7 @@ def write_all_outputs(
             "mob_wl_2":   len(raw_mob_wl_2),
             "mixed":      written.get("MIXED.txt", 0),
             "mixed2":     written.get("MIXED2.txt", 0),
+            "nl":         written.get("NL.txt", 0),
         },
         "latency": {
             "min_ms": min(latencies) if latencies else 0,

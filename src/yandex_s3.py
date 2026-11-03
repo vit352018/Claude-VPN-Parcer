@@ -35,6 +35,7 @@ FILES_TO_UPLOAD = [
     "WIFI_BL.txt",
     "MIXED.txt",
     "MIXED2.txt",
+    "NL.txt",
     "VLESS_ONLY.txt",
     "VMESS_ONLY.txt",
     "TROJAN_ONLY.txt",
