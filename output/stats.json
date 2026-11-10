@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-11-10T01:01:14.902014+00:00",
-  "updated_msk": "2026-11-10T04:01:14.858291+03:00",
+  "updated_utc": "2026-11-10T02:01:20.980257+00:00",
+  "updated_msk": "2026-11-10T05:01:20.938121+03:00",
   "total_working": 552,
-  "tls_confirmed": 428,
+  "tls_confirmed": 419,
   "by_protocol": {
     "vless": 417,
     "vmess": 131,
@@ -16,26 +16,27 @@
     "mob_wl_2": 778,
     "mixed": 415,
     "mixed2": 500,
-    "nl": 0
+    "nl": 1
   },
   "latency": {
     "min_ms": 5,
-    "avg_ms": 251,
-    "max_ms": 1440,
-    "p50_ms": 168,
-    "p90_ms": 559
+    "avg_ms": 210,
+    "max_ms": 1370,
+    "p50_ms": 219,
+    "p90_ms": 416
   },
   "top_countries": {
-    "Russia": 159,
+    "Russia": 158,
     "Canada": 142,
     "Unknown": 131,
     "United States": 79,
     "Japan": 30,
     "Singapore": 3,
-    "Poland": 2,
     "Costa Rica": 2,
-    "Germany": 1,
+    "Poland": 2,
     "Taiwan": 1,
+    "The Netherlands": 1,
+    "Germany": 1,
     "Hong Kong": 1,
     "Norway": 1
   },
@@ -51,7 +52,8 @@
     "WIFI_BL.txt": 267,
     "MOB_WL_2.txt": 778,
     "MIXED.txt": 415,
-    "MIXED2.txt": 500
+    "MIXED2.txt": 500,
+    "NL.txt": 1
   },
   "raw_base": "https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output"
 }
