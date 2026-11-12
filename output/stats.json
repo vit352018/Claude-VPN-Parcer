@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-11-12T12:01:18.120305+00:00",
-  "updated_msk": "2026-11-12T15:01:18.079192+03:00",
+  "updated_utc": "2026-11-12T13:01:16.745991+00:00",
+  "updated_msk": "2026-11-12T16:01:16.696150+03:00",
   "total_working": 543,
-  "tls_confirmed": 482,
+  "tls_confirmed": 497,
   "by_protocol": {
     "vless": 460,
     "vmess": 82,
@@ -13,17 +13,17 @@
     "ru_bypass": 22,
     "mob_wl": 79,
     "wifi_bl": 215,
-    "mob_wl_2": 787,
+    "mob_wl_2": 784,
     "mixed": 294,
     "mixed2": 500,
     "nl": 0
   },
   "latency": {
-    "min_ms": 8,
-    "avg_ms": 271,
-    "max_ms": 1193,
-    "p50_ms": 207,
-    "p90_ms": 553
+    "min_ms": 13,
+    "avg_ms": 279,
+    "max_ms": 995,
+    "p50_ms": 246,
+    "p90_ms": 494
   },
   "top_countries": {
     "Canada": 185,
@@ -47,7 +47,7 @@
     "TOP50_RELIABLE.txt": 50,
     "MOB_WL.txt": 79,
     "WIFI_BL.txt": 215,
-    "MOB_WL_2.txt": 787,
+    "MOB_WL_2.txt": 784,
     "MIXED.txt": 294,
     "MIXED2.txt": 500
   },
