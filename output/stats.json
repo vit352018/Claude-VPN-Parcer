@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-11-14T08:01:16.632687+00:00",
-  "updated_msk": "2026-11-14T11:01:16.597104+03:00",
+  "updated_utc": "2026-11-14T09:01:41.795479+00:00",
+  "updated_msk": "2026-11-14T12:01:41.743303+03:00",
   "total_working": 667,
-  "tls_confirmed": 583,
+  "tls_confirmed": 584,
   "by_protocol": {
     "vless": 543,
     "vmess": 97,
@@ -10,37 +10,39 @@
     "hysteria": 0,
     "ss": 0,
     "other": 0,
-    "ru_bypass": 41,
+    "ru_bypass": 38,
     "mob_wl": 116,
     "wifi_bl": 262,
-    "mob_wl_2": 792,
+    "mob_wl_2": 790,
     "mixed": 376,
     "mixed2": 500,
     "nl": 0
   },
   "latency": {
-    "min_ms": 7,
-    "avg_ms": 402,
-    "max_ms": 3432,
-    "p50_ms": 130,
-    "p90_ms": 1758
+    "min_ms": 8,
+    "avg_ms": 322,
+    "max_ms": 3330,
+    "p50_ms": 211,
+    "p90_ms": 692
   },
   "top_countries": {
-    "Canada": 385,
-    "Russia": 117,
+    "Canada": 386,
+    "Russia": 111,
     "Unknown": 90,
     "Germany": 24,
-    "United States": 21,
+    "United States": 20,
     "United Kingdom": 10,
+    "Japan": 9,
     "Costa Rica": 8,
-    "Japan": 8,
+    "Singapore": 4,
     "India": 2,
     "United Arab Emirates": 1,
-    "Hong Kong": 1
+    "Hong Kong": 1,
+    "Poland": 1
   },
   "files": {
     "VLESS_WORKING.txt": 667,
-    "RU_BYPASS.txt": 41,
+    "RU_BYPASS.txt": 38,
     "VLESS_ONLY.txt": 543,
     "VMESS_ONLY.txt": 97,
     "TROJAN_ONLY.txt": 27,
@@ -48,7 +50,7 @@
     "TOP50_RELIABLE.txt": 50,
     "MOB_WL.txt": 116,
     "WIFI_BL.txt": 262,
-    "MOB_WL_2.txt": 792,
+    "MOB_WL_2.txt": 790,
     "MIXED.txt": 376,
     "MIXED2.txt": 500
   },
