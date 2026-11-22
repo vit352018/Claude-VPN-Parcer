@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-11-22T02:01:54.955634+00:00",
-  "updated_msk": "2026-11-22T05:01:54.823390+03:00",
+  "updated_utc": "2026-11-22T03:01:56.978311+00:00",
+  "updated_msk": "2026-11-22T06:01:56.797085+03:00",
   "total_working": 1965,
-  "tls_confirmed": 1752,
+  "tls_confirmed": 1735,
   "by_protocol": {
     "vless": 1714,
     "vmess": 191,
@@ -13,25 +13,26 @@
     "ru_bypass": 63,
     "mob_wl": 135,
     "wifi_bl": 397,
-    "mob_wl_2": 793,
+    "mob_wl_2": 792,
     "mixed": 532,
     "mixed2": 500,
-    "nl": 68
+    "nl": 25
   },
   "latency": {
-    "min_ms": 12,
-    "avg_ms": 315,
-    "max_ms": 3122,
-    "p50_ms": 271,
-    "p90_ms": 504
+    "min_ms": 18,
+    "avg_ms": 369,
+    "max_ms": 3731,
+    "p50_ms": 363,
+    "p90_ms": 536
   },
   "top_countries": {
     "Canada": 1250,
     "United States": 171,
     "Russia": 153,
     "Unknown": 146,
-    "The Netherlands": 67,
+    "South Africa": 43,
     "Hong Kong": 29,
+    "The Netherlands": 24,
     "Taiwan": 23,
     "Spain": 15,
     "Costa Rica": 14,
@@ -39,8 +40,7 @@
     "Germany": 12,
     "Japan": 8,
     "Ukraine": 7,
-    "Singapore": 7,
-    "France": 6
+    "Singapore": 7
   },
   "files": {
     "VLESS_WORKING.txt": 1965,
@@ -53,10 +53,10 @@
     "TOP50_RELIABLE.txt": 50,
     "MOB_WL.txt": 135,
     "WIFI_BL.txt": 397,
-    "MOB_WL_2.txt": 793,
+    "MOB_WL_2.txt": 792,
     "MIXED.txt": 532,
     "MIXED2.txt": 500,
-    "NL.txt": 68
+    "NL.txt": 25
   },
   "raw_base": "https://raw.githubusercontent.com/vit352018/Claude-VPN-Parcer/main/output"
 }
