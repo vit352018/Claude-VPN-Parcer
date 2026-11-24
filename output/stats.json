@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-11-24T06:01:21.520087+00:00",
-  "updated_msk": "2026-11-24T09:01:21.440816+03:00",
+  "updated_utc": "2026-11-24T07:01:23.333432+00:00",
+  "updated_msk": "2026-11-24T10:01:23.291106+03:00",
   "total_working": 769,
-  "tls_confirmed": 700,
+  "tls_confirmed": 710,
   "by_protocol": {
     "vless": 682,
     "vmess": 61,
@@ -19,11 +19,11 @@
     "nl": 7
   },
   "latency": {
-    "min_ms": 21,
-    "avg_ms": 386,
-    "max_ms": 2321,
-    "p50_ms": 293,
-    "p90_ms": 750
+    "min_ms": 7,
+    "avg_ms": 217,
+    "max_ms": 1149,
+    "p50_ms": 106,
+    "p90_ms": 544
   },
   "top_countries": {
     "Canada": 402,
@@ -37,8 +37,8 @@
     "Costa Rica": 3,
     "Germany": 2,
     "Lithuania": 2,
-    "Poland": 2,
-    "Japan": 2
+    "Japan": 2,
+    "Poland": 2
   },
   "files": {
     "VLESS_WORKING.txt": 769,
