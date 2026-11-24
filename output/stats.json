@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-11-24T03:01:50.211788+00:00",
-  "updated_msk": "2026-11-24T06:01:50.129899+03:00",
+  "updated_utc": "2026-11-24T04:01:54.671524+00:00",
+  "updated_msk": "2026-11-24T07:01:54.516363+03:00",
   "total_working": 1671,
-  "tls_confirmed": 1457,
+  "tls_confirmed": 1478,
   "by_protocol": {
     "vless": 1462,
     "vmess": 150,
@@ -13,34 +13,34 @@
     "ru_bypass": 35,
     "mob_wl": 104,
     "wifi_bl": 349,
-    "mob_wl_2": 792,
+    "mob_wl_2": 794,
     "mixed": 453,
     "mixed2": 500,
     "nl": 25
   },
   "latency": {
-    "min_ms": 10,
-    "avg_ms": 187,
-    "max_ms": 860,
-    "p50_ms": 158,
-    "p90_ms": 357
+    "min_ms": 23,
+    "avg_ms": 335,
+    "max_ms": 1225,
+    "p50_ms": 328,
+    "p90_ms": 487
   },
   "top_countries": {
     "Canada": 1062,
-    "United States": 194,
+    "United States": 137,
     "Unknown": 124,
     "Russia": 106,
-    "The Netherlands": 24,
+    "South Africa": 58,
     "Hong Kong": 24,
+    "The Netherlands": 24,
     "Spain": 23,
     "United Kingdom": 18,
     "Germany": 15,
-    "Ukraine": 12,
     "Costa Rica": 12,
+    "Ukraine": 12,
     "Seychelles": 6,
     "Singapore": 6,
-    "Kazakhstan": 5,
-    "Estonia": 5
+    "Kazakhstan": 5
   },
   "files": {
     "VLESS_WORKING.txt": 1671,
@@ -53,7 +53,7 @@
     "TOP50_RELIABLE.txt": 50,
     "MOB_WL.txt": 104,
     "WIFI_BL.txt": 349,
-    "MOB_WL_2.txt": 792,
+    "MOB_WL_2.txt": 794,
     "MIXED.txt": 453,
     "MIXED2.txt": 500,
     "NL.txt": 25
