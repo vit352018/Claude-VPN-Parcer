@@ -1,10 +1,10 @@
 {
-  "updated_utc": "2026-11-25T09:01:41.629853+00:00",
-  "updated_msk": "2026-11-25T12:01:41.574419+03:00",
-  "total_working": 703,
-  "tls_confirmed": 604,
+  "updated_utc": "2026-11-25T10:01:42.967393+00:00",
+  "updated_msk": "2026-11-25T13:01:42.886457+03:00",
+  "total_working": 699,
+  "tls_confirmed": 557,
   "by_protocol": {
-    "vless": 598,
+    "vless": 594,
     "vmess": 89,
     "trojan": 12,
     "hysteria": 4,
@@ -13,23 +13,24 @@
     "ru_bypass": 59,
     "mob_wl": 91,
     "wifi_bl": 235,
-    "mob_wl_2": 781,
+    "mob_wl_2": 785,
     "mixed": 326,
     "mixed2": 500,
     "nl": 2
   },
   "latency": {
     "min_ms": 6,
-    "avg_ms": 186,
-    "max_ms": 1190,
-    "p50_ms": 155,
-    "p90_ms": 442
+    "avg_ms": 245,
+    "max_ms": 2352,
+    "p50_ms": 211,
+    "p90_ms": 529
   },
   "top_countries": {
     "Canada": 264,
-    "Russia": 139,
-    "United States": 105,
+    "Russia": 135,
     "Unknown": 84,
+    "United States": 57,
+    "Lithuania": 48,
     "Romania": 17,
     "Latvia": 17,
     "France": 16,
@@ -39,13 +40,12 @@
     "United Kingdom": 5,
     "Ukraine": 4,
     "Czechia": 4,
-    "Germany": 3,
-    "Kazakhstan": 2
+    "Germany": 3
   },
   "files": {
-    "VLESS_WORKING.txt": 703,
+    "VLESS_WORKING.txt": 699,
     "RU_BYPASS.txt": 59,
-    "VLESS_ONLY.txt": 598,
+    "VLESS_ONLY.txt": 594,
     "VMESS_ONLY.txt": 89,
     "TROJAN_ONLY.txt": 12,
     "HYSTERIA_ONLY.txt": 4,
@@ -53,7 +53,7 @@
     "TOP50_RELIABLE.txt": 50,
     "MOB_WL.txt": 91,
     "WIFI_BL.txt": 235,
-    "MOB_WL_2.txt": 781,
+    "MOB_WL_2.txt": 785,
     "MIXED.txt": 326,
     "MIXED2.txt": 500,
     "NL.txt": 2
